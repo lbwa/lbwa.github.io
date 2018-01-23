@@ -69,10 +69,10 @@ var obj = {
 };
 obj.method(fn, 1);
 ```
-在上面的示例中，obj.method(fn, 1);执行的本质是fn(); arguments[0]();  fn.call(obj, 12); 这三句。先理解三个语句，因为单线程的缘故，所以是在method中给栈添加任务执行三个函数，此时，method任务执行完成，下一个任务执行调用fn，此时，没有显示的指定的对象调用fn，故fn中的this指向window，所以结果为10。下个任务arguments[0](); 表示调用method的参数对象arguments的第一项并执行，此时，arguments对象（只是类数组，并非Array实例）开始调用它的第一项，即fn，此时，fn有显示的调用对象，即arguments对象，此时，fn中的this指向arguments对象，因为arguments对象有两项，故返回2。第三句，显示的指明this指向obj对象，故返回obj.length，即5。
-结论：
+在上面的示例中，`obj.method(fn, 1);`执行的本质是`fn();` `arguments[0]();` `fn.call(obj, 12);`这三句。先理解三个语句，因为单线程的缘故，所以是在method中给栈添加任务执行三个函数，此时，method任务执行完成，下一个任务执行调用fn，此时，没有显示的指定的对象调用fn，故fn中的this指向window，所以结果为10。下个任务`arguments[0]()`; 表示调用method的参数对象arguments的第一项并执行，此时，arguments对象（只是类数组，并非Array实例）开始调用它的第一项，即fn，此时，fn有显示的调用对象，即arguments对象，此时，fn中的this指向arguments对象，因为arguments对象有两项，故返回2。第三句，显示的指明this指向obj对象，故返回obj.length，即5。
+**结论：**
 1. 在函数a内执行函数b时，确切来说**真正调用执行b的还是window对象**，此时函数b内的this是指向window对象，函数a的作用是**告知引擎添加一个执行b的任务**。
-2. 当函数c是arguments对像的第 i 项时，arguments[i]()指向的是arguments对象。
+2. 当函数c是arguments对像的第 i 项时，`arguments[i]()`中的this指向的是arguments对象。
 
 **构造函数中的this**
 ```
@@ -93,7 +93,7 @@ new Foo(); // Foo {name:'Jack'}
 ```
 此时控制台返回对象Foo {name:'Jack'} 2次，一个是 console.log(this); 的返回值，一个是实例化的返回值，即 this 在实例化时指向了实例化的对象（或者理解为new运算符将构造函数中的this值绑定到实例化对象上）。
 
-**结论**：函数体中的this始终指向最后调用它的那个对象。在构造函数中，this指向实例化的对象。
+**结论：**函数体中的this始终指向最后调用它的那个对象。在构造函数中，this指向实例化的对象。
 
 ## 1.2 实例化时，构造函数的this是如何绑定到实例化对象的呢？
 
