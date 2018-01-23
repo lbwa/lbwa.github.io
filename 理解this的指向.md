@@ -1,4 +1,4 @@
-# 一、ES5中this的值
+﻿# 一、ES5中this的值
 ## 1.1 定义：this，指函数的调用上下文。
 在函数没有被调用的时候是无法确定函数中的this值的指向，只有当函数调用时才能确定函数中this值的指向。
 当函数被调用时，理解this值的指向有以下四种情况（函数中存在this）：
@@ -40,7 +40,7 @@ num.b.fn();  // 对象b
 ```
 由上可知，函数fn被对象b包围，而b又是对象num的属性之一，尽管是最外层对象num调用了函数fn（执行了这个调用行为的开端），而函数fn中的this值只会指向离他最近的上一级对象，也就是对象b。
 
-**情况四：**
+**情况四：先赋值，后执行**
 ```
 let num = {
   a: 10,
@@ -54,6 +54,25 @@ let digit = num.b.fn;
 digit();       // window   与情况三的差别在于，先赋值，后调用
 ```
 this值始终指向最后调用它的对象，且只在调用函数时才能确定this的指向。这里首先是把num.b.fn函数赋值给digit，虽然fn是被对象b所引用，但并没有直接执行函数，而执行digit时才确定了this的指向，window调用了digit，所以指向window。
+```
+var length = 10;
+function fn() {
+    console.log(this.length);
+}
+var obj = {
+    length: 5,
+    method: function (fn) {
+        fn();                        // 10  // 此处并不是method方法调用了fn，method方法只是告知引擎要执行fn函数，调用fn的还是window对象
+        arguments[0]();      // 2
+        fn.call(obj, 12);        // 5
+    }
+};
+obj.method(fn, 1);
+```
+在上面的示例中，obj.method(fn, 1);执行的本质是fn(); arguments[0]();  fn.call(obj, 12); 这三句。先理解三个语句，因为单线程的缘故，所以是在method中给栈添加任务执行三个函数，此时，method任务执行完成，下一个任务执行调用fn，此时，没有显示的指定的对象调用fn，故fn中的this指向window，所以结果为10。下个任务arguments[0](); 表示调用method的参数对象arguments的第一项并执行，此时，arguments对象（只是类数组，并非Array实例）开始调用它的第一项，即fn，此时，fn有显示的调用对象，即arguments对象，此时，fn中的this指向arguments对象，因为arguments对象有两项，故返回2。第三句，显示的指明this指向obj对象，故返回obj.length，即5。
+结论：
+1. 在函数a内执行函数b时，确切来说**真正调用执行b的还是window对象**，此时函数b内的this是指向window对象，函数a的作用是**告知引擎添加一个执行b的任务**。
+2. 当函数c是arguments对像的第 i 项时，arguments[i]()指向的是arguments对象。
 
 **构造函数中的this**
 ```
@@ -120,7 +139,7 @@ console.log(a.user); // Jack
 以上过程展示了在构造函数实例化的过程中，this的值是如何绑定在实例化的对象上的。
 
 ## 1.3 在有return语句中的函数中this的值
-（据1.2创建实例经历的四个阶段，可得当存在变量a等于{ user:"Jack"}时，可认为构造函数的this指向构造函数的实例。）
+(据1.2创建实例经历的四个阶段，可得当存在变量a等于{ user:"Jack"}时，可认为构造函数的this指向构造函数的实例。)
 当函数的return语句返回一个对象时
 ```
 function Fn(){
