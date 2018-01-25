@@ -106,17 +106,20 @@ new Foo(); // Foo {name:'Jack'}
 4. 返回新对象。
 
 
-- 据`《JavaScript语言精粹》修订版`P47，使用new操作符去调用一个函数时，函数的执行方式将被修改，可将new操作符理解为一个方法，则有：
+- 据`《JavaScript语言精粹》修订版`P47，使用new操作符去调用一个函数时，函数的执行方式将被修改，可将new操作符理解为一个方法，则有:
+注：
+1. 下文Function.method(name,fn)表示给Function函数添加一个new的方法（method为书中自定义函数，并非JavaScript原生函数，表示给调用的对象添加一个名为name的方法（fn））
+2. 代码中的注释讨论的this是构造函数调用new这个方法时的this
 ```
 Function.method('new', function() {
-  // 创建一个新对象（对象that）， 它继承自构造器（指Function）的原型对象
-  var that = Object.create(this.prototype);       // this 指向Function对象，that也是一个构造器对象，Object.create()创建一个以参数为原型对象的对象，此时that是一个以Function.prototype为原型对象的对象
+  // 创建一个新对象（对象that）， that和构造函数共用同一个对象
+  var that = Object.create(this.prototype);       // this 指向（与new连用的）构造函数，Object.create()创建一个以参数为原型对象的对象
 
   // 调用构造器函数，绑定 -this- 到新对象（指that）上
-  // 此处存在apply方法，所以解释为指定this值为that，参数为arguments，赋值给other（又可理解为执行that函数并赋值给other），这些操作其实就是new that();，即var other = new that();
-  var other = this.apply(that, arguments);        // other 是构造器对象that的实例化对象
+  // 此处存在apply方法，this 指向（与new连用的）构造函数，则以下语句表示，that调用以arguments对象为参数对象的构造函数（指定构造函数中的this值为that），目的是给that添加属性（或方法）
+  var other = this.apply(that, arguments);      // 此处根据构造函数的函数体，函数体内可能有（或没有）return语句，则other可能是对象、基本类型值、undefined、null
 
-  // 如果它返回的不一个对象，就返回该新对象
+  // 如果它返回的不一个对象，就返回该(that)新对象，即优先返回构造函数中return语句返回的对象，若return返回的不是对象，则忽视return返回值
   return (typeof other === 'object' && other) || that;    // 1.3解释
 })
 ```
