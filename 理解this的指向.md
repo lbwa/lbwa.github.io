@@ -93,7 +93,7 @@ new Foo(); // Foo {name:'Jack'}
 ```
 此时控制台返回对象Foo {name:'Jack'} 2次，一个是 console.log(this); 的返回值，一个是实例化的返回值，即 this 在实例化时指向了实例化的对象（或者理解为new运算符将构造函数中的this值绑定到实例化对象上）。
 
-**结论：**函数体中的this始终指向最后调用它的那个对象。在构造函数中，this指向实例化的对象。
+**结论:**函数体中的this始终指向最后调用它的那个对象。在构造函数中，this指向实例化的对象。
 
 ## 1.2 实例化时，构造函数的this是如何绑定到实例化对象的呢？
 
@@ -107,7 +107,8 @@ new Foo(); // Foo {name:'Jack'}
 
 
 - 据`《JavaScript语言精粹》修订版`P47，使用new操作符去调用一个函数时，函数的执行方式将被修改，可将new操作符理解为一个方法，则有:
-注：
+
+Note:
 1. 下文Function.method(name,fn)表示给Function函数添加一个new的方法（method为书中自定义函数，并非JavaScript原生函数，表示给调用的对象添加一个名为name的方法（fn））
 2. 代码中的注释讨论的this是构造函数调用new这个方法时的this
 ```
@@ -117,7 +118,7 @@ Function.method('new', function() {
 
   // 调用构造器函数，绑定 -this- 到新对象（指that）上
   // 此处存在apply方法，this 指向（与new连用的）构造函数，则以下语句表示，that调用以arguments对象为参数对象的构造函数（指定构造函数中的this值为that），目的是给that添加属性（或方法）
-  var other = this.apply(that, arguments);      // 此处根据构造函数的函数体，函数体内可能有（或没有）return语句，则other可能是对象、基本类型值、undefined、null
+  var other = this.apply(that, arguments);  // 此处根据构造函数的函数体，函数体内可能有（或没有）return语句，则other可能是对象、基本类型值、undefined、null
 
   // 如果它返回的不一个对象，就返回该(that)新对象，即优先返回构造函数中return语句返回的对象，若return返回的不是对象，则忽视return返回值
   return (typeof other === 'object' && other) || that;    // 1.3解释
