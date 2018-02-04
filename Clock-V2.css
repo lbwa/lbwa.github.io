@@ -1,29 +1,12 @@
 body {
-  position: relative;
-  height: 100%;
-  min-width: 980px;
-}
-
-.inputarea {
-  margin: 100px auto;
-  text-align: center;
-  width: 980px;
-}
-
-.outputarea {
-  color: #dc143c;
-  margin: 100px auto;
-  font-size: 100px;
-  height: 140px;
-  text-align: center;
-  width: 980px;
+  background: #111;
 }
 
 .clock {
-  margin-left: -547px;
-  /* Clock 的一半距离 */
+  margin: auto;
   position: absolute;
-  top: 70%;
+  transform: translateX(-50%) translateY(-50%);
+  top: 50%;
   left: 50%;
 }
 
@@ -41,9 +24,22 @@ body {
   border-radius: 20px;
   display: inline-block;
   height: 20px;
+  opacity: 0.1;
   position: relative;
-  top: -117px;
   width: 20px;
+}
+
+/* 选取第偶数个point类，从2开始 */
+
+.point:nth-child(2n+0) {
+  left: -25px;
+  top: -55px;
+}
+
+/* 选取第奇数个point类，从1开始 */
+
+.point:nth-child(2n+1) {
+  top: -170px;
 }
 
 /* 选取所有系列part类中的第i个元素 */
@@ -91,6 +87,11 @@ body {
   width: 150px;
 }
 
+.sp {
+  margin-left: -11px;
+}
+
 .on {
   opacity: 1;
+  box-shadow: 0 0 10px #ff0000;
 }
