@@ -53,7 +53,7 @@ let num = {
 let digit = num.b.fn;
 digit();       // window   与情况三的差别在于，先赋值，后调用
 ```
-this值始终指向最后调用它的对象，且只在调用函数时才能确定this的指向。这里首先是把num.b.fn函数赋值给digit，虽然fn是被对象b所引用，但并没有直接执行函数，而执行digit时才确定了this的指向，window调用了digit，所以指向window。
+　　this值始终指向最后调用它的对象，且只在调用函数时才能确定this的指向。这里首先是把num.b.fn函数赋值给digit，虽然fn是被对象b所引用，但并没有直接执行函数，而执行digit时才确定了this的指向，window调用了digit，所以指向window。
 ```
 var length = 10;
 function fn() {
@@ -72,7 +72,7 @@ obj.method(fn, 1);
 　　在上面的示例中，`obj.method(fn, 1);`执行的本质是`fn();` `arguments[0]();` `fn.call(obj, 12);`这三句。先理解三个语句，因为单线程的缘故，所以是在method中给栈添加任务执行三个函数，此时，method任务执行完成，下一个任务执行调用fn，此时，没有显示的指定的对象调用fn，故fn中的this指向window，所以结果为10。下个任务`arguments[0]()`; 表示调用method的参数对象arguments的第一项并执行，此时，arguments对象（只是类数组，并非Array实例）开始调用它的第一项，即fn，此时，fn有显示的调用对象，即arguments对象，此时，fn中的this指向arguments对象，因为arguments对象有两项，故返回2。第三句，显示的指明this指向obj对象，故返回obj.length，即5。
 **结论：**
 1. （个人理解）在函数a内执行函数b时，确切来说**真正调用执行b的还是window对象**，此时函数b内的this是指向window对象，函数a的作用是**告知引擎添加一个执行b的任务**。
-2. 当函数c是arguments对像的第 i 项时，`arguments[i]()`中的this指向的是arguments对象。
+2. 当函数c是arguments对像的第 i 项时，`arguments[i]()`中的this指向的是arguments对象。  
 **补充：**
 　　在`《JavaScript语言精粹》修订版`P28中，对于没有显式的调用对象的函数调用，该被调用的函数内的this指向全局对象。作者认为这是JavaScript设计上的一个“错误”。  
 　　作者认为此时的函数调用中的this应该指向外部函数的this变量。其中当函数A内调用函数B时，首先执行函数A的语句，当执行到调用函数B语句时，暂停函数A内的语句执行，将控制权转交给函数B，先执行完函数B，然后再继续执行函数A（`《JavaScript语言精粹》修订版`P27）。
