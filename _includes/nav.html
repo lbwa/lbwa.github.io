@@ -24,6 +24,10 @@
                     <li>
                         <a href="{{ site.baseurl }}/">Home</a>
                     </li>
+        <!--
+        若需要添加链接于header的页面链接(页面顶端home、tags链接)，直接在根目录添加形如
+        about.html、tag.html,则下方会迭代生成相应顶部链接
+        -->
                     {% for page in site.pages %}{% if page.title %}
                     <li>
                         <a href="{{ page.url | prepend: site.baseurl }}">{{ page.title }}</a>
