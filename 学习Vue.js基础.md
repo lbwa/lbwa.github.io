@@ -65,8 +65,10 @@ let vm = new Vue({
 
 ### 缩写
 
-`v-bind`可直接省略，`v-on`可缩写为`@`
-`v-bind:id = "myId" `缩写为 `:id="myId"`
+`v-bind`可直接省略，`v-on`可缩写为`@`　
+
+`v-bind:id = "myId" `缩写为 `:id="myId"`　
+
 `v-on:click = "doSomething" `缩写为` @click="doSomething"`
 
 计算属性和侦听器
@@ -472,7 +474,8 @@ let vm4 = new Vue({
 ### 区分父组件与子组件
 
 **说法一：**
-       由Vue.js官方文档（[组件——自定义事件][1]），其中第一句是“我们知道，父组件使用 prop 传递数据给子组件。”，这句话可解释为父组件数据通过Vue实例的参数对象的prop特性数组将数据传递给子组件。而因为在Vue实例中，自定义标签根据Vue实例的prop属性接口提供数据给组件模板，以此推断，父组件指的是自定义标签，子组件指的是Vue实例中的模板（或者说是Vue实例渲染出的标签，即组件对象中的template属性值）。
+       由Vue.js官方文档（[组件——自定义事件][1]），其中第一句是“我们知道，父组件使用 prop 传递数据给子组件。”，这句话个人理解为父组件数据通过Vue实例的参数对象的prop特性数组将数据传递给子组件。而因为在Vue实例中，自定义标签根据Vue实例的prop属性接口提供数据给组件模板，以此推断，父组件指的是自定义标签，子组件指的是Vue实例中的模板（或者说是Vue实例渲染出的标签，即组件对象中的template属性值）。　
+
 **说法二：**
        由官方文档（[组件——组件组合][2]），其中第一段，尤其是`常见的父子组件关系是组件A在他的模板中使用了组件B`，那么我们可推断当存在一种包含关系时，某一组件A的模板中包含组件B，那么我们称组件A数组件B的父组件，B是A的子组件。
 
@@ -570,7 +573,7 @@ let vm7 = new Vue({
     },
     components:{
       'counter':{
-        template:`{{counter}}`,
+        template:`<button @click="incrementCounter">{{counter}}</button>`,
         data: function() {
           return {
             counter: 0,
@@ -594,7 +597,7 @@ let vm7 = new Vue({
   });
   ```
 数据传递如下：
->点击`` => 执行incrementCounter函数 => this.counter += 1;this.$emit('increment') => 『子组件中的数据传递结束，子组件通过$emit方法触发事件向父组件传递数据，给父组件一个信息，让父组件开始在父组件内部传递数据』 =>` ` => 执行incrementTotal函数 => this.total += 1;
+>点击`<button>` => 执行incrementCounter函数 => this.counter += 1;this.$emit('increment') => 『子组件中的数据传递结束，子组件通过$emit方法触发事件向父组件传递数据，给父组件一个信息，让父组件开始在父组件内部传递数据』 =>`<counter> ` => 执行incrementTotal函数 => this.total += 1;
 ### Prop 验证
 我们可以为组件的 prop 指定验证规则。如果传入的数据不符合要求，Vue 会发出警告。这对于开发给他人使用的组件非常有用。
 要指定验证规则，需要用对象的形式来定义 prop，而不能用字符串数组：
