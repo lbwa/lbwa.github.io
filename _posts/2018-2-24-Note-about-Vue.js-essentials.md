@@ -528,14 +528,17 @@ Vue.component('child', {
 
 ## prop
 
-**静态prop作用是传递引用数据，父子组件将同步变化，着重于同步变化**
+静态prop作用是传递引用数据，父子组件将同步变化，**侧重点是同步变化**
+
 应用场景：
+
 　　当父组件中的某一属性的属性值需要传递至子组件（组件模板）中Mustache值（即建立一个子组件与父组件的引用时，或称指针）时，需要通过组件的props数组接口传递该值。
+
 　　若不使用props数组接口，则将父组件的属性的属性值称为非prop特性，他们将以非prop特性传递到子组件（组件模板），成为子组件模板中的标签的属性。
 
 ### 动态prop
 
-**动态prop作用是动态修改prop，着重于动态修改prop**
+动态prop作用是动态修改prop，与静态prop不同的是，动态prop的侧重点是**动态修改prop**
 
 ```
 // HTML
@@ -563,7 +566,9 @@ let vm4 = new Vue({
 ```
 
 数据传输如下：
->v-model <=>(此处双向绑定) data数据对象中的parentMsg => v-bind:my-msg读取data数据中的parentMsg => 得到my-msg的属性值 => 传递给组件中prop属性 => templata中的Mustache语法（双大括号插值）真正调用prop接口的值
+
+>v-model <=>(此处双向绑定) data数据对象中的parentMsg => v-bind:my-msg读取data数据中的parentMsg => 得到my-msg的属性值 => 传递给组件中prop属性 => templata中的Mustache语法（双大括号插值）真正调用prop接口的值。
+
 其中v-model的属性值与input输入框双向绑定。
 
 ### 区分父组件与子组件
@@ -770,7 +775,7 @@ type 也可以是一个自定义构造器函数，使用 instanceof 检测。
 （2.2.0 新增 ）
 默认情况下，一个组件的` v-model `会使用 `value prop` 和 input 事件。但是诸如单选框、复选框之类的输入类型可能把 value 用作了别的目的。model 选项可以避免这样的冲突：
 
-```javascript
+``` javascript
 Vue.component('my-checkbox', {
   //以下model选项作用是自定义v-model属性
   model: {
@@ -787,6 +792,81 @@ Vue.component('my-checkbox', {
   // ...
 })
 ```
+
+## slot插口
+
+### 简介
+
+有如下示例：
+
+```
+<app>
+  <app-header></app-header>
+  <appfooter></appfooter>
+</app>
+```
+
+我们在使用如上例的组件时，传递给app的内容是由`<app>`的父组件决定的。
+
+以下列举其几种应用场景：
+
+1. 在一些开发过程中，我们可能会需要弹出通知（通知组件），那么这些通知又可分为警告通知、普通通知、错误通知等等类型（不同的通知类型可理解为通知组件的子组件），但是他们都是属于通知类型的（是各种通知类型的父组件）的。
+2.下拉菜单中按钮上的显示切换的应用（待补充）
+
+综上，可将`slot插口`的作用总结为以下：
+
+　　为了组合这些子组件，我们可以使用特殊的`<slot>`元素作为特殊的原始内容的分发接口。父组件集中接收了所有子组件可能需要的内容。通过识别子组件`<slot>`的name属性来决定传递给对应子组件的内容。以上过程解释了如何通过`<slot>`方式向子组件分发内容。此过程常称为**内容分发**。
+
+　　以上的中心思想是，增强组件的**复用性**。相对于prop特性，slot插口的组件是侧重**不需要引用数据**的更新的，但是需要多处使用**相同结构组件**时，就可使用slot插口。
+
+### 编译作用域
+
+>遵循原则：父组件模板的内容在父组件作用域内编译；子组件模板的内容在子组件作用域内编译。
+
+### 具名插槽
+
+示例代码如下：
+
+``` html
+<div id="app9">
+  <app-layout>
+    <!-- slot属性对应子组件模板中的同名slot元素 -->
+    <!-- 父组件内容在父组件作用域内编辑 -->
+    <h1 slot="header">这里可能是一个页面的标题</h1>
+    <p>主要内容的一个段落</p>
+    <p>另一个主要段落</p>
+    <!-- 若子组件中不包含slot接口，那么父组件中的slot属性的标签将被丢弃 -->
+    <p slot="footer">这里有一些联系信息</p>
+  </app-layout>
+</div>
+```
+
+``` javascript
+let vm9 = new Vue({
+  el:'#app9',
+  components:{
+    'app-layout':{
+      template:`\
+      <div class="container">
+        <header>
+        <!-- 子模板中的slot元素与父组件中的同名slot属性对应 -->
+          <slot name="header"></slot>
+        </header>
+        <main>
+        <!-- 父组件中没有slot属性的元素将匹配以下子组件中的匿名插槽 -->
+          <slot></slot>
+        </main>
+        <footer>
+          <slot name="footer"></slot>
+        </footer>
+      </div>\
+      `,
+    }
+  },
+});
+```
+
+>在设计组合使用的组件时，依据父组件中的slot属性与子组件模板中slot标签的对应关系来设计不同的复用组件的显示。
 
 
 
