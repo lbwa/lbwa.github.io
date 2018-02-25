@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      "学习Vue.js基础"
-subtitle:   "总结在学习Vue.js官方文档时自己的一些理解"
+subtitle:   "总结在学习Vue.js官方文档时的一些心得"
 date:       2018-02-24
 author:     "lbwa"
 header-img: "img/post-bg-vue-about.png"
@@ -636,18 +636,21 @@ computed: {
 ## 非prop特性
 
 **非prop特性作用是传递静态值，如父组件（自定义标签）的属性**
+
 含义：
+
 　　自定义标签中的属性（非Mustache值，即非双括号值，若需要建立父组件（自定义标签）与子组件（组件模板）之间的数据引用（或理解为指向子组件Mustache值的指针），则需要通过prop特性传递）指可以直接传入组件，而不需要定义相应的`props`。在形如`<mine data-line="red" style="color:red;"></mine>`的自定义标签中，当此时的Vue实例中的`props`属性没有定义名为`data-line`、`style`的接口时，那么我们称`data-line`、`style`属性为**非prop特性**。若在`props`中有调用，则是**props特性**。总而言之，以`props属性`中有没有出现属性A的名字来判断一个属性A是否是非prop特性。
 
 **应用场景：**要建立父子组件的数据引用（同步变化）时，通过`props数组`将父组件数据传递至子组件。要将父组件的属性，直接传递给子组件时，直接通过非prop特性传递。
 父组件向子组件传递数据是单向传递。子组件向父组件传递数据是通过事件传递（详见下文自定义事件）。
 
-1. 替换/合并现有的特性
-若存在组件模板：
+应用：替换/合并现有的特性
+
+若存在组件模板（子组件）：
 
 `<p style="background: #fff;">There is nothing</p>`
 
-自定义标签为：
+自定义标签（父组件）为：
 
 `<mine data-line="red" style="color:red;"></mine>`
 
@@ -676,7 +679,7 @@ let vm6 = new Vue({
 
 渲染结果为：
 
-><font color=red>There is nothing</font>  <!-- 此处为红色字体 -->
+<font color=red>There is nothing</font>  <!-- 此处为红色字体 -->
 
 由上可知，模板中的data-line特性值被覆盖，style特性的值与自定义标签中的同名特性合并。
 
@@ -805,7 +808,7 @@ Vue.component('my-checkbox', {
 })
 ```
 
-## slot插口
+## slot插槽
 
 ### 简介
 
@@ -826,11 +829,11 @@ Vue.component('my-checkbox', {
 
 2.下拉菜单中按钮上的显示切换的应用（待补充）
 
-综上，可将`slot插口`的作用总结为以下：
+综上，可将`slot插槽`的作用总结为以下：
 
 　　为了组合这些子组件，我们可以使用特殊的`<slot>`元素作为特殊的原始内容的分发接口。父组件集中接收了所有子组件可能需要的内容。通过识别子组件`<slot>`的name属性来决定传递给对应子组件的内容。以上过程解释了如何通过`<slot>`方式向子组件分发内容。此过程常称为**内容分发**。
 
-　　以上的中心思想是，增强组件的**复用性**。相对于prop特性，slot插口的组件是侧重**不需要引用数据**的更新的，但是需要多处使用**相同结构组件**时，就可使用slot插口。
+　　以上的中心思想是，增强组件的**复用性**。相对于prop特性，slot插槽的组件是侧重**不需要引用数据**的更新的，但是需要多处使用**相同结构组件**时，就可使用slot插槽。
 
 ### 编译作用域
 
@@ -859,7 +862,7 @@ let vm9 = new Vue({
   el:'#app9',
   components:{
     'app-layout':{
-      template:`\
+      template:`
       <div class="container">
         <header>
         <!-- 子模板中的slot元素与父组件中的同名slot属性对应 -->
@@ -872,15 +875,123 @@ let vm9 = new Vue({
         <footer>
           <slot name="footer"></slot>
         </footer>
-      </div>\
+      </div>
       `,
     }
   },
 });
 ```
 
->在设计组合使用的组件时，依据父组件中的slot属性与子组件模板中slot标签的对应关系来设计不同的复用组件的显示。
+>依据以上示例，可总结为，在设计组合使用的子组件时，依据父组件（自定义标签）中的slot属性与子组件（组件模板）模板中slot标签的对应关系来设计不同的复用子组件的显示（渲染）。
 
+slot插槽的侧重点在**设计子组件如何复用**
+
+### 作用域插槽
+
+（2.1.0以上版本）
+
+>作用：作用域插槽仅仅是依靠prop对象给子组件提供一个向父组件传递数据的机会。普通prop属性本身只是父组件向子组件的通道，并不接受子组件向父组件传递数据。
+
+示例代码如下：
+
+``` html
+<div id="app10">
+  <child>
+    <!-- 拥有slot-scape属性的template标签表示是作用域插槽的模板 -->
+    <!-- slot-scape属性的值作为一个变量固定接收子组件传递过来的props属性值。 -->
+    <template slot-scope="props">
+      <span>hello from parent</span>
+      <span>{{ props.text }}</span>
+    </template>
+  </child>
+</div>
+```
+
+``` javascript
+let vm10 = new Vue({
+  el:'#app10',
+  components:{
+    'child':{
+      props:['props']   // 此处可省略，作用域插槽的模板会固定接收props属性值（prop对象）
+      template:`
+      <div class="child">
+      <!-- 子组件中slot作用域插槽与父组件slot-scope属性绑定，向父组件传递数据 -->
+        <slot text="hello from child"></slot>
+      </div>
+      `,
+    },
+  },
+});
+```
+
+>由示例可知，子组件经由prop对象“插到”父组件上，故称**此时**的prop为作用域插槽。
+
+**与prop特性（props属性）、非prop特性（仅仅比较数据传递方向）、slot插槽的异同**
+
+不同：传递数据的方向不同
+
+　　由示例可知，与prop特性、非prop特性和slot插槽（**父组件向子组件传递数据**）不同的是，作用域插槽提供了一种**由子组件向父组件传递数据**的可能，即由子组件开始渲染DOM的可能。
+
+相同：均为父组件属性与子组件插槽绑定
+
+　　作用域插槽**本质**上可看作是与普通slot插槽传递数据方向相反的**slot具名插槽**，在父组件中，slot-scope属性将父组件与子组件的slot标签绑定。这一绑定数据传递的方式与父组件（自定义标签）中普通slot属性与子组件（组件模板）的同名slot具名（有name属性的slot标签）（或匿名）插槽绑定的方式是一致的。
+
+　　但作用域插槽与普通slot插槽不同之处在于，作用域插槽**并不管**经过prop对象**传递给父组件的是什么内容**，以及父组件要如何分发内容。这是普通slot插槽的事情。作用域插槽仅仅是提供给子组件一个经prop对象向父组件传递数据的机会。因为prop对象本身只允许父组件向子组件传递数据。
+
+>在 2.5.0+，slot-scope 能被用在任意元素或组件中而不再局限于 <template>。
+
+一个简单应用，将slot插槽与作用域插槽结合起来：自定义如何渲染列表的每一项：
+
+``` html
+<div id="app11">
+  <my-list :item="items">
+    <li slot="item" slot-scope="props" class="my-fancy-item">{{props.text}}</li>
+  </my-list>
+</div>
+```
+
+``` javascript
+let vm11 = new Vue({
+  el:'#app11',
+  data:{
+    // 父组件中自定义标签的items属性值，与插槽无关
+    items:'parent-list-items'
+  },
+  components:{
+    'my-list':{
+      template:`
+      <ul>
+        <slot name="item"
+        v-for="item in items"
+        :text="item.text">
+        如果你看到这句话说明子组件中的slot插槽(name属性值)与父组件的slot属性(值)不能对应，父组件接受到此数据（提示）无法对应分发，故没有li标签生成，但此提示仍然以文本形式迭代输出。
+        </slot>
+      </ul>
+      `,
+
+      data: function() {
+        return {
+          // 此items是子组件中的items循环数据对象
+          items:[
+            {text:11},
+            {text:22},
+          ]
+        };
+      },
+
+    },
+  },
+});
+```
+
+在示例中的子组件，各属性的作用如下：
+
+1. name属性：将子组件中的slot标签中的name属性与父组件中的slot属性值匹配，形成一一对应的数据传递关系（也是迭代产出新标签的**关键**）。依据上一节，将父组件接受的内容（**由作用域插槽传递而来**）依据name属性（内容分发的凭证）分发到各个子组件。
+1. v-for属性：迭代子组件的数据对象。
+1. :text="item.text"：接受v-for迭代产出的值，text属性经prop对象传递给父组件。
+1. 父组件中，slot-scope属性：仅仅用于给子组件**提供**一个向父组件传输数据的通道。 它并不管传递的是什么内容，以及父组件将如何分发内容。
+
+　　由此示例可知，slot插槽和作用域插槽的不同之处在于，slot插槽提供内容分发凭证（即子组件中slot标签的name属性）将父组件接收的内容分发给各个子组件。作用域插槽是仅仅给子组件一个经由prop属性向父组件传递数据的机会。作用域插槽**并不管**经过prop对象**传递给父组件的是什么内容**，以及父组件要如何分发内容。<font color=red>这是slot插槽的事情</font>。
 
 
   [1]: https://cn.vuejs.org/v2/guide/components.html#%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BA%8B%E4%BB%B6
