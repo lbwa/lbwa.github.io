@@ -60,13 +60,15 @@ Vue实例除了数据属性之外，还暴露了一些实例属性和方法，�
 
 Mustache语法不能作用在HTML特性上，遇到这种情况要（响应式赋值）使用v-bind指令：
 
-``` javascript
-// HTML
+``` html
+<!-- html -->
 <div id="app">
   <span v-bind:id="dynamicId" >testing text</span>
   <button v-bind:disabled="isDisabled">Testing button</button>
 </div>
+```
 
+``` javascript
 // JavaScript
 let vm = new Vue({
    el:'#app',
@@ -112,13 +114,15 @@ let vm = new Vue({
 计算属性和侦听器
 一般只在Mustache语法中写入显而易见的JavaScript表达式，否则在Mustache语法中请使用计算属性或方法。
 
-```
-// HTML
+``` html
+<!-- html -->
 <div id="app">
   <p>{ {reverseMsg} }</p>
   <p>{ {reverseString()} }</p>
 </div>
+```
 
+``` javascript
 // JavaScript
 let vm = new Vue({
     el: '#app2',
@@ -172,9 +176,9 @@ let vm = new Vue({
 `vm.items[indexOfItem] = newValue`
 2. 当你修改数组的长度时，例如：
 `vm.items.length = newLengt`
-为了解决第一类问题，以下两种方式都可以实现和 vm.items[indexOfItem] = newValue相同的效果，同时也将触发状态更新：
+为了解决第一类问题，以下两种方式都可以实现和 `vm.items[indexOfItem] = newValue`相同的效果，同时也将触发状态更新：
 
-```javascript
+``` javascript
 // Vue.set
 Vue.set(example1.items, indexOfItem, newValue)
 // Array.prototype.splice
@@ -200,7 +204,7 @@ vm.b = 2
 
 对于已经创建的实例，Vue 不能动态添加根级别的响应式属性。但是，可以使用 `Vue.set(object, key, value)` 方法向嵌套对象添加响应式属性。例如，对于：
 
-```javascript
+``` javascript
 var vm = new Vue({
   data: {
     userProfile: {
@@ -216,7 +220,7 @@ var vm = new Vue({
 `vm.$set(vm.userProfile, 'age', 27)`
 有时你可能需要为已有对象赋予多个新属性，比如使用 `Object.assign()` 或 `_.extend()`。在这种情况下，你应该用两个对象的属性创建一个新的对象。所以，如果你想添加新的响应式属性，不要像这样：
 
-```javascript
+``` javascript
 Object.assign(vm.userProfile, {
   age: 27,
   favoriteColor: 'Vue Green'
@@ -225,7 +229,7 @@ Object.assign(vm.userProfile, {
 
 你应该这样做：
 
-```javascript
+``` javascript
 vm.userProfile = Object.assign({}, vm.userProfile, {
   age: 27,
   favoriteColor: 'Vue Green'
@@ -276,15 +280,17 @@ Vue 还对应 addEventListener 中的 passive 选项提供了 `.passive`修饰�
 
 含义：对于单选、复选以及选择框的选项，`v-model`绑定的值通常是静态字符串（对于复选按钮也可以是布尔值），进一步，可用`v-bind`指令将一个动态属性（该值可以不是字符串）绑定在`v-model`值上。其中，单选/复选按钮本身value值只能是布尔值，这是在Vue内部维护的。`v-model`值只是表单控件的value属性的一个体现。
 
-```
-// HTML
+``` html
+<!-- html -->
 <div id="app5">
     // 注：在复选框中值绑定，必须绑定为true-value和false-value这两个属性，否则值绑定失效
     <input id="testValue" type="checkbox" v-model="toggle" v-bind:true-value="Yes" v-bind:false-value="No">
     <label for="testValue">Test value</label>
     <p>You have selected { {toggle} }</p>
 </div>
+```
 
+``` javascript
 // JavaScript
 let vm5 = new Vue({
     el: '#app5',
@@ -324,7 +330,7 @@ typeof vm.age === 'Number'
 
 ### 全局注册
 
-```javascript
+``` javascript
 // 全局注册组件，component方法不带s
 Vue.component('my-component', {
   template: '<div>A custom component!</div>'
@@ -341,12 +347,14 @@ new Vue({
 
 示例代码如下：
 
-```
-// HTML
+``` html
+<!-- html -->
 <div id="app1">
   <my></my>
 </div>
+```
 
+``` javascript
 // JavaScript
 const child = {
   template: '<div>A anther component!</div>'
@@ -374,7 +382,7 @@ new Vue({
 
 这样不可以
 
-```html
+``` html
 <body>
     <div id="app">
         <select>
@@ -387,7 +395,7 @@ new Vue({
             el: '#app',
             components:{
                 'optioncomp':{
-                    template: '<option >a</option>'
+                    template: '<option>a</option>'
                 }
             }
         })
@@ -410,7 +418,7 @@ new Vue({
             el: '#app',
             components:{
                 'optioncomp':{
-                    template: '<option >a</option>'
+                    template: '<option>a</option>'
                 }
             }
         })
@@ -477,7 +485,7 @@ new Vue({
 原因：首先明白，只有在创建Vue实例时，才会创建对data对象的引用。
 　　若是data对象不是函数，那么在多处使用该组件（创建Vue实例）时，将造成多处的组件使用的是同一data对象。若是data是函数，那么在多处使用该组件时，在创建Vue实例时执行data函数，此时才会真正的创建仅仅属于每个组件自己的data对象，那么此时多处的组件都有自己的data对象（即每使用一次该组件都会重新创建一个新的data对象），这些data对象是相互独立，互不影响的，达到解耦。
 
-```javascript
+``` javascript
 // 在局部组件中添加data对象
 const child = {
   template: `<div>{ {fn} }</div>`,
@@ -515,7 +523,7 @@ new Vue({
 ### camelCase vs. kebab-case
 
 HTML 特性是不区分大小写的。所以，当使用的不是字符串模板时，camelCase (驼峰式命名) 的 prop 需要转换为相对应的 kebab-case (短横线分隔式命名)：
-```javascript
+``` javascript
 Vue.component('child', {
   // 在 JavaScript 中使用 camelCase
   props: ['myMessage'],
@@ -540,14 +548,16 @@ Vue.component('child', {
 
 动态prop作用是动态修改prop，与静态prop不同的是，动态prop的侧重点是**动态修改prop**
 
-```
-// HTML
+``` html
+<!-- html -->
 <div id="app4">
   <input type="text" v-model="parentMsg">
   <br>
   <child :my-msg="parentMsg"></child>
 </div>
+```
 
+``` javascript
 // JavaScript
 let vm4 = new Vue({
     el:'#app4',
@@ -645,12 +655,14 @@ computed: {
 
 示例如下：
 
-``` javascript
-// HTML
+``` html
+<!-- html -->
 <div id="app6">
   <mine data-line="red" style="color:red;"></mine>
 </div>
+```
 
+``` javascript
 // JavaScript
 let vm6 = new Vue({
     el:'#app6',
@@ -664,9 +676,7 @@ let vm6 = new Vue({
 
 渲染结果为：
 
-```html
-There is nothing  <!-- 此处为红色字体 -->
-```
+><font color=red>There is nothing</font>  <!-- 此处为红色字体 -->
 
 由上可知，模板中的data-line特性值被覆盖，style特性的值与自定义标签中的同名特性合并。
 
@@ -674,8 +684,8 @@ There is nothing  <!-- 此处为红色字体 -->
 
 应用场景：使用Vue的自定义事件可以达到子组件与父组件通信的目的。（父组件与子组件通过Vue实例中prop特性将数据传递给子组件）。
 
-```
-// HTML
+``` html
+<!-- html -->
 <div id="app7">
     <p>{ {total} }</p>
     <counter @increment="incrementTotal"></counter>
@@ -683,7 +693,9 @@ There is nothing  <!-- 此处为红色字体 -->
     <counter @increment="incrementTotal"></counter>
     <counter @increment="incrementTotal"></counter>
 </div>
+```
 
+``` javascript
 // JavaScript
 let vm7 = new Vue({
     el:'#app7',
