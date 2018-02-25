@@ -799,7 +799,7 @@ Vue.component('my-checkbox', {
 
 有如下示例：
 
-```
+``` html
 <app>
   <app-header></app-header>
   <appfooter></appfooter>
@@ -811,6 +811,7 @@ Vue.component('my-checkbox', {
 以下列举其几种应用场景：
 
 1. 在一些开发过程中，我们可能会需要弹出通知（通知组件），那么这些通知又可分为警告通知、普通通知、错误通知等等类型（不同的通知类型可理解为通知组件的子组件），但是他们都是属于通知类型的（是各种通知类型的父组件）的。
+
 2.下拉菜单中按钮上的显示切换的应用（待补充）
 
 综上，可将`slot插口`的作用总结为以下：
@@ -841,7 +842,7 @@ Vue.component('my-checkbox', {
 </div>
 ```
 
-``` javascript
+``` html
 let vm9 = new Vue({
   el:'#app9',
   components:{
