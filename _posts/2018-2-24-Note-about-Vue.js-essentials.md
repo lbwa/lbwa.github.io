@@ -1017,8 +1017,67 @@ Vue组件的API来自三部分——prop、事件、slot插槽：
 
 >因为`$refs`是非响应式，故应该避免在模板或计算属性中使用`$refs`。
 
+### 组件命名约定
+
+注册组件时，可使用kebab-case、camelCase、PascalCase
+
+在HTML模板中，始终使用kebab-case。
+
+### 内联模板
+
+若子组件有inline-template属性，那么组件将它本身的内容（子节点）代替组件模板渲染出来，而不是把它当作分发内容。
+
+``` html
+<app inline-template>
+  <p>From custom element</p>
+</app>
+```
+
+``` javascript
+new Vue({
+  el:'app',
+  components: {
+    'app': {
+      // 因为是组件模板向HTML文档渲染，故此时的子组件为自定义标签
+      // 因为子组件（自定义标签）中存在inline-template属性，以下组件模板将被子组件自身的内容代替
+      template:`<div>There are something good</div>`
+    }
+  }
+});
+```
+
+渲染结果为：
+
+`From custom element`
+
+**作用：**即有了inline-template属性，我们可以决定是渲染自定义标签中的内容还是渲染组件模板中的内容。
+
+>在项目中，inline-template属性可能使模板的作用域难以理解。**最佳实践**为使用组件模板的template选项或在`.vue`文件中使用`template`元素。
+
+### X-Template
+
+除组件模板、内联模板外，第三种定义模本的方式是在JavaScript标签中使用`text/x-template`类型。并指定一个id属性。
+
+``` html
+<script type="text/x-template" id="hello-world-template">
+  <p>Hello hello hello</p>
+</script>
+```
+
+``` javascript
+Vue.component('hello-world', {
+  template: '#hello-world-template'  // 此处引用了定义的模板
+})
+```
+
+>此法将组件模板与定义分离，不便于管理。故一般情况下应避免使用。
+
+### 对敌开销的静态组件使用 v-once
+
+当组件包含大量**静态**内容时，可使用 [v-once][5] 可缓存渲染结果。
 
   [1]: https://cn.vuejs.org/v2/guide/components.html#%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BA%8B%E4%BB%B6
   [2]: https://cn.vuejs.org/v2/guide/components.html#%E7%BB%84%E4%BB%B6%E7%BB%84%E5%90%88
   [3]: https://cn.vuejs.org/v2/guide/components.html#%E7%BC%96%E8%AF%91%E4%BD%9C%E7%94%A8%E5%9F%9F
   [4]: https://cn.vuejs.org/v2/guide/components.html#%E5%AD%90%E7%BB%84%E4%BB%B6%E5%BC%95%E7%94%A8
+  [5]: https://cn.vuejs.org/v2/api/#v-once
