@@ -87,4 +87,10 @@ ES6 模块在遇到加载命令`import`就会生成一个**只读引用**，等�
 
 CommonJS 模块的加载机制详见前文`模块缓存/加载机制`
 
+## 参考
+
+[ECMAScript 6 入门][2]
+
 [1]:http://es6.ruanyifeng.com/#docs/module-loader#%E5%8A%A0%E8%BD%BD%E8%A7%84%E5%88%99
+
+[2]:http://es6.ruanyifeng.com/#docs/module-loader#%E5%8A%A0%E8%BD%BD%E8%A7%84%E5%88%99
