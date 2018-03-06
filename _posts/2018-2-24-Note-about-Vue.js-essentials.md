@@ -8,7 +8,7 @@ header-img: "img/post-bg-vue-about.png"
 tags:
     - 前端开发
     - JavaScript
-    - Vue
+    - Vue.js
 ---
 
 # 简介
