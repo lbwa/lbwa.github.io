@@ -78,11 +78,13 @@ function baz() {
 baz()
 ```
 返回结果正好体现了调用栈的行为：
-> VM12839:2 Uncaught Error: Oops!
-> 　　at foo (<anonymous>:2:9)
-> 　　at bar (<anonymous>:5:3)
-> 　　at baz (<anonymous>:8:3)
-> 　　at <anonymous>:10:1
+``` javascript
+VM12839:2 Uncaught Error: Oops!
+　　at foo (<anonymous>:2:9)
+　　at bar (<anonymous>:5:3)
+　　at baz (<anonymous>:8:3)
+　　at <anonymous>:10:1
+```
 
 将调用栈可视化为动图，如下：
 ![event-loop-0](https://raw.githubusercontent.com/lbwa/lbwa.github.io/master/img/in-post/event-loop-0.gif)
@@ -136,7 +138,7 @@ console.log('global1');
 以上代码调用栈，如下：
 
 1. 全局代码进入调用栈
-1. setTimeout()立即执行，分发`console.log('timeout1')`并启动计时器，其排在全局代码之后
+1. setTimeout()立即执行，分发`console.log('timeout1')`并启动计时器，其排在全局代码之后，之后setTimeout 弹出调用栈
 1. new Promise() 参数中的函数体立即执行，这里输出`promise1`和`promise2`
 1. 至`then(callback)`，此时，第一个`then`的 callback 加入微任务队列。
 1. 往后继续执行代码，输出`global1`，因为之前 then 的 callback 还未执行，那么全局代码还未完成
