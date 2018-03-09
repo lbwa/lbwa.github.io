@@ -500,7 +500,7 @@ new Vue({
 ### 组件中的data对象必须是函数
 
 原因：首先明白，只有在创建Vue实例时，才会创建对data对象的引用。
-　　若是data对象不是函数，那么在多处使用该组件（创建Vue实例）时，将造成多处的组件使用的是同一data对象。若是data是函数，那么在多处使用该组件时，在创建Vue实例时执行data函数，此时才会真正的创建仅仅属于每个组件自己的data对象，那么此时多处的组件都有自己的data对象（即每使用一次该组件都会重新创建一个新的data对象），这些data对象是相互独立，互不影响的，达到解耦。
+　　若是data对象不是函数，那么在多处使用该组件（创建Vue实例）时，将造成多处的组件使用的是**同一**data对象。若是data是函数，那么在多处使用该组件时，在创建Vue实例时执行data函数，此时才会真正的创建仅仅属于每个组件自己的data对象，那么此时多处的组件都有自己的data对象（即每使用一次该组件都会重新创建一个新的data对象），这些data对象是相互独立，互不影响的，达到解耦。
 
 ``` javascript
 // 在局部组件中添加data对象
@@ -561,7 +561,7 @@ Vue.component('child', {
 
 　　若不使用props数组接口，则将父组件的属性的属性值称为非prop特性，他们将以非prop特性传递到子组件（组件模板），成为子组件模板中的标签的属性。
 
-### 动态prop
+### 动态 prop
 
 动态prop作用是动态修改prop，与静态prop不同的是，动态prop的侧重点是**动态修改prop**
 
@@ -597,6 +597,21 @@ let vm4 = new Vue({
 >v-model <=>(此处双向绑定) data数据对象中的parentMsg => v-bind:my-msg读取data数据中的parentMsg => 得到my-msg的属性值 => 传递给组件中prop属性 => templata中的Mustache语法（双大括号插值）真正调用prop接口的值。
 
 其中v-model的属性值与input输入框双向绑定。
+
+借鉴上面的示例，我们可以将**父组件的方法**经 Vue 实例中的 prop 传递给子组件。
+``` html
+<!-- parent.vue -->
+<div id="app">
+  <custom :methods="myMethods"></custom>
+</div>
+```
+``` javascript
+// child.vue
+export default {
+  props: ['methods'] // 此处传递 methods 的值是一个对象（函数 myMethods），而不是固定思维中的基本类型值
+  // ...
+}
+```
 
 ### 区分父组件与子组件
 
