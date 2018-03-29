@@ -401,22 +401,22 @@ new Vue({
 
 ``` html
 <body>
-    <div id="app">
-        <select>
-            <optioncomp></optioncomp>
-        </select>
-    </div>
-    <script src="lib/vue.js"></script>
-    <script>
-        new Vue({
-            el: '#app',
-            components:{
-                'optioncomp':{
-                    template: '<option>a</option>'
-                }
-            }
-        })
-    </script>
+  <div id="app">
+    <select>
+         <optioncomp></optioncomp>
+    </select>
+  </div>  
+  <script src="lib/vue.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+        components:{
+         'optioncomp':{
+            template: '<option>a</option>'
+          }
+        }
+    })
+   </script>
 </body>
 ```
 
@@ -424,22 +424,22 @@ new Vue({
 
 ```html
 <body>
-    <div id="app">
-        <select>
-            <option is="optioncomp"></option>
-        </select>
-    </div>
-    <script src="lib/vue.js"></script>
-    <script>
-        new Vue({
-            el: '#app',
-            components:{
-                'optioncomp':{
-                    template: '<option>a</option>'
-                }
-            }
-        })
-    </script>
+  <div id="app">
+      <select>
+          <option is="optioncomp"></option>
+      </select>
+  </div>
+  <script src="lib/vue.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      components:{
+        'optioncomp':{
+          template: '<option>a</option>'
+        }
+      }
+    })
+  </script>
 </body>
 ```
 
@@ -447,50 +447,49 @@ new Vue({
 
 ```html
 <body>
-    <div id="app">
-        <select>
-            <option is="optioncomp"></option>
-        </select>
-
-        <!--模板内容存放区域-->
-        <script type="x-template" id="optioncompTemp">
-            <option >a</option>
-        </script>
-    </div>
-    <script src="lib/vue.js"></script>
-    <script>
-        new Vue({
-            el: '#app',
-            components:{
-                'optioncomp':{
-                    template: '#optioncompTemp'
-                }
-            }
-        })
+  <div id="app">
+    <select>
+      <option is="optioncomp"></option>
+    </select>
+    <!--模板内容存放区域-->
+    <script type="x-template" id="optioncompTemp">
+      <option >a</option>
     </script>
+  </div>
+  <script src="lib/vue.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+        components:{
+          'optioncomp':{
+            template: '#optioncompTemp'
+          }
+        }
+    })
+  </script>
 </body>
 ```
 
-或者内联模板字符串也行
+或者内联模板字符串
 
 ```html
 <body>
-    <div id="app">
-        <selectcomp></selectcomp>
-    </div>
-    <script src="lib/vue.js"></script>
-    <script>
-        Vue.component('optioncomp',{
-            template: '<option >a</option>'
-        });
-        new Vue({
-            el: '#app',
-            components:{
-                'selectcomp':{
-                    template: `<select><optioncomp></optioncomp></select>`
-                }
-            }
-        })
+  <div id="app">
+    <selectcomp></selectcomp>
+  </div>
+  <script src="lib/vue.js"></script>
+  <script>
+    Vue.component('optioncomp',{
+      template: '<option >a</option>'
+    });
+    new Vue({
+      el: '#app',
+      components:{
+        'selectcomp':{
+          template: `<select><optioncomp></optioncomp></select>`
+        }
+      }
+    })
     </script>
 </body>
 ```
@@ -535,7 +534,7 @@ new Vue({
 });
 ```
 
-在全局或者局部组件中，data函数必须和template属性在同一对象中。
+在全局或者局部组件中，data 函数必须和 template 属性在同一对象中。
 
 ### camelCase vs. kebab-case
 
@@ -560,6 +559,8 @@ Vue.component('child', {
 　　当父组件中的某一属性的属性值需要传递至子组件（组件模板）中Mustache值（即建立一个子组件与父组件的引用时，或称指针）时，需要通过组件的props数组接口传递该值。
 
 　　若不使用props数组接口，则将父组件的属性的属性值称为非prop特性，他们将以非prop特性传递到子组件（组件模板），成为子组件模板中的标签的属性。
+
+> 当父组件中 props 某一项更新时，更新后的新值将自动传入子组件
 
 ### 动态 prop
 
@@ -914,6 +915,25 @@ let vm9 = new Vue({
 });
 ```
 
+渲染结果为：
+
+``` html 
+<div id="app">
+  <div class="container">
+    <header>
+      <h1>这里可能是一个页面的标题</h1>  <!-- 与 slot="header" 对应-->
+    </header>
+    <main>
+      <p>主要内容的一个段落</p>    <!-- 与没有 slot 属性的内容对应-->
+      <p>另一个主要段落</p>
+    </main>
+    <footer>
+      <p>这里有一些联系信息</p>   <!-- 与 slot="footer" 对应-->
+    </footer>
+  </div>
+</div>
+```
+
 >依据以上示例，可总结为，在设计组合使用的子组件时，依据父组件（自定义标签）中的slot属性与子组件（组件模板）模板中slot标签的对应关系来设计不同的复用子组件的显示（渲染）。
 
 slot插槽的侧重点在**设计子组件如何复用**
@@ -1037,7 +1057,7 @@ let vm11 = new Vue({
 
 ### 编写可复用的组件
 
-Vue组件的API来自三部分——prop、事件、slot插槽：
+Vue 组件的 API 来自三部分 —— prop、事件、slot插槽：
 
 - **prop** 提供父组件向子组件传递数据的传输通道，数据是作为props数组的项来传递
 - **事件** 允许子组件向父组件传递数据，侧重于子组件的事件侦听器中通过`this.$emit('某一父组件事件')`方法来触发某一父组件的事件侦听器，从而执行父组件的某一任务。
