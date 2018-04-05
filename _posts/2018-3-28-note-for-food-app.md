@@ -169,7 +169,7 @@ html, body {
 }
 ```
 
-主要原理：绝对定位 .footer 使其脱离文档流，定位于 .wrapper，那么由 .wrapper 担任撑开 footer 的角色。
+主要原理：绝对定位 .footer 使其脱离普通流，定位于 .wrapper，那么由 .wrapper 担任撑开 footer 的角色。
 在内容区小于 wrapper 时，footer 将保持在视口底部，当 .content 区大于 wrapper 时，wrapper 将被 .content 撑开，wrapper 被撑开，此时，footer 也跟着被定位（因为 `bottom: 0` 的存在）到 .wrapper 底部，达到跟随的目的。
 
 两个方法的本质**区别**是：法一是用一个容器"**抵开**" footer，法二是使用绝对定位的 `bottom: 0` **跟随**被撑开的绝对定位的参照元素（此参照元素的高度**一定不能**写死，否则高度不能变化，那么 sticky footer 也就失效了）。
@@ -393,7 +393,7 @@ this.$refs.child.show()  // 调用子组件 child 的 show 方法
 
 ## 14. CSS 中 width 和 height 百分比属性值的计算结果
 
-（以占用文档流的元素的 width 为例）
+（以占用普通流的元素的 width 为例）
 
 现象：当包含块的 width 设置为 100% 且有效时，那么包含块的子元素的宽度加上子元素的 margin 和 padding 值（如有）等于包含块的 width 计算后的值。
 
@@ -413,7 +413,7 @@ auto 即为默认值时，有等式：A 的 width + margin / padding === A 的�
 
 拓展：根元素（`<html>`）的包含块是视口（viewport），那么根元素的包含块的 width 是一定固定存在的。即`<html>`的 width: 100% 即为包含块视口的宽度。
 
-拓展： 关于包含块（containing block）的概念，不能简单地理解成是父元素。如果是静态定位和相对定位（位于文档流中），包含块一般就是其父元素。但是对于绝对定位（position: absolute）的元素，包含块应该是离它最近的 position 为 absolute、relative、或者 fixed 的祖先元素。对固定定位（position: fixed）的元素，它的包含块是视口（viewport）。
+拓展： 关于包含块（containing block）的概念，不能简单地理解成是父元素。如果是静态定位和相对定位（位于普通流中），包含块一般就是其父元素。但是对于绝对定位（position: absolute）的元素，包含块应该是离它最近的 position 为 absolute、relative、或者 fixed 的祖先元素。对固定定位（position: fixed）的元素，它的包含块是视口（viewport）。
 
 （以上元素的 height 同理，都是基于父元素的 height 来计算的）
 
