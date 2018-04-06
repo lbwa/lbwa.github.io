@@ -14,10 +14,10 @@ vuex 就是将 vue 中需要管理的状态，全部集中到一个容器中，�
 
 Vuex 通过 store 选项，提供了一种机制将状态从根组件"注入"到每一个子组件中（需调用`Vuex.use(Vuex)`）。通过在**根实例**中注册`store`选项，该 store 实例会注入到根组件下的**所有**子组件中，且子组件可以通过`this.$store`访问到。
 
-## 1.state —— 存储状态的容器
+## state —— 存储状态的容器
 
 state 用于缓存状态（计算属性）数据。可**类比**于 vue 实例中的 data 数据对象。
-
+<!-- more -->
 特点：
 
 1. 具有响应式变化的特点，最简单读取 vuex 实例（store）的状态的方法是，在计算属性中返回某个状态。如下所示:
@@ -31,7 +31,7 @@ computed: {
 但是，一般的用法是，通过**store选项**注入到 vue 组件中。
 2. [mapState 辅助函数][mapState]用于读取多个状态，生成计算属性（状态）
 
-## 2.getter —— 处理旧状态生成新状态
+## getter —— 处理旧状态生成新状态
 
 getter 可**类比** vue 实例中的 computed 选项，可称为是 store 的计算属性。读取 state 中的数据A，经 getter 中的处理函数处理后返回生成一个新的状态数据B（A的计算属性）。
 
@@ -92,10 +92,10 @@ export default {
 }
 
 ```
-<!-- more -->
-## 3.Mutation —— 修改旧状态
 
-### 3.1 含义及作用
+## Mutation —— 修改旧状态
+
+### 含义及作用
 
 更改 vuex 的 store 中的状态的**唯一方法**是提交 mutation。可**类比**vue中的事件，提交 mutation **类比**触发事件(this.$emit(‘事件名’))。
 
@@ -103,7 +103,7 @@ export default {
 
 这种 mutation 中定义事件类型和回调函数的方式**可看作**是自定义事件注册。但**不能直接调用** mutation 中的回调函数。
 
-### 3.2 使用方法
+### 使用方法
 
 不能直接调用 mutation handler，可类比调用`this.$emit`方法触发某自定义事件。那么，使用 mutation handler 的方法如下：
 
@@ -134,26 +134,28 @@ export default {
   // ...
   methods: {
     ...mapMutations([
-      'increment', // 将 `this.increment()` 映射为 `this.$store.commit('increment')`
+      // 将 `this.increment()` 映射为 `this.$store.commit('increment')`
+      'increment',
 
       // `mapMutations` 也支持载荷：
-      'incrementBy' // 将 `this.incrementBy(amount)` 映射为 `this.$store.commit('incrementBy', amount)`
+      'incrementBy'
     ]),
     ...mapMutations({
-      add: 'increment' // 将 `this.add()` 映射为 `this.$store.commit('increment')`
+      // 将 `this.add()` 映射为 `this.$store.commit('increment')`
+      add: 'increment'
     })
   }
 }
 ```
 
-### 3.3 注意事项
+### 注意事项
 
 1. mutations 选项中的方法是不分组件的 , 假如你在 A.js 文件中的定义了
 fn 方法 , 在其他文件（B.js等等）中的一个 fn 方法 , 那么
 $store.commit('fn') 会**执行所有**的 fn 方法。
 1. mutations 选项中的操作**必须是同步**的。
 
-## 4.Action —— 可包含异步的“Mutation”
+## Action —— 可包含异步的“Mutation”
 
 action 与 mutation 根本作用都是修改状态，不同之处在于：
 1. action 提交的是 mutation，而不是直接修改状态
@@ -191,15 +193,20 @@ const store = new Vuex.Store({
 
 ``` javascript
 actions: {
-  // 默认的 action 对象中的函数的参数对象将获得与 store 实例相同的方法和属性（容器实例默认有 commit 方法），那么 { commit } 对象是存在有 commit 方法的。commit 不仅仅是属性，还是方法。
-  // 这里将 context 用 { commit }替换，因为这里只用到参数对象的 commit 方法
+
+  /**
+   * 默认的 action 对象中的函数的参数对象将获得与 store 实例相同的方法和属性（容器实例
+   * 默认有 commit 方法），那么 { commit } 对象是存在有 commit 方法的(因为 ES6 解构
+   * 赋值)。commit 不仅仅是属性，还是方法。
+   */
+
   increment ({ commit }) {
     commit('increment')
   }
 }
 ```
 
-### 4.1 分发 action
+### 分发 action
 
 action 通过`store.dispatch`方法触发分发。
 
@@ -222,19 +229,22 @@ export default {
   // ...
   methods: {
     ...mapActions([
-      'increment', // 将 `this.increment()` 映射为 `this.$store.dispatch('increment')`
+      // 将 `this.increment()` 映射为 `this.$store.dispatch('increment')`
+      'increment',
 
       // `mapActions` 也支持载荷：
-      'incrementBy' // 将 `this.incrementBy(amount)` 映射为 `this.$store.dispatch('incrementBy', amount)`
+      // 映射为 `this.$store.dispatch('incrementBy', amount)`
+      'incrementBy'
     ]),
     ...mapActions({
-      add: 'increment' // 将 `this.add()` 映射为 `this.$store.dispatch('increment')`
+      // 将 `this.add()` 映射为 `this.$store.dispatch('increment')`
+      add: 'increment'
     })
   }
 }
 ```
 
-### 4.2 组合 action
+### 组合 action
 
 前文提到，action 对象内部可执行异步操作，那么如何知道其对象内部的处理函数何时执行结束？
 因为只有知道执行结束才能组合其他 action 中的处理函数，用于处理复杂的异步情况。
@@ -258,7 +268,8 @@ store.dispatch('actionA').then(() => {
   // ...
 })
 
-// store.dispatch 方法可处理 Promise 对象且本身返回 Promise ，那么可在 action 中可以调用其他的 action
+// store.dispatch 方法可处理 Promise 对象且本身返回 Promise ，那么可在 action 中可以
+// 调用其他的 action
 actions: {
   // ...
   actionB ({ dispatch, commit }) {
@@ -285,11 +296,11 @@ actions: {
 }
 ```
 
-## 5.module —— 将 store 分割成模块
+## module —— 将 store 分割成模块
 
 每个模块可拥有自己的 store 容器，其中包含属于自己模块的 state、mutation、action、getter。store 容器中可使用 module 选项来**包含其他模块的 store 容器**。
 
-### 5.1 模块内的局部状态
+### 模块内的局部状态
 
 对于模块内部的 mutation 和 getter，接收的第一个参数是模块的**局部状态对象**。
 
@@ -335,7 +346,7 @@ const moduleA = {
 }
 ```
 
-### 5.2 命名空间
+### 命名空间
 
 默认情况下，模块内部的 action、mutation 和 getter 是注册在**全局**命名空间的。
 

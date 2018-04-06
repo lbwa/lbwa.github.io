@@ -16,17 +16,17 @@ tags:
 
 # 详解事件循环
 
-## 1.简介
+## 简介
 
 > An event loop has one or more task queues.
 
-### 1.1 调用栈（帧）
+### 调用栈（帧）
 
 宿主环境中**所有的 JavaScript 代码执行**都是依靠调用栈来执行。
 
 众所周知，JavaScript 是单线程语言。单线程体现在**只有一个调用栈，或称只有一个事件循环**（注：宿主环境（浏览器、NodeJS等）中不止一个事件循环，其中包含`browser contexts`和`web workers`，本文讨论`browser contexts`），即 JavaScript 在执行时（在宿主环境中 runtime ）一次只执行一段代码（只做一件事情）。
-
-###  1.2 任务队列/任务源
+<!-- more -->
+###  任务队列/任务源
 
 在宿主环境中，一个调用栈（事件循环）可以有**一个或者多个**任务队列。
 
@@ -43,13 +43,13 @@ tags:
 **不同任务源**的任务，在执行时进入**不同的任务队列**。
 
 在单独的任务队列中，任务中是按照先进先出的顺序执行。
-<!-- more -->
+
 **注：**
 
 1. setTimeout/setInterval 是作为一个任务分发器的存在，他们函数本身会在调用栈中立即执行，分发任务完成后，启动定时器完成就**立即弹出**调用栈(这与普通函数中调用另一函数是不同的。原因见1.3)。而其中他们函数的第一个参数对象，即他们所要分发的任务才是**延迟**执行的。
 1. new Promise( ) 中参数对象的函数体是在调用栈中立即执行，执行完成后弹出调用栈。进入微任务队列的是 then 中的 callback。（此处 new Promise 与 Promise.then() 机制是不同的。）
 
-### 1.2.1 区分 Task Queues 和 Job Queues
+### 区分 Task Queues 和 Job Queues
 
 Task Queues 出自 [w3c][w3c]、[HTML5 Standard][html5]两个规范。Job Queues 出自 [ES6 Standard][es6]。他们两个是不同的东西。
 
@@ -57,7 +57,7 @@ Task Queues 出自 [w3c][w3c]、[HTML5 Standard][html5]两个规范。Job Queues
 
 JavaScript 引擎（V8 等）在内部实现了自己的 Job Queues，Job Queues不依赖于宿主环境而存在，即 JavaScript 引擎不关注 Event Loop，只关注 Job Queues。 那么，Job Queues 与 Event loop 没有直接关系。一般是在[ES6标准中的Promise][promise]中用到了 Job Queues。
 
-### 1.3 简易示例
+### 简易示例
 
 示例中讨论的是同源任务(只有一个任务队列时)的调用栈。
 
@@ -85,7 +85,7 @@ VM12839:2 Uncaught Error: Oops!
 ```
 
 将调用栈可视化为动图，如下：
-![event-loop-0](https://raw.githubusercontent.com/lbwa/lbwa.github.io/master/img/in-post/event-loop-0.gif)
+![event-loop-0](https://raw.githubusercontent.com/lbwa/lbwa.github.io/master/images/post/event-loop/event-loop-0.gif)
 
 > 调用一个函数会暂停当前函数的执行，传递控制权和参数给新的函数。—— 《 JavaScript 语言精粹 》 P27
 
@@ -98,11 +98,11 @@ VM12839:2 Uncaught Error: Oops!
 
 至此，总结了宿主环境中调用栈的基本行为模式。我们可拓展至开发时，我们是如何获取数据的？
 
-### 1.4 拓展：Ajax中的数据获取
+### 拓展：Ajax中的数据获取
 
 之前我们看到所有的函数调用都是同步进行，为了防止同步执行所带来的阻塞，即避免"冻结"发生。在 JavaScript 代码执行过程中，我们获取数据总是**异步**的，不是同步的，没有`return`，只有`callback`。
 
-## 2. 不同源任务的调用栈
+## 不同源任务的调用栈
 
 ``` javascript
 setTimeout(function() {

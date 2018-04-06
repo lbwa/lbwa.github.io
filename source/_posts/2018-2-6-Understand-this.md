@@ -1,7 +1,7 @@
 ---
-title:      "理解this的指向"
-date:       2018-02-6
-type:       "tags"
+title: 理解this的指向
+date:  2018-02-06
+type:  "tags"
 tags:
     - 前端开发
     - JavaScript
@@ -28,7 +28,7 @@ num();     // window
 ```
 
 在上面的函数中，定义了一个函数num，在调用函数时，实际上是调用的window的属性num。
-
+<!-- more -->
 **情况二**：函数被上一级（一个）对象调用时，那么该this值指向的是调用的对象，即指向上一级对象。
 
 ``` javascript
@@ -42,7 +42,7 @@ num.fn();    // num
 ```
 
 在上面的代码中，fn只被对象num包围，在调用fn时，this指向调用fn的上一级对象，也就是对象num。
-<!-- more -->
+
 **情况三**：函数外有多个对象包围时，尽管函数是被最外层的对象调用，那么函数中的this值只指向上一级对象。
 
 ``` javascript

@@ -25,7 +25,7 @@ tags:
  在Vue中操作DOM时，所有实际操作DOM都是Vue来操作，开发人员不会触碰DOM，所以开发时，只需关注逻辑层面即可。
 
 `v-model`指令，用来实现表单输入和应用状态之间的双向绑定。他的作用是修改表单控件的value值，同时监听所在表单控件的input事件，在该指令后添加.lazy修饰符可改为监听change事件。
-
+<!-- more -->
 # Vue实例
 
 　　当一个Vue实例被创建时，它像Vue的响应式系统加入了其data对象中所能找到的所有属性（所有可枚举属性？）。只有这些属性发生变化时，视图才会产生“响应”（视图重绘），即匹配更新为新的值。若之后再向data对象中添加的属性不是“响应式”的。
@@ -41,7 +41,7 @@ Vue实例除了数据属性之外，还暴露了一些实例属性和方法，�
 
 含义：给用户在实例的某个时期（比如，创建实例后，销毁实例后）运行自己代码的机会。
 注：在实例声明周期钩子中，**不要用箭头函数**，因为箭头函数的this是借用外层作用域的this，箭头函数本身是没有this对象的。
-<!-- more -->
+
 # 模板语法
 
 ## 插值
@@ -131,7 +131,10 @@ let vm = new Vue({
 let vm = new Vue({
     el: '#app2',
     computed: {
-      // 相当于某属性的getter函数，有缓存的作用，在依赖的数据值未改变的情况下，不会重新执行函数，否则执行更新
+      /**
+       * 相当于某属性的getter函数，有缓存的作用，在依赖的数据值未改变的情况下，不会重新
+       * 执行函数，否则执行更新
+       */
       reverseMsg: function () {
         return 'computed'.split('').reverse().join('');
       }
@@ -298,8 +301,15 @@ Vue 还对应 addEventListener 中的 passive 选项提供了 `.passive`修饰�
 ``` html
 <!-- html -->
 <div id="app5">
-    // 注：在复选框中值绑定，必须绑定为true-value和false-value这两个属性，否则值绑定失效
-    <input id="testValue" type="checkbox" v-model="toggle" v-bind:true-value="Yes" v-bind:false-value="No">
+    <!-- 注：在复选框中值绑定，必须绑定为 true-value 和 false-value 这两个属性，否则
+    值绑定失效 -->
+    <input
+     id="testValue"
+     type="checkbox"
+     v-model="toggle"
+     v-bind:true-value="Yes"
+     v-bind:false-value="No"
+    >
     <label for="testValue">Test value</label>
     <p>You have selected { {toggle} }</p>
 </div>
@@ -607,7 +617,8 @@ let vm4 = new Vue({
 ``` javascript
 // child.vue
 export default {
-  props: ['methods'] // 此处传递 methods 的值是一个对象（函数 myMethods），而不是固定思维中的基本类型值
+  // 此处传递 methods 的值是一个对象（函数 myMethods），而不是固定思维中的基本类型值
+  props: ['methods']
   // ...
 }
 ```
@@ -702,7 +713,7 @@ let vm6 = new Vue({
     el:'#app6',
     components:{
       "mine":{
-        template:`<p data-line="blue" style="background: #fff;">There is nothing</p>`,
+        template:`<p data-line="blue" style="background: #fff;">Nothing here</p>`,
       }
     }
 });
@@ -710,9 +721,9 @@ let vm6 = new Vue({
 
 渲染结果为：
 
-<span style="color:red">There is nothing</span>  <!-- 此处为红色字体 -->
+<span style="color:red">Nothing here</span>  <!-- 此处为红色字体 -->
 
-由上可知，模板中的data-line特性值被覆盖，style特性的值与自定义标签中的同名特性合并。
+由上可知，模板中的 data-line 特性值被覆盖，style 特性的值与自定义标签中的同名特性合并。
 
 ## 自定义事件
 
@@ -962,7 +973,7 @@ let vm10 = new Vue({
   el:'#app10',
   components:{
     'child':{
-      props:['props']   // 此处可省略，作用域插槽的模板会固定接收props属性值（prop对象）
+      props:['props'] // 此处可省略，作用域插槽的模板会固定接收props属性值(prop对象)
       template:`
       <div class="child">
       <!-- 子组件中slot作用域插槽与父组件slot-scope属性绑定，向父组件传递数据 -->
@@ -1014,7 +1025,9 @@ let vm11 = new Vue({
         <slot name="item"
         v-for="item in items"
         :text="item.text">
-        如果你看到这句话说明子组件中的slot插槽(name属性值)与父组件的slot属性(值)不能对应，父组件接受到此数据（提示）无法对应分发，故没有li标签生成，但此提示仍然以文本形式迭代输出。
+        如果你看到这句话说明子组件中的slot插槽(name属性值)与父组件的slot属性(值)不能对
+        应，父组件接受到此数据（提示）无法对应分发，故没有li标签生成，但此提示仍然以文
+        本形式迭代输出。
         </slot>
       </ul>
       `,
@@ -1088,8 +1101,11 @@ new Vue({
   el:'app',
   components: {
     'app': {
-      // 因为是组件模板向HTML文档渲染，故此时的子组件为自定义标签
-      // 因为子组件（自定义标签）中存在inline-template属性，以下组件模板将被子组件自身的内容代替
+      /**
+       * 1.因为是组件模板向HTML文档渲染，故此时的子组件为自定义标签
+       * 2.因为子组件（自定义标签）中存在inline-template属性，以下组件模板将被子组件自
+       * 身的内容代替
+       */
       template:`<div>There are something good</div>`
     }
   }
