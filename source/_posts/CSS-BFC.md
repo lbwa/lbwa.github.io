@@ -48,7 +48,8 @@ tags:
 ![pa](https://raw.githubusercontent.com/lbwa/lbwa.github.io/master/images/post/css-bfc/pf.gif)
 
 浮动形成的 BFC 与 根元素 BFC：
-![pa](https://raw.githubusercontent.com/lbwa/lbwa.github.io/master/images/post/css-bfc/pf.gif)
+
+![pa](https://raw.githubusercontent.com/lbwa/lbwa.github.io/master/images/post/css-bfc/fl.gif)
 
 在以上特点中有一个问题是，<strong style="color: red">为什么 BFC 可以包含浮动元素，并在计算时包含浮动元素的高度？</strong>
 
