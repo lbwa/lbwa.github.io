@@ -2,7 +2,7 @@
 title:      "学习Vue.js基础"
 subtitle:   "总结在学习Vue.js官方文档时的一些心得"
 date:       2018-02-24
-author:     "lbwa"
+author:     "Bowen"
 tags:
     - 前端开发
     - JavaScript

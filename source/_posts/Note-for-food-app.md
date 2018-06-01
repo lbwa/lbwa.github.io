@@ -2,7 +2,7 @@
 title:      "eleme-candy 项目总结"
 subtitle:   "复盘在开发中的一些思路"
 date:       2018-03-28
-author:     "lbwa"
+author:     "Bowen"
 tags:
     - 前端开发
     - JavaScript

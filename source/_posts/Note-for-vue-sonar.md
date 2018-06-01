@@ -1,7 +1,7 @@
 ---
 title:      "Vue-sonar 音乐播放器总结"
 date:       2018-04-18
-author:     "lbwa"
+author:     "Bowen"
 tags:
     - 前端开发
     - Vue.js
@@ -966,7 +966,7 @@ export const insertSong = ({ commit, state }, song) => {
 
 # 函数防抖
 
-意为在某段持续时间内，调用函数命令只执行最后一次调用。
+意为在某段持续时间内，不断地触发事件，但**只执行**最后一次回调函数的调用。
 
 实现：
 
@@ -983,16 +983,17 @@ function debounce (fn, delay = 200) { // 延迟默认值 200ms
       clearTimeout(_timer)
       _timer = null
     }
-    _timer = setTimeout(() => {
+    _timer = setTimeout(() => { // 这里的箭头函数中调用的 this 是外部匿名函数的 this
       fn.apply(this, args) // 指定 this 和参数，若不使用 apply 指定，那么 this 将指向 window
     }, delay)
   }
 }
 ```
+<span style="color: red; font-weight: bold;">注</span>：一个**易错点**就是 setTimeout 中为**箭头函数**时，因为箭头函数自身是没有 this 对象的，它内部的 this 对象是外部的 this 对象，那么此时可**直接调用**匿名包装函数的 this（这也是箭头函数的一个典型应用）。但若 setTimout 中是**非箭头函数**时，必须先在**外部引用**匿名函数的 this，即 `_that = this`，然后再用 `apply()` 方法指定调用 fn 时的 this 对象。
 
-以上示例中，debounce 函数起**修饰作用**，用于定义一个闭包变量存储定时器和传入延迟载荷，返回的匿名函数也是 fn 函数的一个**修饰**，用于判断是否执行函数。其中 `...args` 为 ES6 `rest 参数`，它定义了在调用匿名函数时，由传入的参数组成的**真**数组（对于 arguments 伪数组而言）。
+以上示例中，`debounce 函数`起**修饰作用**，用于定义一个闭包变量存储定时器和传入延迟载荷，返回的匿名函数也是 `fn 函数`的一个**修饰**，用于判断是否执行函数。其中 `...args` 为 ES6 `rest 参数`，它定义了在调用匿名函数时，由传入的参数组成的**真**数组（对于 arguments 伪数组而言）。
 
-其中在 `setTimeout` 任务分发器中，是一个异步调用，那么必须指定调用 fn 的 this 和调用 fn 的包装匿名函数的传入参数。这是为了保证在使用防抖函数后调用 fn 与在没有使用防抖函数时调用 fn 的 this 对象和 arguments 对象**一致**。若不指定那么 this 将指向 window，并且调用 fn 时无法正确传入 arguments 参数对象。
+其中在 `setTimeout` 任务分发器中，是一个**异步调用**，那么必须指定调用 fn 的 this 和调用 fn 的包装匿名函数的传入参数。这是为了保证在使用防抖函数后调用 fn 与在没有使用防抖函数时调用 fn 的 this 对象和 arguments 对象**一致**。若不指定那么执行fn 时的 this 将指向 window，并且调用 fn 时无法正确传入 arguments 参数对象。
 
 ``` javascript
 // Vue.js 中使用函数防抖

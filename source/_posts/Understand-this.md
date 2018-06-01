@@ -1,7 +1,7 @@
 ---
-title: 理解this的指向
-date:  2018-02-06
-type:  "tags"
+title:      "理解this的指向"
+date:       2018-02-06
+author:     "Bowen"
 tags:
     - 前端开发
     - JavaScript

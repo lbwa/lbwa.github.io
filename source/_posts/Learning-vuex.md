@@ -1,8 +1,8 @@
 ---
 title:      "学习 vuex 基础"
 subtitle:   "简要总结学习 vuex 的个人理解"
-date:       2018-03-6
-author:     "lbwa"
+date:       2018-03-06
+author:     "Bowen"
 tags:
     - 前端开发
     - Vue.js
@@ -350,8 +350,140 @@ const moduleA = {
 
 默认情况下，模块内部的 action、mutation 和 getter 是注册在**全局**命名空间的。
 
-通过在 module 选项中添加`namespaced: true`来使模块成为成为**命名空间模块**，当模块被注册之后，它所有的 getter、action、mutation 都会自动根据模块注册的路径调整命名。
+通过在 module 选项中添加`namespaced: true`来使模块成为成为**命名空间模块**，当模块被注册之后，它所有的 `getters`、`actions`、`mutations` 都会自动根据模块注册的路径**调整**命名。
 
+```js
+new Vuex.Store({
+  modules: {
+    moduleA: {
+      // namespaced 选项限定了模块下的 mutations 和 actions 的命名空间（作用域）
+      namespaced: true
+      //...
+      mutations: {
+        getSomeState (state) {
+          // ...
+        }
+      }
+    }
+  }
+})
+```
+
+在以上示例中，`namespaced` 选项限定了当前模块下的 `getters` 和 `mutations` 和 `actions` 的命名空间（或者理解为作用域），使得要调用它们必须先调用它们的模块。即 `this.$store.commit('moduleA/getSomeState')`。
+
+```js
+// 组件内
+...mapMutations([
+  'moduleA/getSomeState'
+])
+
+// 调用 Mutations
+this['moduleA/getSomeState']()
+```
+
+或者在组件中另外定义名称
+
+```js
+// 组件内
+...mapMutations({
+  getSomeState: 'moduleA/getSomeState'
+})
+
+// 调用 Mutations
+this.getSomeState()
+```
+
+设置命名空间的好处是，可在不同的模块之间取**同名**的 `mutations` 等函数而不会冲突，它们也会获取自己命名空间的 `state`。
+
+#### 命名空间内访问全局内容
+
+特别地，在命名空间内，`rootState` 和 `rootGetters` 将作为**第三**和**第四**参数传入 `mutations`，在 `actions` 中作为 `context` 的属性传入，那么可在命名空间内调用 `rootState` 和 `rootGetters` 得到全局的 `state` 和 `getters`。
+
+在命名空间内调用全局的 `mutations` 和 `actions` 时，**必须**添加第三参数 `{ root: true }` 来调用全局函数。否则调用的是命名空间内的函数。
+```js
+new Vuex.Store({
+  modules: {
+    moduleA: {
+      // namespaced 选项限定了模块下的 mutations 和 actions 的命名空间（作用域）
+      namespaced: true
+      //...
+      actions: {
+        getMoreState: {
+          // context 包含了命名空间的所有 state, getters, mutations, actions, dispatch, commit, rootState, rootGetters
+          // 或根据需要写成形如 { commit } 的形式
+          handler (context) {
+            // ...
+
+            // 调用命名空间的 someOtherAction
+            context.dispatch('someOtherAction')
+
+            // 调用全局空间中的 someOtherAction，载荷为 null，即没有载荷
+            context.dispatch('someOtherAction', null, { root: true })
+          }
+        }
+      }
+      // ...
+    }
+  }
+})
+```
+
+#### 命名空间内注册全局 action
+
+在注册时，添加 `root: true` 选项。
+
+```js
+new Vuex.Store({
+  modules: {
+    moduleA: {
+      // namespaced 选项限定了模块下的 mutations 和 actions 的命名空间（作用域）
+      namespaced: true
+      //...
+      actions: {
+        getMoreState: {
+          root: true,
+          // context 包含了命名空间的所有 state, getters, mutations, actions, dispatch, commit, rootState, rootGetters
+          handler (context) {
+            // ...
+          }
+        }
+      }
+      // ...
+    }
+  }
+})
+```
+
+#### 兄弟命名空间调用
+
+```js
+new Vuex.Store({
+  modules: {
+    moduleA: {
+      namespaced: true,
+      //...
+      mutations: {
+        getSomeState (state) {
+          // ...
+        }
+      }
+      // ...
+    },
+
+    moduleB: {
+      namespaced: true,
+      actions: {
+        editModuleAState ({ commit }) {
+          // 补全命名空间路径，并指明 { root: true }
+          commit('moduleA/getSomeState', someDate, { root: true })
+        }
+      }
+    }
+  }
+})
+```
+
+由示例可知，兄弟命名空间的调用可通过全局调用 `{ root: true }` 来完成。
 
 [mapState]:https://vuex.vuejs.org/zh-cn/state.html
 

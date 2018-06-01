@@ -2,7 +2,7 @@
 title:      "学习 Vue.js 可复用性和组合"
 subtitle:   "理解 Vue.js 进阶思维 —— 可复用性&组合"
 date:       2018-03-12
-author:     "lbwa"
+author:     "Bowen"
 tags:
     - 前端开发
     - JavaScript

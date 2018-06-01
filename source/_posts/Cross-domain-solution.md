@@ -1,7 +1,7 @@
 ---
 title:      "客户端跨域解决方案"
 date:       2018-04-19
-author:     "lbwa"
+author:     "Bowen"
 tags:
     - 前端开发
     - 跨域

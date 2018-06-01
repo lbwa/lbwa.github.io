@@ -1,8 +1,8 @@
 ---
 title:      "理解 event loop 机制"
 subtitle:   "Event Loop 到底是什么，又是如何实现的？"
-date:       2018-03-8
-author:     "lbwa"
+date:       2018-03-08
+author:     "Bowen"
 tags:
     - 前端开发
     - JavaScript
@@ -47,7 +47,7 @@ tags:
 **注：**
 
 1. setTimeout/setInterval 是作为一个任务分发器的存在，他们函数本身会在调用栈中立即执行，分发任务完成后，启动定时器完成就**立即弹出**调用栈(这与普通函数中调用另一函数是不同的。原因见1.3)。而其中他们函数的第一个参数对象，即他们所要分发的任务才是**延迟**执行的。
-1. new Promise( ) 中参数对象的函数体是在调用栈中立即执行，执行完成后弹出调用栈。进入微任务队列的是 then 中的 callback。（此处 new Promise 与 Promise.then() 机制是不同的。）
+1. new Promise( ) 中参数对象的函数体是在调用栈中立即执行，执行完成后弹出调用栈。进入微任务队列的是 then 中的 callback。（此处 new Promise 与 Promise.then() 机制是不同的。当函数作为 new Promise 的参数对象时，那么该函数将会是立即执行的，即立即进入调用栈。而当函数作为 Promise.then() 的参数对象时，只有等到当前事件循环中的 macro-task 执行完成后，才会被执行，这时该函数是在 macro-task 队列中被执行的。）
 
 ### 区分 Task Queues 和 Job Queues
 
