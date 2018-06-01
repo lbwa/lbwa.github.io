@@ -15,7 +15,10 @@
       <%- partial('_partial/post/actions_mobile') %>
     <% } %>
     <%- partial('_partial/footer') %>
-    <!-- <%- partial('_partial/github-banner') %> -->
+    <!-- github banner -->
+    <% if (theme.github_banner.enabled) { %>
+      <%- partial('_partial/github-banner') %>
+    <% } %>
 </body>
 </html>
 <%- partial('_partial/styles') %>

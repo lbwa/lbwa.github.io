@@ -131,3 +131,8 @@ baidu_analytics:
 # logo and/or favicons of you website.
 gravatar:
   email: mailto:mr_lbwa@outlook.com
+
+# github banner
+github_banner:
+  enabled: false
+
