@@ -1,0 +1,10 @@
+<% if (site.tags.length){ %>
+  <div class="tags">
+    <p class="tag-cloud">
+      <%- tagcloud(site.tags, {
+        min_font: 14,
+        max_font: 30
+      }) %>
+    </p>
+  </div>
+<% } %>
