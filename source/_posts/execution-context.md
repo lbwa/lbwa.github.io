@@ -1,6 +1,6 @@
 ---
-title:      "解析 JS 执行上下文"
-date:       2018-04-07
+title:      "JS 执行上下文"
+date:       2018-05-07
 author:     "Bowen"
 tags:
     - 前端开发
@@ -23,7 +23,9 @@ tags:
 注：
   - 执行上下文栈即是执行上下文的**容器**。
 
-      ![execution-context](./execution-context.png)
+      ![execution-context][execution-context]
+
+[execution-context]:https://raw.githubusercontent.com/lbwa/lbwa.github.io/master/images/post/execution-context/execution-context.png
 
 ## Running execution context 的更替
 

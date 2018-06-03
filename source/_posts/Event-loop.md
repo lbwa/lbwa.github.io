@@ -309,7 +309,7 @@ I am from setTimeout
 
 一般地，在 JS 开发过程中，凡是可能造成代码阻塞的地方都可根据实际情况考虑使用异步操作。比如，数据获取等等。
 
-[post-execution-context]:https://lbwa.github.io/2018/04/07/js-execution-context/js-execution-context/
+[post-execution-context]:https://lbwa.github.io/2018/05/07/execution-context/
 
 [promise-standard]:https://promisesaplus.com/
 

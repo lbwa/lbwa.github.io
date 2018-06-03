@@ -1,6 +1,6 @@
 [
   {
-    "name":"vue-react",
+    "name":"vue-reactive",
     "url":"https://github.com/lbwa/vue-reactive",
     "desc":"Vue.js 响应式原理及其依赖收集分析"
   },
