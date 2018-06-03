@@ -31,11 +31,11 @@ tags:
     
     1. script
     
-        - 整体代码（[来源][ECMA-Script-records]），即代码执行的基准执行上下文（[拓展阅读](js-execution-context/js-execution-context.md)）
+        - 整体代码（[来源][ECMA-Script-records]），即代码执行的基准执行上下文（[拓展阅读][post-execution-context]）
 
         - 该宏任务的目的在于，将整体代码段（或理解为模块）推入执行上下文栈（`execution context stack`）中。
         
-            - 执行上下文栈初始会设置 `script` 为 `当前正在运行执行上下文`（`running execution context`），这期间可能因执行而创建新的执行上下文，那么就会依据模块内的代码不断的设置 **当前正在运行执行上下文**（`running execution context`），这样模块内的代码就会依次得以执行（此处主要是[执行上下文](js-execution-context/js-execution-context.md) 中 `Running execution context 的更替` 的实际应用）。
+            - 执行上下文栈初始会设置 `script` 为 `当前正在运行执行上下文`（`running execution context`），这期间可能因执行而创建新的执行上下文，那么就会依据模块内的代码不断的设置 **当前正在运行执行上下文**（`running execution context`），这样模块内的代码就会依次得以执行（此处主要是[执行上下文][post-execution-context] 中 `Running execution context 的更替` 的实际应用）。
             
             - 比如设置一些事件监听程序，一些声明，执行一些初始任务。在执行完成该任务时，会建立词法作用域等一系列相关运行参数。
     
@@ -155,7 +155,7 @@ tags:
 
 2. 设置当前事件循环的 `当前执行中的任务` 为第 1 步被选出的 task。
 
-3. `Run`：执行当前被选出的 task（即 task 进入最上层[执行上下文栈](js-execution-context/js-execution-context.md) `execution context stack`）。
+3. `Run`：执行当前被选出的 task（即 task 进入最上层[执行上下文栈][post-execution-context] `execution context stack`）。
 
 4. 重置当前事件循环的 `当前执行中的任务` 为默认值 null。
 
@@ -173,7 +173,7 @@ tags:
 
         4. 设置当前事件循环的 `当前执行中的任务` 值为上一步选中的 `microtask`。
 
-        5. `Run`：执行选中的 `microtask`（进入最上层[执行上下文栈](js-execution-context/js-execution-context.md)（来源1：[HTML Standard EnqueueJob 7.6][enqueue-job]、来源2：[ECMAScript EnqueueJob 步骤4][ECMAScript-enqueue-job-step-4]））。
+        5. `Run`：执行选中的 `microtask`（进入最上层[执行上下文栈][post-execution-context]（来源1：[HTML Standard EnqueueJob 7.6][enqueue-job]、来源2：[ECMAScript EnqueueJob 步骤4][ECMAScript-enqueue-job-step-4]））。
 
         6. 重置置当前事件循环的 `当前执行中的任务` 值为 null。
 
@@ -199,7 +199,7 @@ tags:
 
         3. 设置 `当前执行中的任务` 为 `子任务`。这种微任务的任务源是微任务类型的任务源。这是一个复合微任务的 `子任务`。
 
-        4. 执行 `子任务`（进入[执行上下文栈](js-execution-context/js-execution-context.md)）。
+        4. 执行 `子任务`（进入[执行上下文栈][post-execution-context]）。
 
         5. 重置当前事件循环的 `当前执行中的任务` 为 parent。
 
@@ -250,13 +250,13 @@ console.log('I am from script bottom')
 
 执行原理（依据 Chrome 66 的 V8 实现）如下：
 
-1. 整个代码段 `script` 进入执行上下文栈（亦称调用栈，`call stack`（[来源](js-execution-context/js-execution-context.md)）），执行 1 处代码调用 `console.log` 函数，该函数进入调用栈，之前 `script` 执行上下文执行暂停（冻结），转交执行权给 `console.log`。`console.log`成为[当前执行中的执行上下文](js-execution-context/js-execution-context.md)（`running execution context`）。`console.log` 执行完成立即弹出调用栈，`script` 恢复执行。
+1. 整个代码段 `script` 进入执行上下文栈（亦称调用栈，`call stack`（[来源][post-execution-context]）），执行 1 处代码调用 `console.log` 函数，该函数进入调用栈，之前 `script` 执行上下文执行暂停（冻结），转交执行权给 `console.log`。`console.log`成为[当前执行中的执行上下文][post-execution-context]（`running execution context`）。`console.log` 执行完成立即弹出调用栈，`script` 恢复执行。
 
 2. `setTimeout` 是一个任务分发器，该函数本身会立即执行，延迟执行的是其中传入的参数（匿名函数 a）。`script` 暂停执行，内部建立一个 1 秒计时器。`script` 恢复执行接下来的代码。1 秒后，再将匿名函数 a 插入宏任务队列（根据宏任务队列是否有之前加入的宏任务，可能不会立即执行）。
 
 3. 声明恒定变量 `ins`，并初始化为 `Promise` 实例。特别地，`Promise` 内部代码会在本轮事件循环立即执行。那么此时， `script` 冻结，开始执行 `console.log`，`console.log` 弹出调用栈后，`resolve()` 进入调用栈，将 `Promise` 状态 `resolved`，并之后弹出调用栈，此时恢复 script 执行。
 
-4. 因为第 3 步，已经在本轮宏任务完成前 `resolved` ，否则，将跳过第 4 步向本轮事件循环的微任务队列添加回调函数（[来源](js-promise.md)）。调用 `ins` 的 `then` 方法，将第一个 `then` 中回调添加到 `微任务队列`，继续执行，将第二个 `then` 中回调添加到 `微任务队列`。
+4. 因为第 3 步，已经在本轮宏任务完成前 `resolved` ，否则，将跳过第 4 步向本轮事件循环的微任务队列添加回调函数（[来源][promise-standard]）。调用 `ins` 的 `then` 方法，将第一个 `then` 中回调添加到 `微任务队列`，继续执行，将第二个 `then` 中回调添加到 `微任务队列`。
 
 5. 如同 1 时的执行原理。
 
@@ -266,7 +266,7 @@ console.log('I am from script bottom')
 
 8. 微任务队列清空后，开始调用下一宏任务（即进入下一个事件循环）或等待下一宏任务加入任务队列。此时，在 2 中计时 1 秒后，加入匿名函数 a 至宏任务队列，此时，因之前宏任务 script 执行完成而清空，那么将匿名函数 a 加入调用栈执行，输出 `I am from setTimeout`。
 
-**注**：`JavaScript` 中在某一函数内部调用另一函数时，会暂停（冻结）当前函数的执行，并将当前函数的执行权转移给新的被调用的函数（具体解析见[拓展阅读](js-execution-context/js-execution-context.md)）。
+**注**：`JavaScript` 中在某一函数内部调用另一函数时，会暂停（冻结）当前函数的执行，并将当前函数的执行权转移给新的被调用的函数（具体解析见[拓展阅读][post-execution-context]）。
 
 示例总结：
 
@@ -308,6 +308,10 @@ I am from setTimeout
 3. 事件绑定
 
 一般地，在 JS 开发过程中，凡是可能造成代码阻塞的地方都可根据实际情况考虑使用异步操作。比如，数据获取等等。
+
+[post-execution-context]:https://lbwa.github.io/2018/04/07/js-execution-context/js-execution-context/
+
+[promise-standard]:https://promisesaplus.com/
 
 # 参考
 
