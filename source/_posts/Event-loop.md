@@ -11,8 +11,6 @@ tags:
 
 # 事件循环 event loop
 
-（本节为 [我的博客 —— 理解 event loop 机制][event-loop-blog] 的重新归纳。）
-
 单线程的实现方式就是事件循环（`event loop`）。
 
 存在两种 `event loops`（[W3C][event loops]），即一种在 `browsing context` 下的事件循环，一种是在 `web workers` 下的循环。本文讨论在 `browsing context` 下的事件循环。
