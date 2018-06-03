@@ -1,0 +1,12 @@
+languaga: node_js
+
+node_js: stable
+
+cache:
+  yarn: true
+
+install:
+  - yarn
+
+script: 
+  - yarn run build

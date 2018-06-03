@@ -9,149 +9,305 @@ tags:
     - 事件循环
 ---
 
-事件循环机制是重要的 JavaScript 核心基础之一。本文主要总结了：
-1. 什么是事件循环
-2. 事件循环的构成
-3. 剖析事件循环(Event Loop)的运行机制，区分调用栈(call stack)、任务源(Task Source)、任务队列(Task Queues)
+# 事件循环 event loop
 
-# 详解事件循环
+（本节为 [我的博客 —— 理解 event loop 机制][event-loop-blog] 的重新归纳。）
 
-## 简介
+单线程的实现方式就是事件循环（`event loop`）。
 
-> An event loop has one or more task queues.
+存在两种 `event loops`（[W3C][event loops]），即一种在 `browsing context` 下的事件循环，一种是在 `web workers` 下的循环。本文讨论在 `browsing context` 下的事件循环。
 
-### 调用栈（帧）
+[event-loop-blog]:https://lbwa.github.io/2018/03/08/Event-loop/
 
-宿主环境中**所有的 JavaScript 代码执行**都是依靠调用栈来执行。
+## 事件循环定义
 
-众所周知，JavaScript 是单线程语言。单线程体现在**只有一个调用栈，或称只有一个事件循环**（注：宿主环境（浏览器、NodeJS等）中不止一个事件循环，其中包含`browser contexts`和`web workers`，本文讨论`browser contexts`），即 JavaScript 在执行时（在宿主环境中 runtime ）一次只执行一段代码（只做一件事情）。
-<!-- more -->
-###  任务队列/任务源
+依据标准中对进程模型的流程描述（[来源][processing-model]）可得出，在完成一个宏任务，并清空因宏任务产生的微任务队列时，称之为一个事件循环。
 
-在宿主环境中，一个调用栈（事件循环）可以有**一个或者多个**任务队列。
+[event loops]:https://www.w3.org/TR/html5/webappapis.html#event-loop
 
-在宿主环境中我们将任务队列分为宏任务（macro-task）、微任务（micro-task）（[参考1][1]、[参考2][2]）。
+## 任务源
 
-宏任务（macro-task）：script(整体代码), setTimeout, setInterval, setImmediate, I/O, UI rendering。
+- 宏任务（macrotask）：
+    
+    1. script
+    
+        - 整体代码（[来源][ECMA-Script-records]），即代码执行的基准执行上下文（[拓展阅读](js-execution-context/js-execution-context.md)）
 
-微任务（micro-task）: process.nextTick, Promise, Object.observe(已废弃), MutationObserver(html5新特性)
+        - 该宏任务的目的在于，将整体代码段（或理解为模块）推入执行上下文栈（`execution context stack`）中。
+        
+            - 执行上下文栈初始会设置 `script` 为 `当前正在运行执行上下文`（`running execution context`），这期间可能因执行而创建新的执行上下文，那么就会依据模块内的代码不断的设置 **当前正在运行执行上下文**（`running execution context`），这样模块内的代码就会依次得以执行（此处主要是[执行上下文](js-execution-context/js-execution-context.md) 中 `Running execution context 的更替` 的实际应用）。
+            
+            - 比如设置一些事件监听程序，一些声明，执行一些初始任务。在执行完成该任务时，会建立词法作用域等一系列相关运行参数。
+    
+    2. setTimeout，setInterval，setImmediate（服务端 API）
+    
+    3. I/O
+    
+        - 可拓展至 Web API（[来源][generic-task-sources]）：
+        
+            1. DOM 操作
 
-其中将宏任务或微任务中的每一类（如 setTimeout）称为`任务源`。遇到任务源，首先将任务分发到对应的队列（宏任务队列或微任务队列）中去等待执行。
+            2. 网络任务
 
-相同任务源的任务，在执行时进入相同的任务队列。
+                - Ajax 请求
+            
+            3. history traversal
 
-**不同任务源**的任务，在执行时进入**不同的任务队列**。
+                - history.back()
+            
+            4. 用户交互
 
-在单独的任务队列中，任务中是按照先进先出的顺序执行。
+                - 其中包括常见 DOM2（`addEventListener`）和 DOM0（`onHandle`）级**事件监听回调函数**。如 `click` 事件回调函数等。
 
-**注：**
+                - 特别地，事件需要冒泡到 `document` 对象之后并且事件回调执行**完成后**，才算该宏任务执行完成。否则一直存在于执行上下文栈中，等待事件冒泡并事件回调完成（来源：Jake Archibald blog - [level 1 boss fight][jake-blog]）。
+    
+    - **UI rendering**
 
-1. setTimeout/setInterval 是作为一个任务分发器的存在，他们函数本身会在调用栈中立即执行，分发任务完成后，启动定时器完成就**立即弹出**调用栈(这与普通函数中调用另一函数是不同的。原因见1.3)。而其中他们函数的第一个参数对象，即他们所要分发的任务才是**延迟**执行的。
-1. new Promise( ) 中参数对象的函数体是在调用栈中立即执行，执行完成后弹出调用栈。进入微任务队列的是 then 中的 callback。（此处 new Promise 与 Promise.then() 机制是不同的。当函数作为 new Promise 的参数对象时，那么该函数将会是立即执行的，即立即进入调用栈。而当函数作为 Promise.then() 的参数对象时，只有等到当前事件循环中的 macro-task 执行完成后，才会被执行，这时该函数是在 macro-task 队列中被执行的。）
+- 微任务（microtask）:
 
-### 区分 Task Queues 和 Job Queues
+    1. process.nextTick（[Node.js][process.nextTick]）
+    
+    2. Promise 原型方法（即 `then`、`catch`、`finally`）中被调用的回调函数
 
-Task Queues 出自 [w3c][w3c]、[HTML5 Standard][html5]两个规范。Job Queues 出自 [ES6 Standard][es6]。他们两个是不同的东西。
+    3. MutationObserver（[DOM Standard][mutation-observer]）
 
-在宿主环境中（浏览器、Node等），宿主环境通过 Event loop 来推动 JavaScript 代码的执行。Event loop 时，宿主环境（浏览器、Node等）不断的从 Task Queues 取出任务并处理。Task Queues 的作用是选择在合适时机执行队列内容。
+        - 用于监听节点是否发生变化
 
-JavaScript 引擎（V8 等）在内部实现了自己的 Job Queues，Job Queues不依赖于宿主环境而存在，即 JavaScript 引擎不关注 Event Loop，只关注 Job Queues。 那么，Job Queues 与 Event loop 没有直接关系。一般是在[ES6标准中的Promise][promise]中用到了 Job Queues。
+    4. Object.observe(已废弃)
 
-### 简易示例
+- **特别注明**：在 `ECMAScript` 中称 `microtask` 为 `jobs`（[来源][ECMAScript-jobs]，其中 [EnqueueJob][EnqueueJob] 即指添加一个 `microtask`）。
 
-示例中讨论的是同源任务(只有一个任务队列时)的调用栈。
+`macrotask` 和 `microtask` 中的每一项都称之为一个 **任务源**。
 
-有如下代码：
+以上分类中，每一项执行时均占用`当前正在运行执行上下文`（`running execution context`）（线程）。如，可理解为浏览器渲染线程与 JS 执行共用一个线程。
 
-``` javascript
-function foo() {
-  throw new Error('Oops!')
-}
-function bar() {
-  foo()
-}
-function baz() {
-  bar()
-}
-baz()
-```
-返回结果正好体现了调用栈的行为：
-``` javascript
-VM12839:2 Uncaught Error: Oops!
-　　at foo (<anonymous>:2:9)
-　　at bar (<anonymous>:5:3)
-　　at baz (<anonymous>:8:3)
-　　at <anonymous>:10:1
-```
+**依据标准拓展**：
 
-将调用栈可视化为动图，如下：
-![event-loop-0](https://raw.githubusercontent.com/lbwa/lbwa.github.io/master/images/post/event-loop/event-loop-0.gif)
+- 在 `W3C` 或 `WHATWG` 中除非特别指明，否则 `task` 即是指 `macrotask`。
 
-> 调用一个函数会暂停当前函数的执行，传递控制权和参数给新的函数。—— 《 JavaScript 语言精粹 》 P27
+- 根据 `W3C`（[来源][micro-task-source]）关于 `microtask` 的描述，只有两种微任务类型：单独的回调函数微任务（solitary callback microtasks），复合微任务（compound microtasks）。那么即在 `W3C` 规范中**所有**的**单独的回调函数**都是**微任务**类型。
 
-在解释调用栈之前，要明白：
+    - solitary callback：Promise 原型的原型方法，即 `then`、`catch`、`finally` 能够调用单独的回调函数的方法。
 
-1. 函数执行完成后**总是**会返回一个结果，自定义返回值(return)或 undefined。
-1. 函数体A中调用一个函数B，A之所以会进入"冻结状态"，是因为A函数体内要等到B返回结果才能结束当前函数A的执行，即当前A调用栈才算完成，之后弹出调用栈。
+    - compound microtask：
+    
+        1. MutationObserver（[DOM Standard - 4.3.2 步骤 5][mutation-observer]）
 
-那么，回到之前代码。全局代码整体进入调用栈，这里用`main()`表示，之后声明3个函数，之后开始调用`baz()`，在`baz()`函数体内执行到调用`bar`，此时，`baz`函数体暂停执行，进入"冻结状态"，将执行权交给`bar`，然后执行`bar`，后面调用`foo`亦是如此。这是为什么调用栈中会叠起来的原因。
+        2. process.nextTick（Only for [Node.js][process.nextTick]）
 
-至此，总结了宿主环境中调用栈的基本行为模式。我们可拓展至开发时，我们是如何获取数据的？
+            - > all callbacks passed to process.nextTick() will be resolved before the event loop continues.
 
-### 拓展：Ajax中的数据获取
+- 特别指明，`Web API` （event loops 章节在标准中是属于 Web API 大类）是属于宏任务类型，如 `Ajax` 属于 `I/O`（来源：[using a resource][using-a-resource]），但 `Ajax` 调用的 `Promise` 类型回调函数都是微任务类型。
 
-之前我们看到所有的函数调用都是同步进行，为了防止同步执行所带来的阻塞，即避免"冻结"发生。在 JavaScript 代码执行过程中，我们获取数据总是**异步**的，不是同步的，没有`return`，只有`callback`。
+[ECMA-Script-records]:https://www.ecma-international.org/ecma-262/#script-record
 
-## 不同源任务的调用栈
+[generic-task-sources]:https://www.w3.org/TR/html5/webappapis.html#generic-task-sources
 
-``` javascript
-setTimeout(function() {
-    console.log('timeout1');
-}, 5000)
+[ECMAScript-jobs]:http://www.ecma-international.org/ecma-262/#sec-performpromisethen
 
-new Promise(function(resolve) {
-    console.log('promise1');
-    for(var i = 0; i < 1000; i++) {
-        i == 99 && resolve();
-    }
-    console.log('promise2');
-}).then(function() {
-    console.log('then1');
-}).then(function() {
-    console.log('then2');
+[EnqueueJob]:http://www.ecma-international.org/ecma-262/#sec-enqueuejob
+
+[micro-task-source]:https://www.w3.org/TR/html5/webappapis.html#microtask
+
+[using-a-resource]:https://www.w3.org/TR/html5/webappapis.html#task-queues
+
+[mutation-observer]:https://dom.spec.whatwg.org/#queue-a-mutation-record
+
+[jake-blog]:https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/
+
+[process.nextTick]:https://nodejs.org/en/docs/guides/event-loop-timers-and-nexttick/#process-nexttick
+
+## 任务队列 task queue
+
+任务队列分为 `宏任务队列` 和 `微任务队列`。一个事件循环中可能有一个或多个任务队列。因为在执行一个宏任务时，可能产生微任务调用，即产生新的微任务队列。
+
+**相同类型**的任务源的任务被调用时进入相同的任务队列，反之进入不同的任务队列。
+
+### 标准（W3C and WHATWG）中的队列模型
+
+**注**：
+
+- 依据标准[描述][macro-task-queue]，除非特别指明是 `microtask queue`，那么我们一般常说的任务队列（`task queue`）都是指 `宏任务队列`（`macrotask queue`）。
+
+- 每个事件循环都有一个 `当前执行中的任务`（`currently running task`），用于轮询队列中的任务（`handle reentrancy`）。
+
+- 每个事件循环都有一个 `已执行 microtask 检查点标志`（`performing a microtask checkpoint flag`）（初始值一定为 false）表示已经执行了 `microtask` 检查点，用于阻止执行 `microtask checkpoint` 算法的可重入调用。
+    
+    1. 可重入调用（[reentrant invocation][reentrant-invocation]）是指，算法在执行过程中意外中断时，在当前调用未完成的情况下被再次从头开始执行。一旦可重入执行完成，上一次被中断的调用将会恢复执行。
+
+    2. 设置该检查点的原因是：
+
+        - 执行微任务时，可能会调用其他回调函数，当其他回调函数时，并在弹出执行上下文栈时，会断言当前执行上下文栈是否为空，若为空时，那么就会再一次执行 `microtask checkpoint`（来源：[perform a microtask checkpoint - step 2.3][microtask-checkpoint]、[clean up after running script][clean-up-after-running-script]），若没有设置检查点执行标志的话就会再次进入 `microtask queue` 重复执行 `microtask`。
+
+[macro-task-queue]:https://www.w3.org/TR/html5/webappapis.html#microtask
+
+[reentrant-invocation]:https://en.wikipedia.org/wiki/Reentrancy_(computing)
+
+[microtask-checkpoint]:https://html.spec.whatwg.org/multipage/webappapis.html#perform-a-microtask-checkpoint
+
+[clean-up-after-running-script]:https://html.spec.whatwg.org/multipage/webappapis.html#clean-up-after-running-script
+
+（[来源][processing-model]）
+
+1. 在 `browsing context` 事件循环的情况下（与第 8 步并列），选择当前 `task queue` 中**最早**加入的 task。如果没有任务被选中（即当前 `task queue` 为空），那么直接跳转到第 6 步 `Microtasks`
+    
+    - 如 `Ajax` 请求返回数据时，若当前 `task queue` 为空时，将直接跳转执行回调函数微任务。
+
+2. 设置当前事件循环的 `当前执行中的任务` 为第 1 步被选出的 task。
+
+3. `Run`：执行当前被选出的 task（即 task 进入最上层[执行上下文栈](js-execution-context/js-execution-context.md) `execution context stack`）。
+
+4. 重置当前事件循环的 `当前执行中的任务` 为默认值 null。
+
+5. 从当前的 `task queue` 中移除在第 3 步执行过的任务。
+
+6. `Microtasks`：执行 `microtask` 检查点。
+
+    - 当 `已执行 microtask 检查点标志` 为 false 时：
+
+        1. 设置 `已执行 microtask 检查点标志` 为 true。
+
+        2. `操作（handling) microtask 队列`：在当前 `microtask queue` 为空时，跳转到步骤 `Done` 之后。
+
+        3. 选中 `microtask queue` 中最早加入的 `microtask`。
+
+        4. 设置当前事件循环的 `当前执行中的任务` 值为上一步选中的 `microtask`。
+
+        5. `Run`：执行选中的 `microtask`（进入最上层[执行上下文栈](js-execution-context/js-execution-context.md)（来源1：[HTML Standard EnqueueJob 7.6][enqueue-job]、来源2：[ECMAScript EnqueueJob 步骤4][ECMAScript-enqueue-job-step-4]））。
+
+        6. 重置置当前事件循环的 `当前执行中的任务` 值为 null。
+
+        7. 从 `microtask queue` 中移除第 5 步 `Run` 被执行的 `microtask`，回到第 3 步 `操作（handling) microtask 队列`。
+
+            - **重点**：为在一个事件循环中，总是要**清空**当前事件循环中的微任务队列**才会进行重渲染**（`Vue.js` 的 DOM 更新原理）。
+
+        8. `Done`：对于每一个 `responsible event loop` 是当前事件循环的环境设置对象（`environment setting object`），向它（环境设置对象）告知关于 `rejected` 状态的 `Promise` 对象的信息。
+        
+            - 个人理解为触发浏览器 `uncaught` 事件，并抛出 `unhandled promise rejections` 错误（[W3C][unhandled-promise-rejections]）。
+
+            - 此步骤主要是向开发者告知存在未被捕获的 `rejected` 状态的 `Promise`。
+
+        9. 执行并清空 `Indexed Database`（用于本地存储数据的 API） 的修改请求。
+
+        10. 重置 `已执行 microtask 检查点标志` 为 false。
+
+    - 当一个复合微任务（`compound microtask`）执行时，客户端必须去执行一系列的复合微任务的`子任务`（subtask）
+
+        1. 设置 parent 为当前事件循环的 `当前执行中的任务`。
+
+        2. 设置 `子任务` 为一个由一系列给定步骤组成的新 microtask。
+
+        3. 设置 `当前执行中的任务` 为 `子任务`。这种微任务的任务源是微任务类型的任务源。这是一个复合微任务的 `子任务`。
+
+        4. 执行 `子任务`（进入[执行上下文栈](js-execution-context/js-execution-context.md)）。
+
+        5. 重置当前事件循环的 `当前执行中的任务` 为 parent。
+
+7. 更新 DOM 渲染。
+
+    - 一个宏任务 task **至此**整体执行结束（包含调用，执行，重渲染），也是一个**事件循环结束**。
+
+8. （与第 1 步并列）如果当前的事件循环是 `web works` 的事件循环，并且在当前事件循环中的 `task queue` 为空，并且 `WorkerGlobalScope` 对象的 `closing` 为 true，那么将摧毁当前事件循环，并取消以上的事件循环步骤，并恢复执行一个 `web worker` 的步骤。
+
+9. 回到第 1 步执行下一个事件循环。
+
+[processing-model]:https://www.w3.org/TR/html5/webappapis.html#event-loops-processing-model
+
+[enqueue-job]:https://html.spec.whatwg.org/#enqueuejob(queuename,-job,-arguments):queue-a-microtask
+
+[ECMAScript-enqueue-job-step-4]:http://www.ecma-international.org/ecma-262/#sec-enqueuejob
+
+[unhandled-promise-rejections]:https://www.w3.org/TR/html5/webappapis.html#notify-about-rejected-promises
+
+### 示例
+
+以一个示例讲解事件循环：
+
+```js
+// script
+// 1
+console.log('I am from script beginning')
+
+// 2
+setTimeout(() => { // 该匿名函数称为匿名函数a
+  console.log('I am from setTimeout')
+}, 1000)
+
+// 3
+const ins = new Promise((resolve, reject) => {
+  console.log('I am from internal part')
+  resolve()
 })
 
-console.log('global1');
+// 4
+ins.then(() => console.log('I am from 1st ins.then()')).then(() => console.log('I am from 2nd ins.then()'))
+
+// 5
+console.log('I am from script bottom')
 ```
-结果：
-> promise1
-> promise2
-> global1
-> then1
-> then2
-> undefined
-// 间隔
-> timeout1
 
-以上代码调用栈，如下：
+以上整个代码段即是，`macro-task` 中的 `script` 任务源。
 
-1. 全局代码进入调用栈
-1. setTimeout()立即执行，分发`console.log('timeout1')`并启动计时器，其排在全局代码之后，之后setTimeout 弹出调用栈
-1. new Promise() 参数中的函数体立即执行，这里输出`promise1`和`promise2`
-1. 至`then(callback)`，此时，第一个`then`的 callback 加入微任务队列。
-1. 往后继续执行代码，输出`global1`，因为之前 then 的 callback 还未执行，那么全局代码还未完成
-1. 若微队列有任务，则把微队列所有任务执行完成。此时，输出`then1`，并返回 undefined ，此时下一个`then`的 callback 加入微任务队列
-1. 执行下一个微任务，输出`then2`，微队列执行完成，并弹出调用栈
-1. 全局代码`main()`弹出调用栈，此时浏览器可能开始更新渲染，并进入下一轮事件循环
-1. 自2后的第五秒，计时器结束，触发事件，`console.log('timeout1')`插入代码至队列，因为此时宏任务队列为空，那么它排在队列第一位，之后进入调用栈执行代码，执行完成后弹出作用栈。
+执行原理（依据 Chrome 66 的 V8 实现）如下：
 
-注：以上代码中，当 Promise 实例链式调用两个 callback 时，开始**只有**第一个 callback 进入微任务队列，待第一个 callback 执行完成后，才将第二个 callback 加入微任务队列。[参考][blog0]
+1. 整个代码段 `script` 进入执行上下文栈（亦称调用栈，`call stack`（[来源](js-execution-context/js-execution-context.md)）），执行 1 处代码调用 `console.log` 函数，该函数进入调用栈，之前 `script` 执行上下文执行暂停（冻结），转交执行权给 `console.log`。`console.log`成为[当前执行中的执行上下文](js-execution-context/js-execution-context.md)（`running execution context`）。`console.log` 执行完成立即弹出调用栈，`script` 恢复执行。
 
-综上，事件循环的**顺序**是，整个script代码，放在了宏任务队列中，在执行全局代码时，若产生其他同任务源的宏任务，那么将其依次（先进先出）放入同宏任务队列中。在执行宏任务过程中，若产生 promise.then 等微任务类型则放到了另一个任务队列微任务队列中。
+2. `setTimeout` 是一个任务分发器，该函数本身会立即执行，延迟执行的是其中传入的参数（匿名函数 a）。`script` 暂停执行，内部建立一个 1 秒计时器。`script` 恢复执行接下来的代码。1 秒后，再将匿名函数 a 插入宏任务队列（根据宏任务队列是否有之前加入的宏任务，可能不会立即执行）。
 
-这两个任务队列执行顺序如下，取1个宏任务队列中的 task ，执行之。若之前因宏任务执行，而产生微任务，那么把所有微队列中的任务顺序执行完，再取宏任务中的下一个任务。
+3. 声明恒定变量 `ins`，并初始化为 `Promise` 实例。特别地，`Promise` 内部代码会在本轮事件循环立即执行。那么此时， `script` 冻结，开始执行 `console.log`，`console.log` 弹出调用栈后，`resolve()` 进入调用栈，将 `Promise` 状态 `resolved`，并之后弹出调用栈，此时恢复 script 执行。
 
-注：以上代码执行顺序是依据 V8 引擎的实现，在不同的 JavaScript 引擎(不同 NodeJS 版本、不同浏览器)中的代码实现是**不同**的。那么就会导致执行代码顺序的不同。
+4. 因为第 3 步，已经在本轮宏任务完成前 `resolved` ，否则，将跳过第 4 步向本轮事件循环的微任务队列添加回调函数（[来源](js-promise.md)）。调用 `ins` 的 `then` 方法，将第一个 `then` 中回调添加到 `微任务队列`，继续执行，将第二个 `then` 中回调添加到 `微任务队列`。
+
+5. 如同 1 时的执行原理。
+
+6. `script` 宏任务执行完成，弹出执行上下文栈。此时，微任务队列中有两个 `then` 加入的回调函数等待执行。另外，若距 2 超过 1 秒钟，那么宏任务队列中有一个匿名函数 a 等待执行，否则，此时宏任务队列为空。
+
+7. 在当前宏任务执行完成并弹出调用栈后，开始**清空**因宏任务执行而产生的微任务队列。首先执行 `console.log('I am from 1st ins.then()')`，之后执行 `console.log('I am from 2nd ins.then()')`。
+
+8. 微任务队列清空后，开始调用下一宏任务（即进入下一个事件循环）或等待下一宏任务加入任务队列。此时，在 2 中计时 1 秒后，加入匿名函数 a 至宏任务队列，此时，因之前宏任务 script 执行完成而清空，那么将匿名函数 a 加入调用栈执行，输出 `I am from setTimeout`。
+
+**注**：`JavaScript` 中在某一函数内部调用另一函数时，会暂停（冻结）当前函数的执行，并将当前函数的执行权转移给新的被调用的函数（具体解析见[拓展阅读](js-execution-context/js-execution-context.md)）。
+
+示例总结：
+
+1. **在一个代码段（或理解为一个模块）中**，所有的代码都是基于一个 `script` 宏任务进行的。
+
+2. 在当前宏任务执行完成后，**必须**要清空因执行宏任务而产生的`微任务队列`。
+
+3. 只有当前微任务队列清空后，才会调用下一个宏任务队列中的任务。即进入下一个事件循环。
+
+4. `new Promise` 时，`Promise` 参数中的匿名函数是**立即执行**的。被添加进`微任务队列`的是 `then` 中的回调函数。
+
+    - **特别地**，只有 `Promise` 中的状态为 `resolved` 或 `rejected` 后（[Promise 标准][promise-then]），才会调用 `Promise` 的原型方法（即 [then][promise-then]、`catch`（因为是 `then` 的[语法糖][promise-catch]，所以与 `then` 同理）、`finally`（`onfinally`时[触发][promise-finally]）），才会将回调函数到添加微任务队列中。
+
+5. `setTimeout` 是作为任务分发器的存在，他自身执行会创建一个计时器，只有待计时器结束后，才会将 `setTimeout` 中的第一参数函数添加至`宏任务队列`。换一种方式理解，`setTimeout` 中的函数**一定不是在当前事件循环**中被调用。
+
+以下是在客户端（Node.js 可能有不同结果）的输入结果：
+
+```bash
+I am from script beginning
+I am from internal part
+I am from script bottom
+I am from 1st ins.then()
+I am from 2nd ins.then()
+I am from setTimeout
+```
+
+[promise-then]:https://promisesaplus.com/#point-26
+
+[promise-catch]:https://www.ecma-international.org/ecma-262/#sec-promise.prototype.catch
+
+[promise-finally]:https://tc39.github.io/ecma262/#sec-promise.prototype.finally
+
+## 事件循环拓展应用 —— 异步操作
+
+1. 定时任务：setTimeout，setInterval
+
+2. 请求数据：Ajax 请求，图片加载
+
+3. 事件绑定
+
+一般地，在 JS 开发过程中，凡是可能造成代码阻塞的地方都可根据实际情况考虑使用异步操作。比如，数据获取等等。
 
 # 参考
 
