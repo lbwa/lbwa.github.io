@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# 手动部署，CI 部署的替代方案
+
 set -e
 
 yarn run clean
