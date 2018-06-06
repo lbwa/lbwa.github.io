@@ -9,4 +9,6 @@ install:
   - yarn
 
 script: 
-  - yarn run build
+  - ./deploy.sh 'deploy site:by CI'
+
+branch: dev

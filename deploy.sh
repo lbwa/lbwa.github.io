@@ -3,14 +3,15 @@
 set -e
 
 yarn run build
-cd ./public
+cd public
+cp README.md public/README.md
 
 git init
 git add -A
 git commit -m "$1"
 
-git push -f https://${BLOG_TOKEN}@github.com/lbwa/lbwa.github.io.git master:master
+git push -f https://${BLOG_TOKEN}@github.com/lbwa/lbwa.github.io.git master
 
-echo '-- >> 分支 master 部署完成 << --'
+echo '-- >> 已部署于 master 分支 << --'
 
 cd -
