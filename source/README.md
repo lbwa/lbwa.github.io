@@ -12,6 +12,8 @@
 
 ## 思考
 
+- [JS 执行上下文][JS 执行上下文]
+
 - [对 vue 插槽和生命周期的一点思考][对 vue 插槽和生命周期的一点思考]
 
 - [总结如何进行单元测试][总结如何进行单元测试]
@@ -39,6 +41,8 @@
 - [Vue-sonar 音乐播放器总结][Vue-sonar 音乐播放器总结]
 
 - [eleme-candy 项目总结][eleme-candy 项目总结]
+
+[JS 执行上下文]:https://lbwa.github.io/2018/04/07/js-execution-context/js-execution-context/
 
 [对 vue 插槽和生命周期的一点思考]:https://lbwa.github.io/2018/04/24/vue-lifecycle-and-slots/
 
