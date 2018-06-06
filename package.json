@@ -5,8 +5,11 @@
   "hexo": {
     "version": "3.7.0"
   },
-  "build": "hexo generate",
-  "deploy": "hexo deploy",
+  "scripts": {
+    "clean": "hexo clean",
+    "build": "hexo generate",
+    "deploy": "hexo deploy"
+  },
   "dependencies": {
     "hexo": "^3.2.0",
     "hexo-deployer-git": "^0.3.1",

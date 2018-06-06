@@ -1,4 +1,10 @@
+# 因主题配置文件 _config.yml 中有有隐私 key ，故不上传 themes/name/_config.yml 文件。
+
+# 在没有 theme/name/_config.yml 的情况下，无法正常编译静态文件。故暂时弃用 CI 部署
+
 languaga: node_js
+
+sudo: required
 
 node_js: stable
 
@@ -8,7 +14,12 @@ cache:
 install:
   - yarn
 
-script: 
-  - ./deploy.sh 'deploy site:by CI'
+before_script:
+  - chmod +x ./deploy.sh
 
-branch: dev
+script: 
+  - sh deploy.sh 'deploy site:by CI'
+
+branch:
+  only:
+    - dev

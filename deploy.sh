@@ -4,7 +4,6 @@ set -e
 
 yarn run build
 cd public
-cp README.md public/README.md
 
 git init
 git add -A
