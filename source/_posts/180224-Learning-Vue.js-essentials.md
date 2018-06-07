@@ -1,5 +1,5 @@
 ---
-title:      "学习Vue.js基础"
+title:      "学习 Vue.js 基础"
 subtitle:   "总结在学习Vue.js官方文档时的一些心得"
 date:       2018-02-24
 author:     "Bowen"

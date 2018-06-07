@@ -9,7 +9,7 @@ tags:
 
 ## HTTP 三次握手
 
-`HTTP` 自身没有和 `server` 端通信传输的功能，他是通过 `TCP connection`（作为传输请求的通道）来实现数据的请求和响应功能。所有的 `HTTP` 请求都会创建一个 `TCP` 通道用于数据传输。
+`HTTP` 自身没有和 `server` 端通信传输的功能，他是通过 `TCP connection`（作为传输请求的通道）来实现数据的请求和响应功能。所有的 `HTTP` 请求创建时，都会创建一个 `TCP` 通道用于数据传输。
 
   ![http-tcp][http-tcp]
 

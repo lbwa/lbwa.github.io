@@ -1,5 +1,5 @@
 ---
-title:      "比较CommonJS与ES6 Module语法"
+title:      "比较 CommonJS 与 ES6 Module 语法"
 subtitle:   "简要分析了CommonJS与ES6 Module语法的异同之处"
 date:       2018-02-27
 author:     "Bowen"

@@ -1,5 +1,5 @@
 ---
-title:      "理解 event loop 机制"
+title:      "解析 event loops"
 subtitle:   "Event Loop 到底是什么，又是如何实现的？"
 date:       2018-03-08
 author:     "Bowen"

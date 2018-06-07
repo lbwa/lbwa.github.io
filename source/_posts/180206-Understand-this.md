@@ -1,5 +1,5 @@
 ---
-title:      "理解this的指向"
+title:      "理解 this 的指向"
 date:       2018-02-06
 author:     "Bowen"
 tags:
