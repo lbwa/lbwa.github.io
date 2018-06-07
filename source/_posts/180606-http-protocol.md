@@ -19,13 +19,17 @@ tags:
 
 - `HTTP 1.1` 时，可 ***额外声明*** 让服务端响应请求后，`TCP` 仍保持通道开启（常驻状态）。此举用于避免多次请求时，不必要的 `三次握手` 性能开销。
 
+    - 现阶段使用最为广泛的 `HTTP` 协议版本。
+
 - `HTTP 2` 可并发请求，那么在保持 `TCP` 通道开启时，相同用户多次对同一服务器的并发请求可共用一个 `TCP` 通道。
+
+    - `HTTP 2` 正在逐步推广中。 
 
 ### 三次握手
 
 在 `HTTP` 通过 `TCP` 执行正式的请求之前，有 3 次预先请求发生在 `client` 和 `server` 端之间。
 
-1. `client` 创建一个通知 `server` 即将发起一个正式请求的预请求，此次请求包含标志位（`SYN=1,Seq=X`）。
+1. `client` 创建一个预请求以告知 `server`：`client` 即将发起一个正式 `TCP` 连接。此次请求包含标志位（`SYN=1,Seq=X`）。
 
 2. `server` 响应 1 中的预请求，开启相应 `TCP` 端口，并返回一个响应数据包（`SYN=1, ACK=X+1, Seq=Y`）给 `client`。
 
@@ -44,3 +48,51 @@ tags:
 1. 若没有三次握手，直接请求，那么在 `server` 返回数据时，`server` 并不知道 `client` 是否能够正确的接受到请求，是否过程中有数据丢失，那么 `server` 就可能在错误的时机仍然保持 `TCP` 连接端口来等待 `client` 确认数据已接受的请求或关闭当前 `TCP` 连接的请求，这样将带来一系列不必要的 `server` 性能开销。在 `client` 等待时间内没有正确接收请求时，`client` 就会关闭 `TCP` 连接。那么此时 `server` 也就没有必要为为无用的数据连接继续保持开启相应 `TCP` 连接端口。
 
 2. 在有了三次握手的策略后，在正式请求之前，就可以确保当前 `TCP` 通道是可用的，及时发现当前 `TCP` 的网络问题。避免因网络问题导致的无用的数据传输带来的 `server` 端口常驻的性能开销。
+
+## URI/URL/URN
+
+`URI`: Uniform Resource Identifier 统一资源标志符
+
+  - 用于唯一标识互联网中的信息资源
+
+  - 包含 `URL` 和 `URN`
+
+`URL`: Uniform Resource Locator 统一资源定位器
+
+  - 格式如下：
+
+      `protocol://user:pass@host.com:80/path?query=string#hash`
+
+      - `protocol` 协议。如 `https`、`http`、`ftp` 等。
+
+      - `user:pass` 用户验证。因暴露用户账号密码不安全，故不推荐使用。
+
+      - `host` 主机名。
+
+      - `80` 主机端口，默认为 `80`。每个物理主机端口都存放着不同的 web 服务。
+
+      - `path` 路由。
+      
+          1. `/` 表示当前 `web` 服务的根目录，而不是主机的根目录。
+          
+          2. `path` 路径默认情况下为 `web` 服务器下数据存放的路径。当数据库独立时，那么 `path` 仅表示数据的 ***存放地址***，并不能表示该数据在服务器磁盘上的路径。
+
+          3. 故推荐在程序内部鉴别数据，而不是通过 URL 鉴别数据。
+
+      - `query=string` 查询参数。常用于向 `server` 端传参。
+
+      - `hash` 哈希值。定位某个资源的某一片段。如文章的锚点。
+
+`URN`: Uniform Resource Name （永久）统一资源定位符
+
+  - 用于永久性在网络中标识出资源，因限制过多，已逐渐被 `URI` 取代。（[extension][urn]）
+
+[urn]:https://en.wikipedia.org/wiki/Uniform_Resource_Name
+
+## HTTP 报文
+
+`HTTP` 报文没有强约束，可自定义报文内容。
+
+![http-bw][http-bw]
+
+[http-bw]:https://raw.githubusercontent.com/lbwa/lbwa.github.io/dev/source/images/post/http-protocol/http-bw.svg
