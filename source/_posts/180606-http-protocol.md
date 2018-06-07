@@ -13,7 +13,7 @@ tags:
 
   ![http-tcp][http-tcp]
 
-[http-tcp]:https://raw.githubusercontent.com/lbwa/lbwa.github.io/dev/source/images/post/http-protocol/http-tcp.png
+[http-tcp]:https://rawgit.com/lbwa/lbwa.github.io/dev/source/images/post/http-protocol/http-tcp.svg
 
 - `HTTP 1.0` 时，在 `HTTP` 请求创建时，同样会创建一个 `TCP` 通道用于传输数据。在服务端响应请求后，`TCP` 通道就会关闭（非常驻）。
 
@@ -95,4 +95,80 @@ tags:
 
 ![http-bw][http-bw]
 
-[http-bw]:https://raw.githubusercontent.com/lbwa/lbwa.github.io/dev/source/images/post/http-protocol/http-bw.svg
+[http-bw]:https://rawgit.com/lbwa/lbwa.github.io/dev/source/images/post/http-protocol/http-bw.svg
+
+## HTTP 方法
+
+- 用来定义对于资源的操作
+
+    - 常用方法有 `GET`、`POST`、`PUT`、`DELETE`。另外还有 `HEAD`、`OPTIONS`、`PATCH` 方法。
+
+    - 应该从开发人员的使用方式来定义各自方法的语义。
+
+## HTTP code
+
+- 定义服务器对请求的处理结果。
+
+    - 2XX - Success - 表示成功处理请求。如 200。
+
+    - 3XX - Redirection - 需要重定向，浏览器直接跳转。
+
+    - 4XX - Client Error - 客户端请求错误。
+
+    - 5XX - Server Error - 服务端响应错误。
+
+- 推荐 `server` 端正确配置 HTTP code，使得 HTTP code 语义化。好的 `HTTP` 服务应该可以通过 HTTP code 来判断请求结果。而不是只有 `200` 或 `500`。
+
+## HTTP 客户端
+
+能够发起 HTTP 请求，并能够接收返回数据的客户端都可称为 HTTP 客户端。如 `curl`、`XMLHttpRequest`、浏览器等。
+
+除了在浏览器中可以观察 HTTP 请求的细节外，亦可使用 `curl` 工具来观察。 
+
+```bash
+# -v 表示显示报文信息
+curl -v www.baidu.com
+```
+
+返回数据如下：
+
+```bash
+* Rebuilt URL to: www.google.com/
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0*
+  Trying 172.217.10.132...
+* TCP_NODELAY set
+* Connected to www.google.com (172.217.10.132) port 80 (#0)
+# 请求报文
+  # 起始行
+> GET / HTTP/1.1
+  # 首部
+> Host: www.google.com
+> User-Agent: curl/7.57.0
+> Accept: */*
+> # 此处有一空行
+# 响应报文
+  # 起始行
+< HTTP/1.1 200 OK
+  # 首部
+< Date: Thu, 07 Jun 2018 14:28:45 GMT
+< Expires: -1
+< Cache-Control: private, max-age=0
+< Content-Type: text/html; charset=ISO-8859-1
+# 省略一些信息
+# ...
+< Transfer-Encoding: chunked
+<
+{ [759 bytes data]
+100  3555    0  3555    0     0   3555      0 --:--:--  0:00:01 --:--:--  1834
+# 以下是响应报文的主体内容区域
+# ...
+<!doctype html><html
+```
+
+## HTTP 请求跨域
+
+详见我的另一篇博文👉[客户端跨域解决方案][客户端跨域解决方案]
+
+[客户端跨域解决方案]:http://lbwa.github.io/2018/04/19/180419-Cross-domain-solution/
