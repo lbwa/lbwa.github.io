@@ -25,7 +25,7 @@ tags:
 
       ![execution-context][execution-context]
 
-[execution-context]:https://raw.githubusercontent.com/lbwa/lbwa.github.io/master/images/post/execution-context/execution-context.png
+[execution-context]:https://rawgit.com/lbwa/lbwa.github.io/dev/source/images/post/execution-context/execution-context.svg
 
 ## Running execution context 的更替
 
