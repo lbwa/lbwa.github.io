@@ -300,8 +300,6 @@ HTTP 响应首部即 `Response Headers`。一般用于在 `server` 端配置合�
 
 [access-control-max-age]:https://fetch.spec.whatwg.org/#http-access-control-max-age
 
-## HTTP 请求首部
-
 ### Cache-Control
 
 - 用于指定在 `request` 或 `response` 链中缓存当前请求数据，该指令是单向指令（[source][http1.1-cache-control]）。
@@ -312,7 +310,7 @@ HTTP 响应首部即 `Response Headers`。一般用于在 `server` 端配置合�
 
     2. `private` 表示当前响应数据只能单个用户缓存，即中转服务器不能缓存该响应数据。
 
-    3. `no-cache` 表示在使用缓存之前，必须先请求原 `server` 端验证当前缓存的数据是否可用。
+    3. `no-cache` 表示在使用本地缓存之前，必须首先请求原 `server` 端验证当前缓存的数据是否可用。
 
     ![cache-control][img-cache-control]
 
@@ -351,3 +349,54 @@ HTTP 响应首部即 `Response Headers`。一般用于在 `server` 端配置合�
 ***注***：以上所有指令都不具有强制力，仅表示一种约束期望。
 
 [http1.1-cache-control]:https://tools.ietf.org/html/rfc7234#section-5.2
+
+### Last-Modified
+
+- 用于 `server` 端标记响应数据上次修改的时间，据此来判断本地缓存是否需要更新。
+
+    - 一般在使用对应的数据缓存之前，`client` 首先通过配合 `If-Modified-Since` 或 `If-Unmodified-Since` ***请求头*** 来向 `server` 端传输之前的 `Last-Modified` 值。`server` 端据此可以来判断 `client` 端与 `server` 端的数据是否是同步的，即验证本地缓存是否需要更新。
+
+        - 注：在 `Cache-Control` 配置了 `no-store` 时，`client` 将不会携带 `If-Modified-Since` 或 `If-Unmodified-Since` 请求头。
+
+### Etag
+
+- 用于通过数据签名（如根据内容的 `contentHash` 计算）来 ***严格验证*** 数据是否需要更新。
+
+    - `client` 在下次使用该缓存之前，一般配合 `If-Match` 或 `If-Non-Match` ***请求头*** 来向 `server` 传输本地缓存的数据签名。`server` 端据此判断数据签名是否一致，即` server` 是应该向 `client` 返回新的数据，还是可以直接使用 `client` 端本地缓存。
+
+    ```js
+    response.writeHead(200, {
+      'Content-type': 'text/javascript',
+      'Cache-Control': 'max-age=20000000, no-cache',
+      'Last-Modified': '18/06/06 00:00:00', // 上次修改日期
+      'Etag': '777' // 指定数字签名
+    })
+
+    // 读取请求头
+    const etag = request.headers['If-None-Match']
+    if (etag && etag === '777') {
+      response.writeHead(304, {
+        'Content-type': 'text/javascript',
+        'Cache-Control': 'max-age=20000000, no-cache',
+        'Last-Modified': '18/06/06 00:00:00',
+        'Etag': '777'
+      })
+      response.end() // 即使此处返回内容，client 也会忽略该内容而使用本地缓存。
+    } else {
+      response.writeHead(200, {
+        'Content-type': 'text/javascript',
+        /**
+         * 1. 配置 no-cache 用于在每次使用本地缓存之前，强制向 server 端验证是否可使
+         * 用本地缓存
+         */
+        'Cache-Control': 'max-age=20000000, no-cache',
+        'Last-Modified': '18/06/06 00:00:00',
+        'Etag': '777'
+      })
+      response.end('console.log("script updated")')
+    }
+
+    response.end('console.log("script loaded")')
+    ```
+
+        - 注：在 `Cache-Control` 配置了 `no-store` 时，`client` 将不会携带 `If-Match` 或 `If-Non-Match` 请求头。
