@@ -167,7 +167,9 @@ curl -v www.baidu.com
 <!doctype html><html
 ```
 
-## HTTP 首部
+## HTTP 响应首部
+
+HTTP 响应首部即 `Response Headers`。一般用于在 `server` 端配置合法的 `CORS` 请求信息。
 
 ### Access-Control-Allow-Origin
 
@@ -237,7 +239,7 @@ curl -v www.baidu.com
   fetch('http://127.0.0.1:8800', {
     method: 'POST',
     headers: {
-      // 请求头类型不在 CORS 请求默认限定配置内，触发 CORS 预请求检测该请求头合法性
+      // 请求头类型不在 CORS 请求限定配置内，触发 CORS 预请求检测该请求头合法性
       'X-Test-Cors': 'test custom headers in CORS preflight'
     }
   })
@@ -277,19 +279,75 @@ curl -v www.baidu.com
 
 ### Access-Control-Allow-Methods
 
-- 常用于标记超出 `CORS` 限定配置情况下的 `Request Method` 是否合法。
-
 该响应头的使用方法与原理于 `Access-Control-Allow-Headers` 相似。
 
-```js
-response.writeHead(200, {
-  // 允许跨域请求
-  'Access-Control-Allow-Origin': '*',
-  // 允许除限定配置外额外的合法 `Request Method` 的值
-  'Access-Control-Allow-Methods': 'PUT, DELETE'
-})
-```
+- 常用于标记超出 `CORS` 限定配置情况下的 `Request Method` 是否合法（[source][access-control-allow-methods]）。
+
+  ```js
+  response.writeHead(200, {
+    // 允许跨域请求
+    'Access-Control-Allow-Origin': '*',
+    // 允许除限定配置外额外的合法 `Request Method` 的值
+    'Access-Control-Allow-Methods': 'PUT, DELETE'
+  })
+  ```
+
+[access-control-allow-methods]:https://fetch.spec.whatwg.org/#http-access-control-allow-methods
 
 ### Access-Control-Max-Age
 
-- 表示当次预请求的有效期，即在有效期内，即使有超出限定配置的 `CORS` 请求也不需要再进行 `CORS` 预请求检测其合法性。
+- 表示当次预请求检测 `Access-Control-Allow-Methods` 和 `Access-Control-Allow-Headers` 的缓存有效期，即在有效期内，即使有超出限定配置的 `CORS` 请求也不需要再进行 `CORS` 预请求来检测其合法性（[source][access-control-max-age]）。
+
+[access-control-max-age]:https://fetch.spec.whatwg.org/#http-access-control-max-age
+
+## HTTP 请求首部
+
+### Cache-Control
+
+- 用于指定在 `request` 或 `response` 链中缓存当前请求数据，该指令是单向指令（[source][http1.1-cache-control]）。
+
+- 可缓存性
+
+    1. `public` 表示响应链中所有缓存都可存储当前响应数据，如发送客户端，中转服务器等。
+
+    2. `private` 表示当前响应数据只能单个用户缓存，即中转服务器不能缓存该响应数据。
+
+    3. `no-cache` 表示在使用缓存之前，必须先请求原 `server` 端验证当前缓存的数据是否可用。
+
+    ![cache-control][img-cache-control]
+
+    [img-cache-control]:https://rawgit.com/lbwa/lbwa.github.io/dev/source/images/post/http-protocol/cache-control.svg
+
+- 缓存有效期
+
+    1. `max-age=<seconds>` 于 `server` 端设置响应数据在 `client` 端的缓存有效期，始于请求时间点。在有效期内，`client` 将读取缓存数据而不是请求数据。即使在 `server` 端该数据已经被更新，也不会改变 `client` 在有效期内读取缓存的策略，因为 `client` 在有效期内当前请求 URL 未改变的情况下就不会去请求该数据，所以 `client` 并不知道该数据已经在 `server` 端被更新了。
+
+        ```js
+        response.writeHead(200, {
+          'Content-type': 'text/javascript',
+          'Cache-Control': 'max-age=200, public' // 以秒为单位
+        })
+        response.end('console.log("script loaded")')
+        ```
+
+        - ***拓展应用***：根据静态资源的 ***内容*** 打包生成的 `contentHash` 码来命名常缓存文件。只要 `server` 端该静态资源文件被更新，那么该资源的 `contentHash` 一定变化，即请求 URL 改变，那么 `client` 知晓当前静态资源请求 URL 改变后，即使在缓存有效期内，也会重新请求该资源。这样做的目的是最大限度使用缓存文件，且规避在有效期内即使 `server` 端数据被更新但仍使用缓存文件的问题。
+
+    2. `s-maxage=<seconds>` 覆盖 `max-age=<seconds>`，只在共享缓存中（如中转服务器）有效。
+
+    3. `max-stale[=<seconds>]` 表示即使缓存过期，仍可接受一个（在指定时间内）已过期资源，只在发起端设置才有效，在 `server` 端响应数据中设置是无效的。
+
+- 验证
+
+    1. `must-revalidate` 在使用之前的旧资源时，必须请求原 `server` 端来验证当前旧资源是否已经过期。
+
+    2. `proxy-revalidate` 与 `must-revalidate` 作用相同，但仅适用于共享缓存，如中转服务器。
+
+- 其他
+
+    1. `no-store` 表示所有的链中节点的缓存都不可存储当前响应数据。
+
+    2. `no-transform` 表示不能对当前响应数据进行转换或变化。
+
+***注***：以上所有指令都不具有强制力，仅表示一种约束期望。
+
+[http1.1-cache-control]:https://tools.ietf.org/html/rfc7234#section-5.2
