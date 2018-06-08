@@ -314,7 +314,7 @@ HTTP 响应首部即 `Response Headers`。一般用于在 `server` 端配置合�
 
     ![cache-control][img-cache-control]
 
-    [img-cache-control]:https://rawgit.com/lbwa/lbwa.github.io/dev/source/images/post/http-protocol/cache-control.svg
+[img-cache-control]:https://rawgit.com/lbwa/lbwa.github.io/dev/source/images/post/http-protocol/cache-control.svg
 
 - 缓存有效期
 
@@ -400,3 +400,79 @@ HTTP 响应首部即 `Response Headers`。一般用于在 `server` 端配置合�
     ```
 
         - 注：在 `Cache-Control` 配置了 `no-store` 时，`client` 将不会携带 `If-Match` 或 `If-Non-Match` 请求头。
+
+### Set-Cookie
+
+- 用于 `server` 端通过 `Set-Cookie` 设置 `client` 端的 `HTTP Cookie`。
+
+- `Set-Cookie` 响应首部不同于 `Cookie` 请求首部，它 ***不具有唯一性***。在 `Node.js` 中它通过一个数组来设置多个`Set-Cookie` 响应头。
+
+    ```js
+    response.writeHead(200, {
+      'Content-type': 'text/html',
+      'Set-Cookie': ['username=John_Wick', 'gender=male']
+    })
+    ```
+
+（以下 `Cookie` 都是指 `HTTP Cookie`，除非特别指明是 `Cookie` 请求首部。）
+
+```bash
+# 创建 client 端 Cookie
+Set-Cookie: <cookie-name>=<cookie-value>
+```
+
+`HTTP Cookie` （[extension][extension-cookie]）通常用于:
+
+  1. 会话管理，如登录状态，购物车等需要记录的信息。
+
+  2. 用户个性化设置，如用户自定义设置等。
+
+  3. 浏览器行为追踪，如跟踪分析用户行为等。
+
+注：不推荐再使用 `Cookie` 作用为本地存储介质，推荐使用 `localStorage`、`sessionStorage`、`IndexedDB` 代替。 因为每次请求时，在没有禁用 `Cookie` 的情况下都会携带 `Cookie` 请求首部传输至 `server`。如果使用了，将会带来额外的性能开销，尤其是在移动端下。
+
+- `Cookie` 属性
+
+    1. `max-age`（时长）和 `expires`（时间点）设置过期时间。
+
+        - 会话期 `Cookie`，若设置 `Cookie` 时未指定过期时间，那么它在浏览器关闭后就会被自动删除。
+
+        - 持久性 `Cookie`，在设置 `Cookie` 时指定了过期时间后，`Cookie` 将保存至特定的过期时间，除非手动删除。
+
+        ```js
+        response.writeHead(200, {
+          'Content-type': 'text/html',
+          // 使用逗号分隔不同的 Cookie 键值对，分号连接 Cookie 属性
+          'Set-Cookie': ['username=John_Wick', 'gender=male; Max-Age=5']
+        })
+        ```
+
+    2. `Secure` 只在 `HTTPS` 协议下发送。
+
+    3. 配置 `HttpOnly` 可阻止通过 `document.cookie` 访问指定 `Cookie`。
+
+    4. `domain` 属性，用于在访问一级域名设置指定 `Cookie` 时（前提），授权给所有子级域名指定 `Cookie` 使用权。
+
+        ```js
+        response.writeHead(200, {
+          'Content-type': 'text/html',
+          'Set-Cookie': ['username=John_Wick; domain=github.com', 'gender=male']
+        })
+        /**
+         * 1. domain=github.com 表示所有 github.com 的子域名都被授权访问
+         * github.com 下的 cookie
+         * 2. 必须首先访问一级域名才能设置（被共享的）Cookie
+         * 3. 只有设置了 domain 属性的 Cookie 才被共享
+         */
+        ```
+***注***：`Cookie` 属性是作用于个体，而非全体。
+
+[extension-cookie]:https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Cookies
+
+## HTTP 请求首部
+
+### Cookie
+
+- 通过 `server` 端响应首部 `Set-Cookie` 设置本地 `HTTP Cookie`。在每次请求时，会通过 `Cookie` 请求首部携带 `HTTP Cookie`（[extension][extension-cookie]）传输至 `server` 端验证，用于确认当前用户等同源信息。
+
+在 `client` 发起一个 `HTTP` 请求时，最多只能有一个 `Cookie` 头部被建立，但 `HTTP Cookie` 不具有唯一性，可以有多个。当 `client` 设置禁用 `Cookie` 后，请求时将完全忽略 `Cookie` 首部的建立。
