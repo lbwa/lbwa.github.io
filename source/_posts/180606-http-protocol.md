@@ -320,15 +320,15 @@ HTTP 响应首部即 `Response Headers`。一般用于在 `server` 端配置合�
 
     1. `max-age=<seconds>` 于 `server` 端设置响应数据在 `client` 端的缓存有效期，始于请求时间点。在有效期内，`client` 将读取缓存数据而不是请求数据。即使在 `server` 端该数据已经被更新，也不会改变 `client` 在有效期内读取缓存的策略，因为 `client` 在有效期内当前请求 URL 未改变的情况下就不会去请求该数据，所以 `client` 并不知道该数据已经在 `server` 端被更新了。
 
-        ```js
-        response.writeHead(200, {
-          'Content-type': 'text/javascript',
-          'Cache-Control': 'max-age=200, public' // 以秒为单位
-        })
-        response.end('console.log("script loaded")')
-        ```
-
         - ***拓展应用***：根据静态资源的 ***内容*** 打包生成的 `contentHash` 码来命名常缓存文件。只要 `server` 端该静态资源文件被更新，那么该资源的 `contentHash` 一定变化，即请求 URL 改变，那么 `client` 知晓当前静态资源请求 URL 改变后，即使在缓存有效期内，也会重新请求该资源。这样做的目的是最大限度使用缓存文件，且规避在有效期内即使 `server` 端数据被更新但仍使用缓存文件的问题。
+
+  ```js
+  response.writeHead(200, {
+    'Content-type': 'text/javascript',
+    'Cache-Control': 'max-age=200, public' // 以秒为单位
+  })
+  response.end('console.log("script loaded")')
+  ```
 
     2. `s-maxage=<seconds>` 覆盖 `max-age=<seconds>`，只在共享缓存中（如中转服务器）有效。
 
@@ -364,42 +364,42 @@ HTTP 响应首部即 `Response Headers`。一般用于在 `server` 端配置合�
 
     - `client` 在下次使用该缓存之前，一般配合 `If-Match` 或 `If-Non-Match` ***请求头*** 来向 `server` 传输本地缓存的数据签名。`server` 端据此判断数据签名是否一致，即` server` 是应该向 `client` 返回新的数据，还是可以直接使用 `client` 端本地缓存。
 
-    ```js
-    response.writeHead(200, {
+  ```js
+  response.writeHead(200, {
+    'Content-type': 'text/javascript',
+    'Cache-Control': 'max-age=20000000, no-cache',
+    'Last-Modified': '18/06/06 00:00:00', // 上次修改日期
+    'Etag': '777' // 指定数字签名
+  })
+
+  // 读取请求头
+  const etag = request.headers['If-None-Match']
+  if (etag && etag === '777') {
+    response.writeHead(304, {
       'Content-type': 'text/javascript',
       'Cache-Control': 'max-age=20000000, no-cache',
-      'Last-Modified': '18/06/06 00:00:00', // 上次修改日期
-      'Etag': '777' // 指定数字签名
+      'Last-Modified': '18/06/06 00:00:00',
+      'Etag': '777'
     })
+    response.end() // 即使此处返回内容，client 也会忽略该内容而使用本地缓存。
+  } else {
+    response.writeHead(200, {
+      'Content-type': 'text/javascript',
+      /**
+       * 1. 配置 no-cache 用于在每次使用本地缓存之前，强制向 server 端验证是否可使
+       * 用本地缓存
+       */
+      'Cache-Control': 'max-age=20000000, no-cache',
+      'Last-Modified': '18/06/06 00:00:00',
+      'Etag': '777'
+    })
+    response.end('console.log("script updated")')
+  }
 
-    // 读取请求头
-    const etag = request.headers['If-None-Match']
-    if (etag && etag === '777') {
-      response.writeHead(304, {
-        'Content-type': 'text/javascript',
-        'Cache-Control': 'max-age=20000000, no-cache',
-        'Last-Modified': '18/06/06 00:00:00',
-        'Etag': '777'
-      })
-      response.end() // 即使此处返回内容，client 也会忽略该内容而使用本地缓存。
-    } else {
-      response.writeHead(200, {
-        'Content-type': 'text/javascript',
-        /**
-         * 1. 配置 no-cache 用于在每次使用本地缓存之前，强制向 server 端验证是否可使
-         * 用本地缓存
-         */
-        'Cache-Control': 'max-age=20000000, no-cache',
-        'Last-Modified': '18/06/06 00:00:00',
-        'Etag': '777'
-      })
-      response.end('console.log("script updated")')
-    }
+  response.end('console.log("script loaded")')
+  ```
 
-    response.end('console.log("script loaded")')
-    ```
-
-        - 注：在 `Cache-Control` 配置了 `no-store` 时，`client` 将不会携带 `If-Match` 或 `If-Non-Match` 请求头。
+  - 注：在 `Cache-Control` 配置了 `no-store` 时，`client` 将不会携带 `If-Match` 或 `If-Non-Match` 请求头。
 
 ### Set-Cookie
 
@@ -407,19 +407,19 @@ HTTP 响应首部即 `Response Headers`。一般用于在 `server` 端配置合�
 
 - `Set-Cookie` 响应首部不同于 `Cookie` 请求首部，它 ***不具有唯一性***。在 `Node.js` 中它通过一个数组来设置多个`Set-Cookie` 响应头。
 
-    ```js
-    response.writeHead(200, {
-      'Content-type': 'text/html',
-      'Set-Cookie': ['username=John_Wick', 'gender=male']
-    })
-    ```
+  ```js
+  response.writeHead(200, {
+    'Content-type': 'text/html',
+    'Set-Cookie': ['username=John_Wick', 'gender=male']
+  })
+  ```
 
 （以下 `Cookie` 都是指 `HTTP Cookie`，除非特别指明是 `Cookie` 请求首部。）
 
-```bash
-# 创建 client 端 Cookie
-Set-Cookie: <cookie-name>=<cookie-value>
-```
+  ```bash
+  # 创建 client 端 Cookie
+  Set-Cookie: <cookie-name>=<cookie-value>
+  ```
 
 `HTTP Cookie` （[extension][extension-cookie]）通常用于:
 
@@ -439,13 +439,13 @@ Set-Cookie: <cookie-name>=<cookie-value>
 
         - 持久性 `Cookie`，在设置 `Cookie` 时指定了过期时间后，`Cookie` 将保存至特定的过期时间，除非手动删除。
 
-        ```js
-        response.writeHead(200, {
-          'Content-type': 'text/html',
-          // 使用逗号分隔不同的 Cookie 键值对，分号连接 Cookie 属性
-          'Set-Cookie': ['username=John_Wick', 'gender=male; Max-Age=5']
-        })
-        ```
+  ```js
+  response.writeHead(200, {
+    'Content-type': 'text/html',
+    // 使用逗号分隔不同的 Cookie 键值对，分号连接 Cookie 属性
+    'Set-Cookie': ['username=John_Wick', 'gender=male; Max-Age=5']
+  })
+  ```
 
     2. `Secure` 只在 `HTTPS` 协议下发送。
 
@@ -453,18 +453,18 @@ Set-Cookie: <cookie-name>=<cookie-value>
 
     4. `domain` 属性，用于在访问一级域名设置指定 `Cookie` 时（前提），授权给所有子级域名指定 `Cookie` 使用权。
 
-        ```js
-        response.writeHead(200, {
-          'Content-type': 'text/html',
-          'Set-Cookie': ['username=John_Wick; domain=github.com', 'gender=male']
-        })
-        /**
-         * 1. domain=github.com 表示所有 github.com 的子域名都被授权访问
-         * github.com 下的 cookie
-         * 2. 必须首先访问一级域名才能设置（被共享的）Cookie
-         * 3. 只有设置了 domain 属性的 Cookie 才被共享
-         */
-        ```
+  ```js
+  response.writeHead(200, {
+    'Content-type': 'text/html',
+    'Set-Cookie': ['username=John_Wick; domain=github.com', 'gender=male']
+  })
+  /**
+   * 1. domain=github.com 表示所有 github.com 的子域名都被授权访问
+   * github.com 下的 cookie
+   * 2. 必须首先访问一级域名才能设置（被共享的）Cookie
+   * 3. 只有设置了 domain 属性的 Cookie 才被共享
+   */
+  ```
 ***注***：`Cookie` 属性是作用于个体，而非全体。
 
 [extension-cookie]:https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Cookies
