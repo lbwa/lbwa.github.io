@@ -123,7 +123,7 @@ tags:
 
 能够发起 HTTP 请求，并能够接收返回数据的客户端都可称为 HTTP 客户端。如 `curl`、`XMLHttpRequest`、浏览器等。
 
-除了在浏览器中可以观察 HTTP 请求的细节外，亦可使用 `curl` 工具来观察。 
+除了在浏览器中可以观察 HTTP 请求的细节外，亦可使用 `curl` 命令行工具来观察。 
 
 ```bash
 # -v 表示显示报文信息
@@ -167,8 +167,129 @@ curl -v www.baidu.com
 <!doctype html><html
 ```
 
-## HTTP 请求跨域
+## HTTP 首部
+
+### Access-Control-Allow-Origin
+
+- 常用于 HTTP 请求跨域解决方案之一 —— `CORS` 。表示指定了该响应资源只允许被给定的 `Origin` 共享。该值设置为 `*` 时，表示允许所有源都具有访问该资源的权限（[source][access-control-allow-origin]）。
+
+- 该属性只能指定一个 ***唯一值***，不接受多个值。
+
+    - 若有多个源需要通过 CORS 跨域，那么可配置一个模块。该模块在 `server` 端设置该头部前配置筛选出 URL 是否为白名单内源，若是白名单内源，那么就配置头部 `Access-Control-Allow-Origin`，否则不配置该头部。
 
 详见我的另一篇博文👉[客户端跨域解决方案][客户端跨域解决方案]
 
+[access-control-allow-origin]:https://fetch.spec.whatwg.org/#http-access-control-allow-origin
+
 [客户端跨域解决方案]:http://lbwa.github.io/2018/04/19/180419-Cross-domain-solution/
+
+### Access-Control-Allow-Headers
+
+- 常用于标记超出 `CORS` 限定配置情况下的 `request headers` 是否合法。表示指定在 `CORS` 请求中除限定配置外额外被允许的请求头（[source][access-control-allow-headers]）。
+
+1. CORS 请求限制
+
+    - 默认允许的 `CORS` 请求方法（[source][CORS-methods]）
+
+    只允许 `GET`、`POST`、`HEAD` 方法。使用其他请求方法都需要经过 `CORS` 预请求。
+
+    - 默认允许的 `CORS` 请求头（[source][cors-safelisted-request-header]）
+
+        - `Accept`
+        - `Accept-Language`
+        - `Content-Language`
+        - `Content-Type` 中仅包含 `text/plain`、`multipart/form-data`、`application/x-www-form-urlencoded` 三种 `MIME` 类型值。
+
+    - 其他限制
+
+        1. `XMLHttpRequestUpload` 对象均没有注册任何事件监听程序。
+
+        2. 请求中没有使用 `ReadableStream` 对象。
+
+***总结***:使用其他超出以上 `CORS` 请求所限定的配置都将需要经过 `CORS` 预请求检测 `CORS` 请求头的合法性。
+
+2. CORS 预请求
+
+`CORS` 预请求的 `Request Method` 值为 `OPTIONS`。
+
+在浏览器即将发起超过 1 中限定配置的 `CORS` 请求时，将触发浏览器 `CORS` 预请求策略。该策略用于在发起正式的 `CORS` 请求之前确认 `CORS` 请求中超出限定配置的部分是否合法。仅当超出默认配置的默认配置被 `server` 端认可时，浏览器才会真正 ***解析*** CORS 正式请求返回的数据。
+
+  - 不论 `CORS` 预请求是否合法，浏览器均会发出正式的 `CORS` 请求，合法性检测的意义在于浏览器 ***是否解析*** 返回的数据。
+
+  ```js
+  // server1.js
+  const http = require('http')
+  const fs = require('fs')
+
+  http.createServer(function (request, response) {
+    console.log('request.url :', request.url)
+
+    const html = fs.readFileSync('cross-domain-solution.html', 'utf8')
+    response.writeHead(200, {
+      'Content-type': 'text/html',
+    })
+    response.end(html)
+  }).listen(8888)
+
+  console.info('server listening at port 8888')
+
+  // client 跨域请求 server2 数据
+  fetch('http://127.0.0.1:8800', {
+    method: 'POST',
+    headers: {
+      // 请求头类型不在 CORS 请求默认限定配置内，触发 CORS 预请求检测该请求头合法性
+      'X-Test-Cors': 'test custom headers in CORS preflight'
+    }
+  })
+    .then(res => {
+      target.innerText = 'check your network tag in console drawer'
+    })
+    .catch(err => console.error(err))
+  // 不论 CORS 预请求是否合法，client 均会发起 CORS 正式请求。
+  ```
+
+  当被请求的 `server2` 没有配置 `Access-Control-Allow-Headers` 或目标值不在该值中时，`client` 将在预请求响应后报错，但仍发起正式 `CORS` 请求，但拒绝解析正式 `CORS` 请求返回的数据。
+
+  ```js
+  // server2.js
+  const http = require('http')
+
+  http.createServer(function (request, response) {
+    console.log('request.url :', request.url)
+
+    response.writeHead(200, {
+      // 允许跨域请求
+      'Access-Control-Allow-Origin': '*',
+      // 允许除限定配置外额外的合法请求头的值
+      'Access-Control-Allow-Headers': 'X-Test-Cors'
+    })
+    response.end('server response')
+  }).listen(8800)
+
+  console.log('server listening at port 8800')
+  ```
+
+[CORS-methods]:https://fetch.spec.whatwg.org/#methods
+
+[cors-safelisted-request-header]:https://fetch.spec.whatwg.org/#cors-safelisted-request-header
+
+[access-control-allow-headers]:https://fetch.spec.whatwg.org/#http-access-control-allow-headers
+
+### Access-Control-Allow-Methods
+
+- 常用于标记超出 `CORS` 限定配置情况下的 `Request Method` 是否合法。
+
+该响应头的使用方法与原理于 `Access-Control-Allow-Headers` 相似。
+
+```js
+response.writeHead(200, {
+  // 允许跨域请求
+  'Access-Control-Allow-Origin': '*',
+  // 允许除限定配置外额外的合法 `Request Method` 的值
+  'Access-Control-Allow-Methods': 'PUT, DELETE'
+})
+```
+
+### Access-Control-Max-Age
+
+- 表示当次预请求的有效期，即在有效期内，即使有超出限定配置的 `CORS` 请求也不需要再进行 `CORS` 预请求检测其合法性。
