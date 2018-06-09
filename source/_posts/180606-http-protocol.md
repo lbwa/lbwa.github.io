@@ -169,7 +169,7 @@ curl -v www.baidu.com
 
 ## HTTP 响应首部
 
-HTTP 响应首部即 `Response Headers`。一般用于在 `server` 端配置合法的 `CORS` 请求信息。
+HTTP 响应首部即 `Response Headers`。
 
 ### Access-Control-Allow-Origin
 
@@ -187,13 +187,13 @@ HTTP 响应首部即 `Response Headers`。一般用于在 `server` 端配置合�
 
 ### Access-Control-Allow-Headers
 
-- 常用于标记超出 `CORS` 限定配置情况下的 `request headers` 是否合法。表示指定在 `CORS` 请求中除限定配置外额外被允许的请求头（[source][access-control-allow-headers]）。
+- 常用于标记超出 `CORS` 限定配置的 `request headers` 是否合法。表示指定在 `CORS` 请求中除限定配置外额外被允许的请求头（[source][access-control-allow-headers]）。
 
 1. CORS 请求限制
 
     - 默认允许的 `CORS` 请求方法（[source][CORS-methods]）
 
-    只允许 `GET`、`POST`、`HEAD` 方法。使用其他请求方法都需要经过 `CORS` 预请求。
+        - 只允许 `GET`、`POST`、`HEAD` 方法。使用其他请求方法都需要经过 `CORS` 预请求。
 
     - 默认允许的 `CORS` 请求头（[source][cors-safelisted-request-header]）
 
@@ -216,7 +216,7 @@ HTTP 响应首部即 `Response Headers`。一般用于在 `server` 端配置合�
 
 在浏览器即将发起超过 1 中限定配置的 `CORS` 请求时，将触发浏览器 `CORS` 预请求策略。该策略用于在发起正式的 `CORS` 请求之前确认 `CORS` 请求中超出限定配置的部分是否合法。仅当超出默认配置的默认配置被 `server` 端认可时，浏览器才会真正 ***解析*** CORS 正式请求返回的数据。
 
-  - 不论 `CORS` 预请求是否合法，浏览器均会发出正式的 `CORS` 请求，合法性检测的意义在于浏览器 ***是否解析*** 返回的数据。
+  - 不论 `CORS` 预请求是否合法，浏览器均会发出正式的 `CORS` 请求，合法性检测的意义在于浏览器 ***是否解析*** 返回的数据（该原理类似浏览器对跨域资源的解析策略（[extension][extension-cross-domain-solution]））。
 
   ```js
   // server1.js
@@ -234,7 +234,9 @@ HTTP 响应首部即 `Response Headers`。一般用于在 `server` 端配置合�
   }).listen(8888)
 
   console.info('server listening at port 8888')
-
+  ```
+  ```js
+  // client.html
   // client 跨域请求 server2 数据
   fetch('http://127.0.0.1:8800', {
     method: 'POST',
@@ -276,6 +278,8 @@ HTTP 响应首部即 `Response Headers`。一般用于在 `server` 端配置合�
 [cors-safelisted-request-header]:https://fetch.spec.whatwg.org/#cors-safelisted-request-header
 
 [access-control-allow-headers]:https://fetch.spec.whatwg.org/#http-access-control-allow-headers
+
+[extension-cross-domain-solution]:https://lbwa.github.io/2018/04/19/180419-Cross-domain-solution/#对跨域的基本理解
 
 ### Access-Control-Allow-Methods
 
@@ -469,6 +473,16 @@ HTTP 响应首部即 `Response Headers`。一般用于在 `server` 端配置合�
 
 [extension-cookie]:https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Cookies
 
+### Connection
+
+- 值为 `keep-alive` 或 `close`。
+
+- 用于构建 `HTTP` 长连接，复用同一客户端下的 `TCP` 通道。即用于告知 `client` 端在完成本次响应后，`server` 端是否会关闭当前 `TCP` 通道。即返回 `Connection` 请求头的执行结果，并设置为 `Connection` 响应头。
+
+- 在 `server` 端构建 `HTTP` 长连接之后，可设置长连接的 ***有效时间***，即在一定时间内没有新的请求时，关闭当前 `HTTP` 长连接。
+
+更多信息，查看本文 `HTTP 请求首部 - Connection`。
+
 ## HTTP 请求首部
 
 ### Cookie
@@ -476,3 +490,49 @@ HTTP 响应首部即 `Response Headers`。一般用于在 `server` 端配置合�
 - 通过 `server` 端响应首部 `Set-Cookie` 设置本地 `HTTP Cookie`。在每次请求时，会通过 `Cookie` 请求首部携带 `HTTP Cookie`（[extension][extension-cookie]）传输至 `server` 端验证，用于确认当前用户等同源信息。
 
 在 `client` 发起一个 `HTTP` 请求时，最多只能有一个 `Cookie` 头部被建立，但 `HTTP Cookie` 不具有唯一性，可以有多个。当 `client` 设置禁用 `Cookie` 后，请求时将完全忽略 `Cookie` 首部的建立。
+
+### Connection
+
+- 值为 `keep-alive` 或 `close`。
+
+- 用于构建 `HTTP` 长连接，复用同一客户端下的 `TCP` 通道。即用于告知 `server` 端在此次请求完成后，是否应该保持 `TCP` 通道开启，以用于该 `client` 下次请求可跳过 `三次握手` 直接进行 `TCP` 传输。
+
+    - 注：此举不具有强约束，那么 `server` 端 ***可能*** 有自己的实现并返回不同值的 `Connection` 响应头，而不遵循 `Connection` 请求头的值。
+
+    - 在建立 `HTTP` 长连接后，若没有新的请求，在有效期后 `server` 将会关闭当前 `TCP` 连接通道。
+
+以 `Chrome ` 为示例，在控制台 `Network` 选项卡的 `Connection ID` （原理介绍[source][chrome-connection-id]）条目中，相同 ID 的连接即是使用的同一 `TCP` 通道。
+
+（更多的 `Chrome` 的 1. `waterfall` 文档：[source][chrome-water-fall]。2. 控制台官方文档（[source][chrome-console-drawer]））
+
+  1. `TCP` 通道本身是串行请求的，即一个 `TCP` 通道内每次只执行一次请求，但该 `TCP` 连接通道是可以被同一 `client` 的不同请求复用的（此处应与浏览器允许多个 `TCP` 并发进行区分）。
+
+  2. `client` 会尽量复用同一 `TCP` 通道。超出限定时间后，`server` 会关闭当前 `TCP` 连接通道。
+
+  3. `Chrome` 现阶段最大并发数为 6，那么即最多有 6 个 `TCP` 请求（通道开启）同时进行，超出的请求将在队列中等待（[source][chrome-water-fall]）。
+
+[chrome-connection-id]:https://stackoverflow.com/questions/34184994/chrome-developer-tools-connection-id
+
+[chrome-water-fall]:https://developers.google.com/web/tools/chrome-devtools/network-performance/understanding-resource-timing
+
+[chrome-console-drawer]:https://developers.google.com/web/tools/chrome-devtools/
+
+整体加载时，`waterfall` 图例：
+
+![waterfall1][waterfall1]
+
+![waterfall2][waterfall2]
+
+`waterfall` 详细对比：
+
+![initial1][initial1]
+
+![initial2][initial2]
+
+[waterfall1]:https://raw.githubusercontent.com/lbwa/lbwa.github.io/dev/source/images/post/http-protocol/waterfall-integrity1.png
+
+[waterfall2]:https://raw.githubusercontent.com/lbwa/lbwa.github.io/dev/source/images/post/http-protocol/waterfall-integrity2.png
+
+[initial1]:https://raw.githubusercontent.com/lbwa/lbwa.github.io/dev/source/images/post/http-protocol/waterfall-initial1.png
+
+[initial2]:https://raw.githubusercontent.com/lbwa/lbwa.github.io/dev/source/images/post/http-protocol/waterfall-initial2.png
