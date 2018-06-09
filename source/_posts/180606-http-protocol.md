@@ -521,18 +521,20 @@ HTTP 响应首部即 `Response Headers`。
 
 ![waterfall1][waterfall1]
 
+上图中，首先加载 `HTML` 文件，在 DOM 树构建完成后，加载外部资源，那么表现为前六个 `TCP` 请求时并发的，所以他们之间的 `Connection ID` 是不同的。
+
+当其中某一外部资源加载完成，那么队列中的请求开始复用之前的 `TCP` 通道，这点可从后续请求的 `Connection ID` 可以看到。
+
 ![waterfall2][waterfall2]
 
-`waterfall` 详细对比：
+单个外部资源 `waterfall` 详细对比：
 
-![initial1][initial1]
+![initial][initial]
 
-![initial2][initial2]
+上图中经历过 `HTTP` 三次握手的初始化请求的 `waterfall` 中都有一栏桔黄色条目 `Initial connection`。而经过复用 `TCP` 通道的请求时没有这一栏的。
 
 [waterfall1]:https://raw.githubusercontent.com/lbwa/lbwa.github.io/dev/source/images/post/http-protocol/waterfall-integrity1.png
 
 [waterfall2]:https://raw.githubusercontent.com/lbwa/lbwa.github.io/dev/source/images/post/http-protocol/waterfall-integrity2.png
 
-[initial1]:https://raw.githubusercontent.com/lbwa/lbwa.github.io/dev/source/images/post/http-protocol/waterfall-initial1.png
-
-[initial2]:https://raw.githubusercontent.com/lbwa/lbwa.github.io/dev/source/images/post/http-protocol/waterfall-initial2.png
+[initial]:https://raw.githubusercontent.com/lbwa/lbwa.github.io/dev/source/images/post/http-protocol/waterfall-initial.png
