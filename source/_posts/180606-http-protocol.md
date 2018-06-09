@@ -166,3 +166,15 @@ curl -v www.baidu.com
 # ...
 <!doctype html><html
 ```
+
+## HTTP 响应首部
+
+👉[HTTP 响应首部][http-response]
+
+[http-response]:https://lbwa.github.io/2018/06/07/180607-http-response/
+
+## HTTP 请求首部
+
+👉[HTTP 请求首部][http-request]
+
+[http-request]:https://lbwa.github.io/2018/06/08/180608-http-request/
