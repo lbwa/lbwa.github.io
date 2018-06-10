@@ -7,7 +7,9 @@ tags:
     - 网络请求
 ---
 
-HTTP 响应首部即 `Response Headers`。
+`HTTP` 响应首部即 `Response Headers`。它将与 `HTTP` 请求首部内容协商（[source][content-negotiation]），再根据 `server` 端的内部实现并依托 `HTTP` 响应首部来返回实际的协商结果。故返回的值可能不匹配 `HTTP` 请求头的值。
+
+[content-negotiation]:https://developer.mozilla.org/en-US/docs/Web/HTTP/Content_negotiation
 
 ## Access-Control-Allow-Origin
 
@@ -324,3 +326,65 @@ HTTP 响应首部即 `Response Headers`。
 更多信息，查看本文 `HTTP 请求首部`[章节 - Connection][http-request-header]。
 
 [http-request-header]:https://lbwa.github.io/2018/06/08/180608-http-request/#Connection-长连接
+
+## Content-Type
+
+与 `Accept` 请求首部对应。
+
+用于标注 `server` 端在与请求首部内容协商后，实际 `server` 端返回内容的 `MIME` 类型。
+
+## Content-Encoding/内容压缩
+
+与 `Accept-Encoding` 请求首部对应。
+
+用于标注 `server` 端在与请求首部内容协商后，实际 `server` 端返回内容的内容编码类型（即实际使用的压缩算法）。
+
+### 值
+
+`gzip` 表示采用 `Lempel-Ziv coding (LZ77)` 压缩算法，以及32位CRC校验的编码方式。
+
+`deflate` 采用 `zlib` 结构和 `deflate` 压缩算法。
+
+`br` 表示采用 `Brotli` 算法的编码方式。
+
+`;q=` 表示 ***权重***，即编码方式的优先顺序。
+
+`*` 匹配任意未在请求首部中列出的编码方式。
+
+以下为不常使用的编码方式：
+
+`compress` 采用 `Lempel-Ziv-Welch (LZW)` 压缩算法，已被大部分浏览器弃用。
+
+`identity` 用于指代自身，如未经过压缩或修改。
+
+```js
+// Node.js 编码数据内容的模块
+const zlib = require('zlib')
+
+// ...
+
+response.writeHead(200, {
+  'Content-Type': 'text/html',
+  'Content-Encoding': 'gzip'
+})
+response.end(zlib.gzipSync(html))
+```
+
+![content-encoding][content-encoding]
+
+上图中，`420B` 则是表示传输的数据内容经过 `server` 的编码后，传输时的大小。它的大小与内容的实际编码方式有关，即 `Content-Encoding` 响应首部。`476B` 为数据内容在 `client` 端解压后的大小，除非内容变化，否则该值不变。
+
+[content-encoding]:https://raw.githubusercontent.com/lbwa/lbwa.github.io/dev/source/images/post/http-protocol/content-encoding.png
+
+## Content-Language
+
+与 `Accept-Language` 请求首部对应。
+
+用于标注 `server` 端在与请求首部内容协商后，实际 `server` 端返回的数据内容的自然语言类型。
+
+
+## X-Content-Type-Options
+
+标注 `client` 一定要遵循 `Content-Type` 响应头中的 `MIME` 类型，不应推测（修改）返回数据 `MIME` 类型。
+
+  - 早期 `IE` 会因错误的 `Content-Type` 或未声明该值而根据返回内容推测数据类型。此举极易导致文本代码被执行，那么 `client` 就可能被恶意注入。

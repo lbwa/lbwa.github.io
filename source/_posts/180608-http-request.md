@@ -7,6 +7,10 @@ tags:
     - 网络请求
 ---
 
+`HTTP` 请求首部 ***不具有强约束***。它将与 `server` 端进行内容协商（[source][content-negotiation]），`server` 端将依托与请求首部对应的响应首部返回对应的内容协商结果。即可能不执行请求首部的请求值，而在对应的响应头中返回其他值。
+
+[content-negotiation]:https://developer.mozilla.org/en-US/docs/Web/HTTP/Content_negotiation
+
 ## Cookie
 
 - 通过 `server` 端响应首部 `Set-Cookie` 设置本地 `HTTP Cookie`。在每次请求时，会通过 `Cookie` 请求首部携带 `HTTP Cookie`（[extension][extension-cookie]）传输至 `server` 端验证，用于确认当前用户等同源信息。
@@ -77,4 +81,38 @@ tags:
 
 ## Accept
 
-表示 `client` 可处理的内容类型（`MIME`类型）。
+与 `Content-Type` 响应首部对应。
+
+表示 `client` 可处理的内容类型（`MIME`类型）。与 `Content-Type` 响应头对应。
+
+## Accept-Encoding
+
+与 `Content-Encoding` 响应首部对应。
+
+表示 `Client` 可接受的编码类型（通常是以某种压缩算法实现）。`client` 通过与 `server` 进行内容协商后，`server` 会通过 `Content-Encoding` 响应头的方式告知 `client` 端 `server` 端最终所选择的编码方式。
+
+### 值
+
+`gzip` 表示采用 `Lempel-Ziv coding (LZ77)` 压缩算法，以及32位CRC校验的编码方式。
+
+`compress` 采用 `Lempel-Ziv-Welch (LZW)` 压缩算法，已被大部分浏览器弃用。
+
+`deflate` 采用 `zlib` 结构和 `deflate` 压缩算法。
+
+`br` 表示采用 `Brotli` 算法的编码方式。
+
+`identity` 用于指代自身，如未经过压缩或修改。
+
+`*` 匹配任意未在请求首部中列出的编码方式。
+
+`;q=` 表示 ***权重***，即编码方式的优先顺序。
+
+## Accept-Language
+
+与 `Content-Language` 响应首部对应。
+
+表示 `client` 端所能理解的自然语言，如中文、en。
+
+## User-Agent
+
+表示当前 `client` 端的信息。
