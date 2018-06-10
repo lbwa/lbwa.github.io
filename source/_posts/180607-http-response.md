@@ -260,7 +260,7 @@ tags:
   })
   ```
 
-（以下 `Cookie` 都是指 `HTTP Cookie`，除非特别指明是 `Cookie` 请求首部。）
+（以下 `Cookie` 都是指 `HTTP Cookie`，除非特别指明是 `Cookie` 请求首部（[extension][cookie-request-header]）。）
 
   ```bash
   # 创建 client 端 Cookie
@@ -276,6 +276,8 @@ tags:
   3. 浏览器行为追踪，如跟踪分析用户行为等。
 
 注：不推荐再使用 `Cookie` 作用为本地存储介质，推荐使用 `localStorage`、`sessionStorage`、`IndexedDB` 代替。 因为每次请求时，在没有禁用 `Cookie` 的情况下都会携带 `Cookie` 请求首部传输至 `server`。如果使用了，将会带来额外的性能开销，尤其是在移动端下。
+
+[cookie-request-header]:https://lbwa.github.io/2018/06/08/180608-http-request/#Cookie
 
 ### Cookie 属性
 

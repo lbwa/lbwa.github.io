@@ -180,3 +180,48 @@ curl -v www.baidu.com
 [http-response]:https://lbwa.github.io/2018/06/07/180607-http-response/
 
 [http-request]:https://lbwa.github.io/2018/06/08/180608-http-request/
+
+## 实战
+
+（以 `Nginx` 为例）
+
+`Nginx`（[官网][nginx-official-site]）纯粹地实现 `HTTP` 协议，其中并不包含业务逻辑，正因如此它的 ***可拓展性强***。
+
+[nginx-official-site]:https://nginx.org/en/
+
+### 基础配置
+
+1. 在 `host` 文件中映射原始请求地址。示例：
+
+```shell
+# 用于将 example.com 解析为 127.0.0.1，PC 首先在本地 host 文件中解析 URL
+127.0.0.1 example.com
+```
+
+2. 单独配置 `servers/example.conf`，以配置 `Nginx` 代理
+
+拓展：`http` 是明文传输，故可在代理层修改原始请求的请求首部和内容。
+
+```shell
+server {
+  # 监听的端口
+  listen      80;
+  # 监听的 URL，即用户输入的 URL
+  server_name test.com;
+  
+  # 转发的目标地址
+  location / {
+    # 1. 代理层接受到原始请求后，将发起一个新的请求至代理路径。依据 HTTP 原则，该新的请
+    # 求的 host 默认为 proxy_pass。
+    # 注：可于终端 server 打印并查看新请求的 host 请求首部。
+    proxy_pass http://127.0.0.1:8800;
+    # 2. 恢复原始请求的 host 请求首部。变量 $host 即原始请求的 host 请求首部。
+    # 注：经浏览器控制台 network tag 可查看原始请求的 host 请求首部
+    proxy_set_header Host $host;
+  }
+}
+```
+
+以上配置将实现 `example.com ==转发至==> http://127.0.0.1:8800`。
+
+***注***，代理服务器根据原始请求的 `host` 请求首部来 ***选择*** 代理的目标路径。即可以实现一个端口监听，多个路径代理。
