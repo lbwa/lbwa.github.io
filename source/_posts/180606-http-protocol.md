@@ -119,6 +119,10 @@ tags:
 
 - 推荐 `server` 端正确配置 HTTP code，使得 HTTP code 语义化。好的 `HTTP` 服务应该可以通过 HTTP code 来判断请求结果。而不是只有 `200` 或 `500`。
 
+拓展：[code 码参考][code-reference]
+
+[code-reference]:http://tool.oschina.net/commons?type=5
+
 ## HTTP 客户端
 
 能够发起 HTTP 请求，并能够接收返回数据的客户端都可称为 HTTP 客户端。如 `curl`、`XMLHttpRequest`、浏览器等。
@@ -167,14 +171,12 @@ curl -v www.baidu.com
 <!doctype html><html
 ```
 
-## HTTP 响应首部
+## HTTP 首部
 
 👉[HTTP 响应首部][http-response]
 
-[http-response]:https://lbwa.github.io/2018/06/07/180607-http-response/
-
-## HTTP 请求首部
-
 👉[HTTP 请求首部][http-request]
+
+[http-response]:https://lbwa.github.io/2018/06/07/180607-http-response/
 
 [http-request]:https://lbwa.github.io/2018/06/08/180608-http-request/

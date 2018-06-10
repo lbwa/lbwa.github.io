@@ -85,6 +85,10 @@ tags:
 
 表示 `client` 可处理的内容类型（`MIME`类型）。与 `Content-Type` 响应头对应。
 
+`MIME` 类型对应的文件拓展名：[source][mime-reference]
+
+[mime-reference]:http://tool.oschina.net/commons
+
 ## Content-Type/客户端数据传输
 
 与响应首部中的 `Content-Type`（[source][response-content-type]）进行区分。请求首部的 `Content-Type` 表示传输给 `server` 端的数据内容的 `MIME` 类型，该请求首部可用于提交 `Form` 表单的 `POST` 请求中。

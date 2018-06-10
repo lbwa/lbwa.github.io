@@ -333,6 +333,10 @@ tags:
 
 用于标注 `server` 端在与请求首部内容协商（[source][content-negotiation]）后，实际 `server` 端返回内容的 `MIME` 类型。
 
+`MIME` 类型对应的文件拓展名：[source][mime-reference]
+
+[mime-reference]:http://tool.oschina.net/commons
+
 ## Content-Encoding/内容压缩
 
 与 `Accept-Encoding` 请求首部对应。
@@ -425,4 +429,57 @@ if (request.url === '/new-url') {
 
       2. 因为是从本地缓存读取重定向 URL，故应谨慎使用 `301` 代码。因为若在 `server` 端进行 URL 更新后，本地是无法感知更新的，本地仍将重定向至之前的 URL。
 
-  - `302` 表示临时重定向。即每次请求都会请求 `server` 来得到重定向的目标地址。
+  - `302` 表示临时重定向。即每次请求都会请求 `server` 来得到重定向的目标地址。只有指定了 `Cache-Control` 或 `Expires` 时，该重定向地址才是缓存的。
+
+## Content-Security-Policy/内容安全策略
+
+用于限制资源获取，报告（`report-uri` 指令）资源获取越权（[source][csr-intro]）。如，限制 HTML 中外部资源的加载（执行）。
+
+API:[source][csr-api]
+
+注：`connect-src`（[source][connect-src]）指令可以限制当前站的 `Ajax` 请求。
+
+实现方法一（推荐）：
+
+```js
+// server.js
+response.writeHead(200, {
+  'Content-Type': 'text/html;'
+
+  /**
+   * 1. default-src 指定了所有资源的备用策略，即在形如 img-src 等策略未指定的时候被应用。
+   * 2. 以下限制了只能通过 http 或 https 的方式来加载所有资源，那么嵌入式 JS 代码将被
+   * 忽视执行。
+   * 3. 值为 'default-src \'self\'' 时，将只限 `同域的资源（即本站）` 加载执行，那么
+   * 所有非同域外部资源将被 `block`
+   * 4. form 表单不受 'default-src \'self\'' 的限制。必须设置为
+   * 'form-action: \'self\''
+   */
+  'Content-Security-Policy': 'default-src http: https:'
+})
+```
+
+实现方法二：
+
+```html
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'>
+```
+
+结果：
+
+```html
+<body>
+  <!-- 以下外部 JS 脚本将被执行 -->
+  <script src="https://example.com/data.js"></script>
+  <!-- 以下嵌入式代码将被忽略 -->
+  <script>
+    console.log('Hello World !')
+  </script>
+</body>
+```
+
+[csr-intro]:https://developer.mozilla.org/zh-CN/docs/Web/HTTP/CSP
+
+[csr-api]:https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Content-Security-Policy__by_cnvoid
+
+[connect-src]:https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/connect-src
