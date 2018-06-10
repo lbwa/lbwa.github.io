@@ -388,3 +388,41 @@ response.end(zlib.gzipSync(html))
 标注 `client` 一定要遵循 `Content-Type` 响应头中的 `MIME` 类型，不应推测（修改）返回数据 `MIME` 类型。
 
   - 早期 `IE` 会因错误的 `Content-Type` 或未声明该值而根据返回内容推测数据类型。此举极易导致文本代码被执行，那么 `client` 就可能被恶意注入。
+
+## Location/重定向
+
+表示请求当前 URL 时，`server` 端向 `client` 端告知之前请求的数据资源转移后的 `URL`，`client` 端应该去重定向请求（`Redi`）这个转移后的 URL。其中，重定向由 `client` 自动完成完成，不需要人工干预。
+
+- ***注***：必须向 `client` 端指定 `301` 或 `302` 重定向代码，否则浏览器不会自主进行重定向，此刻，将页面空白。
+
+```js
+// server.js
+const data = fs.readFileSync('data.html')
+
+if (request.url === '/') {
+  // 必须设置为 302（推荐）或 301 代码，否则客户端无法正常跳转
+  response.writeHead(302, {
+    'Location': '/new-url'
+  })
+
+  response.end(html)
+}
+
+if (request.url === '/new-url') {
+  response.writeHead(200, {
+    'Content-Type': 'text/html'
+  })
+
+  response.end(data)
+}
+```
+
+`301` 与 `302` 的区别：
+
+  - `301` 表示永久重定向。例如，在请求 `url-0` 并完成当次重定向 `url-1` 后，缓存当前 `url-1`。之后发起的所有 `url-0` 请求直接在 `client` ***本地读取缓存*** 读取重定向地址 `url-1` ，此时并不会先向 `server` 请求重定向的目标地址。
+
+      1. 该存储的 `url-1` 会在缓存中尽可能长的存储。除非清除了 `client` 缓存。
+
+      2. 因为是从本地缓存读取重定向 URL，故应谨慎使用 `301` 代码。因为若在 `server` 端进行 URL 更新后，本地是无法感知更新的，本地仍将重定向至之前的 URL。
+
+  - `302` 表示临时重定向。即每次请求都会请求 `server` 来得到重定向的目标地址。
