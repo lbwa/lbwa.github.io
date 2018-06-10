@@ -79,11 +79,65 @@ tags:
 
 [initial]:https://raw.githubusercontent.com/lbwa/lbwa.github.io/dev/source/images/post/http-protocol/waterfall-initial.png
 
-## Accept
+## Accept/内容协商
 
 与 `Content-Type` 响应首部对应。
 
 表示 `client` 可处理的内容类型（`MIME`类型）。与 `Content-Type` 响应头对应。
+
+## Content-Type/客户端数据传输
+
+与响应首部中的 `Content-Type`（[source][response-content-type]）进行区分。请求首部的 `Content-Type` 表示传输给 `server` 端的数据内容的 `MIME` 类型，该请求首部可用于提交 `Form` 表单的 `POST` 请求中。
+
+[response-content-type]:https://lbwa.github.io/2018/06/07/180607-http-response/#Content-Type
+
+### 通过标签的默认行为提交
+
+```html
+<!-- enctype 默认只有三种类型，其他 MIME 类型可另使用 ajax 定义 -->
+<!-- 必须指定 method 否则浏览器默认执行 GET 方法，则数据会以查询参数传递，而不是数据内容 -->
+<form action="/target-url" method="POST" enctype="application/x-www-form-urlencoded">
+  <input type="text" name="username">
+  <input type="password" name="password">
+  <input type="submit">
+</form>
+```
+
+`enctype` 的值选项：
+
+  - `application/x-www-form-urlencoded`: 如果属性未指定时的默认值。
+
+  - `multipart/form-data`: 该值针对 `<input type=file"">` 元素。表现为拆分上传内容，上传内容（包含输入文本）将以 ***二进制***（主要是因为上传文件必须以二进制传输） 传输至 `server` 端，而不是以字符串传输。
+
+  - `text/plain` (HTML5)
+
+注：在 `Chrome` 中，使用 `multipart/form-data` 时，不会在控制台 `network` 显示 `Request Payload`，除非使用 `Ajax` 提交表单。
+
+### 通过 Ajax 提交
+
+```html
+<form action="/target-url" id="form" method="POST" enctype="multipart/form-data">
+  <input type="text" name="username">
+  <input type="password" name="password"P
+  <input type="file" name="file" id="file-functions">
+  <input type="submit">
+</form>
+
+<script>
+  const form = document.getElementById('form')
+  form.addEventListener('submit', evt => {
+    // 阻止标签的默认提交，即标签中的 method 提交
+    evt.preventDefault()
+    const formData = new FormData(form)
+
+    // fetch API 可根据 form 信息自动添加 Content-Type 请求头，不用主动声明
+    fetch('/target-url', {
+      method: 'POST',
+      body: formData
+    })
+  })
+</script>
+```
 
 ## Accept-Encoding
 

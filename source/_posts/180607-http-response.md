@@ -327,11 +327,11 @@ tags:
 
 [http-request-header]:https://lbwa.github.io/2018/06/08/180608-http-request/#Connection-长连接
 
-## Content-Type
+## Content-Type/内容协商
 
 与 `Accept` 请求首部对应。
 
-用于标注 `server` 端在与请求首部内容协商后，实际 `server` 端返回内容的 `MIME` 类型。
+用于标注 `server` 端在与请求首部内容协商（[source][content-negotiation]）后，实际 `server` 端返回内容的 `MIME` 类型。
 
 ## Content-Encoding/内容压缩
 
