@@ -458,6 +458,7 @@ server {
 在 `HTTP 2` 标准中，`HTTP 2` 并不强制使用 `HTTPS`。值得注意的是，目前浏览器都要在开启 `HTTPS` 的情况下才能使用 `HTTP 2`。
 
 ```bash
+# 中转服务器
 server {
   listen             443 ssl http2;
   server_name        test.com;
