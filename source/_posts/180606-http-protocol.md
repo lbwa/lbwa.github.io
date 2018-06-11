@@ -387,8 +387,94 @@ server {
 
 公钥（即服务端证书）用于加密被传输的数据。私钥用于解密被传输的数据。
 
-在握手阶段，进行公钥与私钥匹配。
+在握手阶段，进行公钥与私钥匹配。`client` 将在最初阶段传输加密套件，用于与 `server` 端内容协商（[source][content-negotiation]）选择最终使用的加密方式。私钥始终保持在 `server` 端，用于解密，那么据此保证了传输的安全性。
 
 ![https-principle][https-principle]
 
+[content-negotiation]:https://developer.mozilla.org/en-US/docs/Web/HTTP/Content_negotiation
+
 [https-principle]:https://rawgit.com/lbwa/lbwa.github.io/dev/source/images/post/http-protocol/https-principle.svg
+
+### 部署
+
+1. 生成证书（[本地生成证书命令][generate-localhost-certificates]）
+
+[generate-localhost-certificates]:https://gist.github.com/lbwa/5607c3a66573610b5ccfd4ef4aaa780f
+
+2. 配置 `Nginx` 代理
+
+（[reference][nginx-https-server]）
+
+```bash
+proxy_cache_path cache levels=1:2 keys_zone=my_cache:10m;
+
+server {
+  # https 默认端口是 443
+  listen      443 ssl;
+  server_name test.com;
+
+  # ssl on; 于 1.15 版本中废弃，listen <port> ssl 代替
+  ssl_certificate_key ../certs/localhost-privkey.pem;
+  ssl_certificate ../certs/localhost-cert.pem;
+
+  location / {
+    proxy_cache my_cache;
+    proxy_pass http://127.0.0.1:8800;
+    proxy_set_header Host $host;
+  }
+}
+```
+
+[nginx-https-server]:http://nginx.org/en/docs/http/configuring_https_servers.html
+
+补充：将 `HTTP` 转发至 `HTTPS`
+
+```bash
+# 在 部署.2 的基础上实现
+
+server {
+  listen      80 default_server;
+  listen       [::]:80 default_server;
+  server_name test.com;
+
+  # $server_name 接受请求的服务器的名称，此处即是 test.com
+  # $request_uri 原始完整的请求 URL，包含查询参数，即访问主机上的路径，如 /api/data
+  return 302 https://$server_name$request_uri;
+}
+```
+
+## HTTP 2
+
+1. 信道复用，在单个 `TCP` 通道内可 ***并发请求***，但在 `HTTP 1.1` 中单个 `TCP` 通道内是串行请求。
+
+2. 分帧传输，每帧以包含上下文的形式传输，过程中不一定是按照顺序传输的。因为包含上下文，故在响应端，可根据上下文重组各帧还原数据。
+
+3. Server Push，`server` 端不再是只有被动接受请求才能响应，`server` 端在 `HTTP 2` 中可主动推送数据至 `client`。
+
+### 部署
+
+（[reference][nginx-http-v2]）
+
+在 `HTTP 2` 标准中，`HTTP 2` 并不强制使用 `HTTPS`。值得注意的是，目前浏览器都要在开启 `HTTPS` 的情况下才能使用 `HTTP 2`。
+
+```bash
+server {
+  listen             443 ssl http2;
+  server_name        test.com;
+  # 指定主动推送
+  http2_push_preload on;
+  # ...
+}
+```
+
+[nginx-http-v2]:http://nginx.org/en/docs/http/ngx_http_v2_module.html
+
+- 查看 `server` 端主动推送的相关信息，于地址栏输入 `chrome://net-internals/#http2` 查看。
+
+- 注：浏览器只会接受安全的认证过证书的 `server` 端推送的信息，否则主动推送信息将被忽略。
+
+补充：`HTTPS` vs `HTTP 1.1` vs `HTTP 2` [demo][comparison-demo]
+
+***注***：`Nginx` 代理服务器可以为 `HTTP 2` 做兼容，他会根据 `client` 端所支持的协议返回响应数据，而不需要开发人员来做协议兼容。
+
+[comparison-demo]:https://http2.akamai.com/demo/http2-lab.html
