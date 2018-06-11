@@ -173,4 +173,4 @@ tags:
 
 ## User-Agent
 
-表示当前 `client` 端的信息。
+表示当前 `client` 端的信息。即 `navigator.userAgent` 的值。

@@ -173,6 +173,8 @@ curl -v www.baidu.com
 
 ## HTTP 首部
 
+在实现 `HTTP` 协议过程中，一系列功能都是通过配置相应的 `HTTP` 首部来实现的。
+
 👉[HTTP 响应首部][http-response]
 
 👉[HTTP 请求首部][http-request]
@@ -189,20 +191,98 @@ curl -v www.baidu.com
 
 [nginx-official-site]:https://nginx.org/en/
 
-### 基础配置
+### API
+
+- `Nginx` API
+
+API 文档：[API Docs][Nginx-api]
+
+命令行参数：[Command-line parameters][nginx-clp]
+
+```bash
+# -c file 使用一个指定的配置文件代替默认配置文件，默认值为 nginx/nginx.conf
+
+# 启动服务
+start nginx [-c confFile] # 推荐，但配置文件出错时，无提示信息
+# 或者
+./nginx [-c confFile] # 会占用当前窗口，但配置文件从出错时，有提示信息
+
+# -s signal 发送一个 signal 到 nginx 主进程
+# signal 值为 stop, quit, reload, reopen 之一
+
+# 重启服务
+./nginx -s reload
+
+# 退出服务
+./nginx -s stop # 立即停止服务，可能不会保存相关信息
+./nginx -s quit # 有序地停止服务，并保存相关信息
+
+# -g directives 发送一个全局配置指令
+# HUP 指令，使用新的配置文件启动进程，之后平缓停止原有进程，即平滑重启
+
+# 平滑重启
+./nginx -g HUP [-c newConfFile]
+
+# -t 检测配置文件。使用场景：用于上线前检测，避免上线错误
+./nginx -t -c sample.conf
+
+# 查看当前 nginx 进程号
+# logs/nginx.pid 是 nginx.pid 的文件路径
+cat logs/nginx.pid
+```
+
+- 系统 API
+
+```bash
+# 查看端口占用，如 8800 端口
+# -ano 是三个参数 -a -n -o 简写形式
+netstat -ano|findstr 8800
+
+tasklist /? # 帮助文档
+
+# /fi filter 显示一系列符合筛选器指定的进程
+
+# 查看当前 nginx 进程
+# 其中运算符 eq 表示 等于
+tasklist /fi "imagename eq nginx.exe" # cmd and powershell
+tasklist //fi "imagename eq nginx.exe" # git bash for win
+
+# 结束所有 nginx 进程
+
+tskill nginx # 推荐
+
+# /f 强行终止
+taskkill /fi "imagename eq nginx.exe" /f # cmd and powershell
+taskkill //fi "imagename eq nginx.exe" //f # git bash for win
+
+# 与 pid 配合使用
+cat logs/nginx.pid # 得到 Nginx 主进程 PID 值 pidNumber
+taskkill //pid pidNumber //f
+```
+
+注：`tasklist` 和 `taskkill` 命令在 `git bash for win` 中必须以双斜杠传参（[source][tasklist-in-git-bash]）。
+
+[Nginx-api]:http://nginx.org/en/docs/windows.html
+
+[nginx-clp]:http://nginx.org/en/docs/switches.html
+
+[tasklist-in-git-bash]:https://stackoverflow.com/questions/34981745/taskkill-pid-not-working-in-gitbash
+
+### 代理基础配置
 
 1. 在 `host` 文件中映射原始请求地址。示例：
 
-```shell
-# 用于将 example.com 解析为 127.0.0.1，PC 首先在本地 host 文件中解析 URL
+```bash
+# 用于将 example.com 解析为 127.0.0.1，原理是 PC 首先在本地 host 文件中解析 URL
 127.0.0.1 example.com
 ```
 
-2. 单独配置 `servers/example.conf`，以配置 `Nginx` 代理
+2. 单独配置 `servers/example.conf`，以模块化 `Nginx` 代理配置。
 
 拓展：`http` 是明文传输，故可在代理层修改原始请求的请求首部和内容。
 
-```shell
+```bash
+# 每个代理服务都在一个 server 中定义
 server {
   # 监听的端口
   listen      80;
@@ -225,3 +305,90 @@ server {
 以上配置将实现 `example.com ==转发至==> http://127.0.0.1:8800`。
 
 ***注***，代理服务器根据原始请求的 `host` 请求首部来 ***选择*** 代理的目标路径。即可以实现一个端口监听，多个路径代理。
+
+### 缓存功能
+
+```bash
+# proxy_cache_path 配置缓存存放路径
+# levels 配置生成多级文件夹，使得多个代理分离为自己独立的文件夹
+# keys_zone 配置在内存中分配给匹配的缓存（因为匹配的缓存将暂存在内存中）的区域名称和大小
+proxy_cache_path cache levels=1:2 keys_zone=my_cache:10m; # 2 级目录，内存 10m
+
+server {
+  listen      80;
+  server_name test.com;
+  
+  location / {
+    proxy_cache my_cache; # 根据名字 my_caches 配置缓存存储的区域
+    proxy_pass http://127.0.0.1:8800;
+    proxy_set_header Host $host;
+  }
+}
+```
+
+代理缓存的应用场景：只要一次代理缓存，那么后续在缓存有效期内所有请求到代理服务器的请求都可使用该缓存，那么可大大节约向真正资源服务器请求的数量与时间。
+
+与代理缓存相关的响应首部（对于 `client` 来说）
+
+  1. `Cache-Control`
+
+    - `s-maxage`: 功能与 `max-age` 相同，且 `s-maxage` 覆盖 `max-age`。二者区别在于 `s-maxage` 适用对象仅限共享缓存的对象，如中转代理服务器。
+
+    - `private`：标注只允许 `client` 缓存数据，中转代理服务器不能缓存该数据。
+
+    ```js
+    // 资源服务器
+    response.writeHead(200, {
+      // private 将导致 max-age 和 s-maxage 失效
+      'Cache-Control': 'max-age=2, s-maxage=20, private'
+    })
+    ```
+
+    - `no-store`：路径中所有节点（包含 `client`）都不能缓存该响应数据。
+
+    ```js
+    // 资源服务器
+    response.writeHead(200, {
+      // no-store 将导致 max-age 和 s-maxage 失效
+      'Cache-Control': 'max-age=2, s-maxage=20, no-store'
+    })
+    ```
+
+  2. `Vary`: `Vary` 指定某一 `client` 端请求头，只有当该请求首部的值与上次请求首部的值相等时，才缓存响应数据。
+
+  ```js
+  // client
+  const index = 0
+
+  fetch('/data', {
+    headers: {
+      // 只有当此次 `x-test-Cache` 的值与上次请求相同时，才缓存此次响应数据
+      'X-test-Cache': index++
+    }
+  })
+  ```
+
+  ```js
+  // 资源服务器
+  response.writeHead(200, {
+    'Cache-Control': 's-maxage=200',
+    // 只有当 `Vary` 所标注的请求首部当次值与上次请求时的值相同时，才缓存当前响应数据
+    'Vary': 'X-test-Cache'
+  })
+  ```
+
+  适用场景：在同一 URL 情况下，根据不同的 `userAgent` 来缓存不同的响应数据。比如根据移动端与 PC 端返回不同的数据。
+
+## HTTPS
+
+`HTTP` 是明文传输，为了密文传输，诞生了 `HTTPS`。
+
+### 加密与解密
+
+公钥（即服务端证书）用于加密被传输的数据。私钥用于解密被传输的数据。
+
+在握手阶段，进行公钥与私钥匹配。
+
+![https-principle][https-principle]
+
+[https-principle]:https://rawgit.com/lbwa/lbwa.github.io/dev/source/images/post/http-protocol/https-principle.svg
