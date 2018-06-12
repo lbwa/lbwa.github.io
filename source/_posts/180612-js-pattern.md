@@ -405,3 +405,37 @@ document.querySelector('.btn').addEventListener('click', evt => {
 当在应用中经常使用单例时，这时应该重新评估自己的代码结构。这通常表明该单例模块要么过于与其他模块的逻辑耦合，要么在应用中过于分散。过度使用单例将导致范围过大的依赖关系，即 `debug` 成本增加。后期如要将单例修改为多个实例或移除单例都会很麻烦。
 
 ## 观察者模式
+
+观察者模式：一个主体对象（`subject`）维护一个观察者对象（`observers`）列表，并且主体对象对状态的任何修改都会被观察者对象 ***自动通知***。对主体对象修改状态的行为感兴趣的对象只需要接受观察者的通知即可。
+
+|基本概念|描述|
+|-------|----|
+|`Subject` 主体对象| 维护一个观察者列表，并能够添加或移除观察者。|
+|`Observer` 观察者 | 提供通知状态更新方法，在主体对象有任何修改状态的改变时，观察者将发出通知。|
+|`ConcreteSubject`|存储 `ConcreteObserver`。在主体对象状态改变时，广播通知给观察者。|
+|`ConcreteObserver`|存储对 `ConcreteSubject` 的引用，实现一个通知更新的接口，该接口将用于保持与 `ConcreteSubject` 的状态一致。|
+
+```js
+class Subject {
+  constructor () {
+    // Subject 实例通过 observers 属性来维护观察者列表
+    // 即观察者缓存容器
+    this.observers = []
+  }
+
+  addObserver (observer) {
+    this.observers.push(observer)
+  }
+
+  removeObserver (observer) {
+    const index = this.observer.indexOf(observer, 0)
+    this.observers.splice(index, 1)
+  }
+}
+
+class Observer {
+  update () {
+    console.log('observer has been updated.')
+  }
+}
+```
