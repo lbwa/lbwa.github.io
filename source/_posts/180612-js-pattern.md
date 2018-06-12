@@ -309,7 +309,7 @@ const ins2 = singleton.getInit() // { num: 10, fn: function () {} }
 ins1 === ins2 // true
 ```
 
-单例模式通过模块内部的一个变量 `instance` 来作为实例的缓存容器，通过判断是否存在实例缓存来决定是否实例化。据此实现全局只存在唯一一个 `singleton` 的实例的逻辑。
+单例模式通过模块内部的一个变量 `instance` 来作为实例的缓存容器，通过判断是否存在实例缓存来决定是否执行实例化。据此实现全局只存在唯一一个 `singleton` 的实例的逻辑。
 
 ### 单例模式适用场景
 
@@ -412,29 +412,66 @@ document.querySelector('.btn').addEventListener('click', evt => {
 |-------|----|
 |`Subject` 主体对象| 维护一个观察者列表，并能够添加或移除观察者。|
 |`Observer` 观察者 | 提供通知状态更新方法，在主体对象有任何修改状态的改变时，观察者将发出通知。|
-|`ConcreteSubject`|存储 `ConcreteObserver`。在主体对象状态改变时，广播通知给观察者。|
+|`ConcreteSubject`|存储 `ConcreteObserver`。在主体对象状态改变时，向观察者广播通知。|
 |`ConcreteObserver`|存储对 `ConcreteSubject` 的引用，实现一个通知更新的接口，该接口将用于保持与 `ConcreteSubject` 的状态一致。|
 
 ```js
+// 观察者缓存容器（列表），单个观察者对象和主体对象之间的媒介
+class ObserverList {
+  constructor () {
+    this.observerList = []
+  }
+
+  add (observer) {
+    return this.observerList.push(obj)
+  }
+
+  remove (index) {
+    this.observerList.splice(index, 1)
+  }
+
+  indexOf (observer, startIndex = 0) {
+    const len = this.observerList.length
+    // why not [].indexOf ?
+    for (let i = startIndex; i < len; i++) {
+      if (this.observerList[i] === observer) {
+        return i
+      }
+    }
+    return -1
+  }
+}
+
+// 主体
 class Subject {
   constructor () {
     // Subject 实例通过 observers 属性来维护观察者列表
     // 即观察者缓存容器
-    this.observers = []
+    this.observers = new ObserverList() // { observerList: [] }
   }
 
   addObserver (observer) {
-    this.observers.push(observer)
+    this.observers.add(observer)
   }
 
   removeObserver (observer) {
     const index = this.observer.indexOf(observer, 0)
-    this.observers.splice(index, 1)
+    this.observers.remove(index)
+  }
+
+  // 参数 context 可选，非重点。
+  // 此处重点是触发容器中每个观察者的更新函数，即让他们发出通知。
+  notify (context) {
+    const len = this.observer.observerList.length
+    for (let i = 0; i < len; i++) {
+      this.observer.observerList[i].update(context)
+    }
   }
 }
 
+// 观察者
 class Observer {
-  update () {
+  update (context) {
     console.log('observer has been updated.')
   }
 }
