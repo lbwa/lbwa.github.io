@@ -502,10 +502,16 @@ const sub = new Subject()
 const obs = new Observer()
 
 sub.addObserver(obs)
+
 // 其中有几个 Observer 实例，update 就被调用几次
-sub.notify() // observer has been  updated.
-sub.removeObserver(obs) // 返回被删除的 obs 观察者实例
+sub.notify()
+// observer has been  updated.
+
+sub.removeObserver(obs)
+// 返回被删除的 obs 观察者实例
 ```
+
+***注***：一个隐藏的弊端就是，以上代码中并未实现有·选择性的触发 `Observer` 实例的 `update` 函数。`notify` 函数是触发所有的 `Observer` 实例。
 
 示例代码中三者之间的关系如下图：
 
@@ -513,8 +519,72 @@ sub.removeObserver(obs) // 返回被删除的 obs 观察者实例
 
 [observer-pattern]:https://rawgit.com/lbwa/lbwa.github.io/dev/source/images/post/js-design-pattern/observer-pattern.svg
 
+### 实际应用
+
+观察者模式的典型应用是 `Vue.js` 中的依赖收集与更新（[我的解析][vue-reactive]）。
+
+[vue-reactive]:https://github.com/lbwa/vue-reactive
+
+## 发布/订阅模式
+
+即 `Publish/Subscribe Pattern`。
+
+发布/订阅模式是观察者模式的变种。不同与观察者模式的是发布/订阅模式实现了一个 `主体/事件通道` ，它是用于发布者和订阅者之间通信。
+
+### 实际应用
+
+`Vue.js` 中 `event bus` 即是发布/订阅模式的典型应用。
+
+```js
+// eventBus.js
+export default new Vue({}) // 将暴露在全局中，作为 `主体/事件通道`
+
+// a.vue
+import eventBus from '@/eventBus'
+eventBus.$emit('goPublish', payload) // publish by publisher
+
+// b.vue
+import eventBus from '@/eventBus'
+
+// callback in b.vue
+function handler (payload) {
+  // do something
+}
+
+eventBus.on('goPublish', handler) // subscribe by subscriber
+eventBus.off('goPublish', handler) // unsubscribe
+```
+
 ### 观察者模式和发布/订阅模式的差异
 
-- 发布/订阅模式
+1. 观察者模式
 
-发布/订阅模式使用一个主题/事件通道，该通道是位于订阅者（希望接受通知的对象）和发布者（发布通知/事件的对象）之间。该事件系统允许订阅者定义应用中能够传递包含所需值的自定义参数的特殊事件。这样做的目的是解耦订阅者和发布者之间的逻辑关系。
+    1. 观察者模式要求希望接受通知的 `观察者对象` 必须订阅它所感兴趣的发起事件的 `主体对象`（`the object firing the event(the subject)`） 。
+    
+    2. 观察者必须 ***直接*** 订阅主体对象，此举导致二者形成 ***耦合***。主体对象广播时，所有观察者中回调都将被 ***同步*** 执行。
+
+2. 发布/订阅模式
+
+    1. 二者最大的差异是 `发布/订阅模式` 建立了一个 `主题/事件通道`。该通道是位于 `订阅者 subscribers`（希望接受通知的对象，`Observer`）和 `发布者 publisher`（发布通知/事件的对象，`Subject`）之间，作为二者的通信桥梁。
+    
+    2. 该事件系统（`主题/事件通道`）允许通过应用中包含自定义参数值的特殊事件来 ***区分订阅者***。这样做的目的是 ***选出*** 特定的订阅者用于单独执行回调（可形成一个消息队列），即 ***解耦*** 了订阅者和发布者之间的依赖关系（上文 1.2）。
+
+    3. 观察者是通过 `主题/事件通道` ***间接*** 订阅主体对象。
+
+与观察者模式不同的是，`发布/订阅模式` 允许任何的订阅者执行一个适当的事件处理程序用于注册和接受通过发布者广播的通知。即 `发布/订阅模式` 可单独执行某一个订阅者的回调。而不是像 `观察者模式` 一样每次都执行全部观察者的事件回调。
+
+### 观察者模式和发布/订阅模式的优劣
+
+- 优势
+
+    1. 观察者模式和发布/订阅模式鼓励我们去思考应用中不同模块之间的关系。它们帮助我们用主体对象和观察者对象的集合来代替包含直接关系的逻辑层。最终使得我们的应用更加倾向于轻量，***松耦合***，并改善代码的潜在复用性。
+
+    2. 观察者模式使得 `主体对象` 与 `观察者对象` 形成动态联系。此举在应用中互不相关的模块之间的强耦合时，提供了一种灵活性高的解耦解决方案。
+
+    3. 观察者模式和发布/订阅模式是设计解耦系统的最佳工具之一，推荐使用。
+
+- 劣势
+
+    1. 在发布/订阅模式中，解耦了发布者和订阅者，那么它们二者之间是没有直接关系的。那么发布者发起事件，通过 `主题/事件通道` 传递给订阅者，在订阅者接受事件之后，触发订阅者回调时，发布者此时是没有方法知道订阅者的回调是否执行成功的。
+
+    2. 发布者与订阅者二者之间的动态关系（动态体现在并不一一对应，可能触发一个或多个订阅者）也导致了难以追踪其中的执行过程。
