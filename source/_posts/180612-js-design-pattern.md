@@ -519,17 +519,81 @@ sub.removeObserver(obs)
 
 [observer-pattern]:https://rawgit.com/lbwa/lbwa.github.io/dev/source/images/post/js-design-pattern/observer-pattern.svg
 
-### 实际应用
-
-观察者模式的典型应用是 `Vue.js` 中的依赖收集与更新（[我的解析][vue-reactive]）。
-
-[vue-reactive]:https://github.com/lbwa/vue-reactive
-
 ## 发布/订阅模式
 
 即 `Publish/Subscribe Pattern`。
 
-发布/订阅模式是观察者模式的变种。不同与观察者模式的是发布/订阅模式实现了一个 `主体/事件通道` ，它是用于发布者和订阅者之间通信。
+发布/订阅模式是观察者模式的变种。不同与观察者模式的是发布/订阅模式实现了一个 `主体/事件通道` ，它用于发布者和订阅者之间通信，解耦发布者和订阅者。
+
+### 实现
+
+```js
+class Pub {
+  constructor () {
+    // 订阅者缓存容器，其中包含各类消息的缓存队列
+    this.caches = []
+
+    Reflect.defineProperty(this, '_uid', {
+      enumerable: false,
+      writable: true,
+      value: -1
+    })
+  }
+
+  publish (evt, ...args) {
+    if (!this.caches[evt]) return false
+
+    const subscribers = this.caches[evt]
+    let len = subscribers ? subscribers.length : 0
+    while (len--) {
+      subscribers[len].callback.apply(subscribers[len], args)
+    }
+
+    return this // pub实例，用于链式调用
+  }
+
+  subscribe (evt, callback) {
+    // 初始化消息类型为 evt 的缓存容器
+    if (!this.caches[evt]) this.caches[evt] = []
+
+    this.caches[evt].push({
+      uid: ++this._uid,
+      callback
+    })
+    // caches[evt]: [{uid: 0, fn}, {uid: 1, fnn}, ...]
+  }
+
+  unsubscribe (evt, uid) {
+    const cache = this.caches[evt]
+    const len = this.caches[evt].length
+
+    for (let i = 0; i < len; i++) {
+      if (cache[i].uid === uid) {
+        return cache.splice(i, 1)
+      }
+    }
+
+    return this
+  }
+}
+```
+
+实例化后：
+
+```js
+const pub = new Pub()
+
+pub.subscribe('hello',() => console.log('I\'m from hello'))
+pub.subscribe('index',() => console.log('I\'m from index'))
+
+// 只调用 hello 类别中的订阅者，而不是像观察者模式那样触发所有订阅者
+pub.publish('hello') // I'm from hello
+
+// 只调用 index 类别中的订阅者
+pub.publish('index') // I'm from index
+```
+
+示例代码中，`evt` 变量即是作为事件通道的存在，它分离出了不同类型的消息通道，使得发出通知时只会触发相同类型下的订阅者。
 
 ### 实际应用
 
@@ -537,7 +601,8 @@ sub.removeObserver(obs)
 
 ```js
 // eventBus.js
-export default new Vue({}) // 将暴露在全局中，作为 `主体/事件通道`
+import Vue from 'vue'
+export default new Vue({}) // 该 Vue 实例将暴露在全局中，单独作为 `主体/事件通道`
 
 // a.vue
 import eventBus from '@/eventBus'
@@ -545,15 +610,16 @@ eventBus.$emit('goPublish', payload) // publish by publisher
 
 // b.vue
 import eventBus from '@/eventBus'
-
-// callback in b.vue
-function handler (payload) {
+function handler (payload) { // callback in b.vue
   // do something
 }
-
-eventBus.on('goPublish', handler) // subscribe by subscriber
-eventBus.off('goPublish', handler) // unsubscribe
+eventBus.$on('goPublish', handler) // subscribe by subscriber
+eventBus.$off('goPublish', handler) // unsubscribe
 ```
+
+另外一个典型应用是 `Vue.js` 中的依赖收集与更新（[我的解析][vue-reactive]）。
+
+[vue-reactive]:https://github.com/lbwa/vue-reactive
 
 ### 观察者模式和发布/订阅模式的差异
 
@@ -579,7 +645,7 @@ eventBus.off('goPublish', handler) // unsubscribe
 
     1. 观察者模式和发布/订阅模式鼓励我们去思考应用中不同模块之间的关系。它们帮助我们用主体对象和观察者对象的集合来代替包含直接关系的逻辑层。最终使得我们的应用更加倾向于轻量，***松耦合***，并改善代码的潜在复用性。
 
-    2. 观察者模式使得 `主体对象` 与 `观察者对象` 形成动态联系。此举在应用中互不相关的模块之间的强耦合时，提供了一种灵活性高的解耦解决方案。
+    2. 观察者模式使得 `主体对象` 与 `观察者对象` 形成动态联系。此举在应用中互不相关的模块之间存在强耦合时，提供了一种灵活性高的解耦解决方案。
 
     3. 观察者模式和发布/订阅模式是设计解耦系统的最佳工具之一，推荐使用。
 
@@ -587,4 +653,4 @@ eventBus.off('goPublish', handler) // unsubscribe
 
     1. 在发布/订阅模式中，解耦了发布者和订阅者，那么它们二者之间是没有直接关系的。那么发布者发起事件，通过 `主题/事件通道` 传递给订阅者，在订阅者接受事件之后，触发订阅者回调时，发布者此时是没有方法知道订阅者的回调是否执行成功的。
 
-    2. 发布者与订阅者二者之间的动态关系（动态体现在并不一一对应，可能触发一个或多个订阅者）也导致了难以追踪其中的执行过程。
+    2. 发布者与订阅者二者之间的动态关系（动态体现在并不一一对应，可能触发一个或多个订阅者）也导致了 ***难以追踪*** 其中的执行过程。
