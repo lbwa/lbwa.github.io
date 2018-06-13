@@ -423,22 +423,31 @@ class ObserverList {
   }
 
   add (observer) {
-    return this.observerList.push(obj)
+    return this.observerList.push(observer)
   }
 
   remove (index) {
-    this.observerList.splice(index, 1)
+    return this.observerList.splice(index, 1)
+  }
+
+  get (index) {
+    return this.observerList[index]
+  }
+
+  len () {
+    return this.observerList.length
   }
 
   indexOf (observer, startIndex = 0) {
     const len = this.observerList.length
-    // why not [].indexOf ?
     for (let i = startIndex; i < len; i++) {
       if (this.observerList[i] === observer) {
         return i
       }
     }
     return -1
+
+    // same as `return this.observerList.indexOf(observer, startIndex)`
   }
 }
 
@@ -455,24 +464,41 @@ class Subject {
   }
 
   removeObserver (observer) {
-    const index = this.observer.indexOf(observer, 0)
-    this.observers.remove(index)
+    // 传入的是某个之前被加入观察者容器中的 Observer　实例的引用的变量，故存在 index
+    const index = this.observers.indexOf(observer, 0)
+    return  this.observers.remove(index)
   }
 
   // 参数 context 可选，非重点。
-  // 此处重点是触发容器中每个观察者的更新函数，即让他们发出通知。
+  // 此处重点是 Subject 实例状态改变时，触发容器中每个观察者的更新函数，即让他们发出通知。
   notify (context) {
-    const len = this.observer.observerList.length
+    const len = this.observers.len()
     for (let i = 0; i < len; i++) {
-      this.observer.observerList[i].update(context)
+      this.observers.get(i).update(context)
     }
   }
 }
 
 // 观察者
 class Observer {
+  // 观察者通知类型原型方法，可在其中加入回调，以向这些对观察者通知感兴趣的对象发起通知
   update (context) {
     console.log('observer has been updated.')
   }
 }
 ```
+
+实例化如下：
+
+```js
+const sub = new Subject()
+const obs = new Observer()
+
+sub.addObserver(obs)
+sub.notify() // observer has been  updated.
+sub.removeObserver(obs) // 返回被删除的 obs 观察者实例
+```
+
+![observer-pattern][observer-pattern]
+
+[observer-pattern]:https://rawgit.com/lbwa/lbwa.github.io/dev/source/images/post/js-design-pattern/observer-pattern.svg
