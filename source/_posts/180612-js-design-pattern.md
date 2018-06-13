@@ -406,7 +406,9 @@ document.querySelector('.btn').addEventListener('click', evt => {
 
 ## 观察者模式
 
-观察者模式：一个主体对象（`subject`）维护一个观察者对象（`observers`）列表，并且主体对象对状态的任何修改都会被观察者对象 ***自动通知***。对主体对象修改状态的行为感兴趣的对象只需要接受观察者的通知即可。
+即 `Observer Pattern`。
+
+观察者模式：一个主体对象（`subject`）维护一个观察者对象（`observers list`）列表，并且主体对象对状态的任何修改都会被观察者对象 ***自动通知***。对主体对象修改状态的行为感兴趣的对象只需要接受观察者的通知即可。
 
 |基本概念|描述|
 |-------|----|
@@ -415,8 +417,10 @@ document.querySelector('.btn').addEventListener('click', evt => {
 |`ConcreteSubject`|存储 `ConcreteObserver`。在主体对象状态改变时，向观察者广播通知。|
 |`ConcreteObserver`|存储对 `ConcreteSubject` 的引用，实现一个通知更新的接口，该接口将用于保持与 `ConcreteSubject` 的状态一致。|
 
+### 实现
+
 ```js
-// 观察者缓存容器（列表），单个观察者对象和主体对象之间的媒介
+// 观察者缓存容器（列表）
 class ObserverList {
   constructor () {
     this.observerList = []
@@ -491,14 +495,26 @@ class Observer {
 实例化如下：
 
 ```js
+// concrete Subject
 const sub = new Subject()
+
+// Concrete Observer
 const obs = new Observer()
 
 sub.addObserver(obs)
+// 其中有几个 Observer 实例，update 就被调用几次
 sub.notify() // observer has been  updated.
 sub.removeObserver(obs) // 返回被删除的 obs 观察者实例
 ```
 
+示例代码中三者之间的关系如下图：
+
 ![observer-pattern][observer-pattern]
 
 [observer-pattern]:https://rawgit.com/lbwa/lbwa.github.io/dev/source/images/post/js-design-pattern/observer-pattern.svg
+
+### 观察者模式和发布/订阅模式的差异
+
+- 发布/订阅模式
+
+发布/订阅模式使用一个主题/事件通道，该通道是位于订阅者（希望接受通知的对象）和发布者（发布通知/事件的对象）之间。该事件系统允许订阅者定义应用中能够传递包含所需值的自定义参数的特殊事件。这样做的目的是解耦订阅者和发布者之间的逻辑关系。
