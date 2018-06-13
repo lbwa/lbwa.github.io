@@ -601,12 +601,14 @@ pub.publish('index') // I'm from index
 
 ### 实际应用
 
-`Vue.js` 中 `event bus` 即是发布/订阅模式的典型应用。
+一个典型应用是 `Vue.js` 中的依赖收集与更新（[我的解析][vue-reactive]）。其中定义了一个 `subs` 变量维护 `主题/事件` 通道。`Watcher` 实例作为订阅者，`Dep` 实例作为发布者。
+
+另一个典型应用 `Vue.js` 中 `event bus`。
 
 ```js
 // eventBus.js
 import Vue from 'vue'
-export default new Vue({}) // 该 Vue 实例将暴露在全局中，单独作为 `主体/事件通道`
+export default new Vue({}) // 该 Vue 实例将暴露在全局中
 
 // a.vue
 import eventBus from '@/eventBus'
@@ -620,8 +622,6 @@ function handler (payload) { // callback in b.vue
 eventBus.$on('goPublish', handler) // subscribe by subscriber
 eventBus.$off('goPublish', handler) // unsubscribe
 ```
-
-另外一个典型应用是 `Vue.js` 中的依赖收集与更新（[我的解析][vue-reactive]）。
 
 [vue-reactive]:https://github.com/lbwa/vue-reactive
 
@@ -658,3 +658,8 @@ eventBus.$off('goPublish', handler) // unsubscribe
     1. 在发布/订阅模式中，解耦了发布者和订阅者，那么它们二者之间是没有直接关系的。那么发布者发起事件，通过 `主题/事件通道` 传递给订阅者，在订阅者接受事件之后，触发订阅者回调时，发布者此时是没有方法知道订阅者的回调是否执行成功的。
 
     2. 发布者与订阅者二者之间的动态关系（动态体现在并不一一对应，可能触发一个或多个订阅者）也导致了 ***难以追踪*** 其中的执行过程。
+
+
+## 中介者模式
+
+即 `Mediator Pattern`。
