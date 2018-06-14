@@ -19,23 +19,106 @@ tags:
 
 ## 工厂模式
 
+即 `Factory Pattern`。
+
+工厂模式即对构造方法封装的抽象（`abstract`）。以特定接口实现创建对象的细节的函数封装，微观上，提高代码复用性，避免创建相似对象时产生大量重复代码；宏观上，使得功能得以抽象，便于思考。
+
+外部调用者只关心该工厂所暴露给外部的使用接口。即外部使用者只关心调用该工厂即可完成特定的相似对象创建或相似的功能实现，并不关心其中的内部实现。
+
+### 实现
+
 ```js
-function Person (name, age, gender) {
-  const person = {}
-
-  person.name = name
-  person.age = age
-  person.gender = gender
-
-  return person
+// 抽象类 abstract class，即实现某一功能的类
+class Car {
+  constructor (options) {
+    this.type = 'car'
+    this.brand = options.brand || 'Default brand'
+    this.color = options.color || 'Default color'
+  }
 }
 
-const john = Person('John', 20, 'male')
-const mary = Person('Mary', 20, 'female')
+class Truck {
+  constructor (options) {
+    this.type = 'truck'
+    this.brand = options.brand || 'Default brand'
+    this.color = options.color || 'Default color'
+  }
+
+  transport () {
+    return `I can transport vehicle`
+  }
+}
+
+// 外部只关心调用该工厂方法即可实现特定功能（根据 options 执行不同路径）
+class CarFactory {
+  constructor () {
+    // 默认抽象类
+    Reflect.defineProperty(this, '_vehicle', {
+      enumerable: false,
+      writable: true,
+      value: Car
+    })
+  }
+
+  createVehicle (options) {
+    // 推迟抽象类的实例化，将抽象类的实例化并入工厂类，统一集中管理，使得抽象类与其他代码解耦
+    // 通过传入的参数选择不同的实例化路径
+    if (options.type === 'truck') this._vehicle = Truck
+
+    return new this._vehicle(options)
+  }
+}
+
 ```
 
-- 利：以一个基础结构创建无限个新的结构相似的实例，解决了创建相似对象的问题。
-- 劣：新的实例无法感知其对象的具体类型，只能知道是对象，但不知道是谁的实例，比如示例代码中无法检测出 `john` 是由 `Person` 创建出来的。
+外部调用工厂方法：
+
+```js
+// 外部调用只关心工厂方法的结果
+const ins = new CarFactory()
+
+const car = ins.createVehicle({
+  type: 'car',
+  brand: 'Panda',
+  color: 'rainbow'
+})
+car instanceof Car // true
+
+const truck = ins.createVehicle({
+  type: 'truck',
+  brand: 'Benz',
+  color: 'sliver'
+})
+truck instanceof Truck // true
+```
+
+以上示例代码展示了根据传参不同，而执行不同的实例化路径。将判断路径的这个行为封装为一个工厂方法，集中管理，后续若需要修改某一抽象类时，只需要修改工厂方法即可。若不使用该工厂方法，那么在后期需要删除该类时，需要修改所有引用该类的地方，而使用了工厂方法后，删除该类只需要修改工厂方法即可，即将该类与其他代码解耦。
+
+### 实际应用
+
+适用场景：
+
+1. 当我们需要便捷地以不同的属性值创建键值相同的对象时。
+
+2. 执行多次相同的一系列复杂操作时。
+
+### 工厂模式利弊
+
+- 优势
+
+    1. 以一个基础结构创建无限个新的结构相似的实例，解决了创建相似对象的问题。
+    
+    2. 以一个工厂函数封装可能被复用的操作，避免重复代码。
+
+- 弊端
+
+    2. 基于 1 的类型错误的问题，除非创建结构相似的对象提供一个接口是代码设计的目标，否则都应该显式地使用构造函数来创建对象。这样可以避免因产生错误的对象类型而导致应用复杂度升高。
+
+    3. 基于创建对象的行为通过接口被抽象化，那么可能会为单元测试带来一些困难。至于有多困难取决于被抽象化的行为有多复杂。
+
+### 复杂工厂模式
+
+工厂模式的变种，同样是推迟抽象类的哦实例化。本质上因父类的原型方法可在子类上构建同名原型方法（作用域链与原型链原理）屏蔽，那么子类可以拥有自己独特的原型方法（可实现指定子类的类型），同时又继承了父类。
 
 ## 构造函数模式
 
@@ -549,7 +632,7 @@ class Pub {
       subscribers[len].callback.apply(subscribers[len], args)
     }
 
-    return this // pub实例，用于链式调用
+    return this // pub 实例，启用级联，用于链式调用
   }
 
   subscribe (evt, callback) {
@@ -573,7 +656,7 @@ class Pub {
       }
     }
 
-    return this
+    return this // 启用级联，用于链式调用
   }
 }
 ```
