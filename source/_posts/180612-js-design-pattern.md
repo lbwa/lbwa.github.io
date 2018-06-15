@@ -15,7 +15,8 @@ tags:
 |---|---|
 |factory method|可根据不同的参数数据或参数事件对象而实例化生成不同的实例。|
 |prototype|一个包含类的所有实例共享的属性和方法的对象。|
-|singleton|在全局作用域中只有一个实例的类。|
+|builder|将对象的构建方法和表象形式分离，并重视创建相同类型的对象。|
+|singleton|在全局作用域中只有唯一的一个实例的类。|
 |abstract factory|在没有具体类的详细细节的情况下创建多个相似的类的实例，即可传入具体类来让工厂决定是否实例化。|
 |abstract class|一个永不会被实例化为具体对象的类。如 `水果` 是抽象概念，即抽象类，`苹果` 有实物，即具体类。|
 
@@ -72,7 +73,7 @@ car instanceof Vehicle // true
 
 ## 工厂模式
 
-关键词：解耦实例化与类，包含固定类（与抽象工厂对比）。
+关键词：解耦实例化与类、包含固定类（与抽象工厂对比）。
 
 即 `Factory Pattern`。
 
@@ -182,7 +183,7 @@ truck instanceof Truck // true
 
 ## 抽象工厂模式
 
-关键词：抽象实例化过程，传入类，选择性实例化。
+关键词：抽象实例化过程、本身不包含固定类、传入类、选择性实例化。
 
 即 `Abstract Factory`。
 
@@ -257,7 +258,7 @@ const truck = AbstractVehicleFactory.getVehicle('truck', {
 
 ## 构造函数模式
 
-关键词：类实例化，原型对象，原型链。
+关键词：类实例化、原型对象、原型链。
 
 即 `Constructor Pattern`。
 
@@ -334,7 +335,7 @@ lily.__proto__.hasOwnProperty('say') // false
 
 ## 原型模式
 
-关键词：共享属性，共享方法，原型链。
+关键词：共享属性、共享方法、原型链。
 
 即 `Prototype Pattern`。
 
@@ -359,7 +360,9 @@ yourCar.drive // 'I am driving!'
 
 ## 模块模式
 
-关键词：私有变量，公共接口。
+关键词：私有变量、公共接口。
+
+与外观模式不同的是，模块模式侧重私有变量的保护。外观模式侧重内部系统的抽象。
 
 即 `Module Pattern`。
 
@@ -509,7 +512,7 @@ const customModule = (function () {
 
 ## 单例模式
 
-关键词：实例唯一。
+关键词：缓存实例、实例唯一。
 
 即 `Singleton Pattern`。
 
@@ -649,7 +652,7 @@ document.querySelector('.btn').addEventListener('click', evt => {
 
 ## 观察者模式
 
-关键词：主体对象，观察者
+关键词：主体对象、观察者
 
 即 `Observer Pattern`。
 
@@ -766,7 +769,7 @@ sub.removeObserver(obs)
 
 ## 发布/订阅模式
 
-关键词：发布者，`topic/event channel`，订阅者
+关键词：发布者、`topic/event channel`、订阅者
 
 即 `Publish/Subscribe Pattern`。
 
@@ -906,9 +909,32 @@ eventBus.$off('goPublish', handler) // unsubscribe
 
     2. 发布者与订阅者二者之间的动态关系（动态体现在并不一一对应，可能触发一个或多个订阅者）也导致了 ***难以追踪*** 其中的执行过程。
 
+## 建造者模式
+
+关键词：复杂 `DOM` 对象、解耦复杂对象的表象与构建。
+
+即 `Builder Pattern`。
+
+该模式专注于将复杂对象的构建与表象分离。
+
+当我们使用 `DOM` 时，我们经常需要动态地创建新的元素对象。这个过程应用复杂度会随着我们所添加标签特性，元素对象属性，和元素标签多寡而增加。
+
+当我们既希望能够灵活地使用字面量来定义元素的最终标记（`markup`），又可以调用一个可读的面向对象的路由（`route`）来实现构建复杂对象时，建立一个独立于复杂 `DOM` 元素对象本身的机制即是最佳的解决方案。这也正是 `Builder Pattern` 为我们所提供的内容，`Builder` 将负载对象的构建与表象 ***解耦***，二者将通过 `builder` 维系。
+
+`Builder` 允许我们只通过指定元素的对象类型和对象内容即可创建复杂的对象，并且屏蔽了我们显式地创建或表示对象的过程。一切复杂对象的创建和表示工作都由 `builder` 来完成，我们只需要提供创建对象所需的对象类型和对象属性即可。
+
+在 `jQuery` 中，`$()` 方法即是 `builder` 对复杂的 `jQuery` 对象创建的封装，我们在使用该方法时，只需要提供特定的参数即可完成复杂的 `jQuery` 对象的创建。
+
+```js
+// 传入特定字符串完成 jQuery 对象的创建
+$('<div class="app">this is a element.</div>')
+$('.app')
+```
+
+
 ## 外观模式
 
-关键词：封装模块（子系统），暴露 `facade` 公共接口
+关键词：抽象子系统接口、暴露 `facade` 公共接口。
 
 与模块模式不同的是，模块模式侧重私有变量的保护。外观模式侧重内部系统的抽象。
 
