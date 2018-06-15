@@ -11,7 +11,7 @@ tags:
 
 [Learning JavaScript Design Patterns]:https://addyosmani.com/resources/essentialjsdesignpatterns/book/
 
-|基本概念| 描述 |
+|创造性设计模式| 描述 |
 |---|---|
 |factory method|可根据不同的参数数据或参数事件对象而实例化生成不同的实例。|
 |prototype|一个包含类的所有实例共享的属性和方法的对象。|
@@ -71,6 +71,8 @@ car instanceof Vehicle // true
 ```
 
 ## 工厂模式
+
+关键词：解耦实例化与类，包含固定类（与抽象工厂对比）。
 
 即 `Factory Pattern`。
 
@@ -180,6 +182,8 @@ truck instanceof Truck // true
 
 ## 抽象工厂模式
 
+关键词：抽象实例化过程，传入类，选择性实例化。
+
 即 `Abstract Factory`。
 
 ### 含义
@@ -253,6 +257,8 @@ const truck = AbstractVehicleFactory.getVehicle('truck', {
 
 ## 构造函数模式
 
+关键词：类实例化，原型对象，原型链。
+
 即 `Constructor Pattern`。
 
 解决创建多个结构相似的对象的问题。每次构造函数被实例化，都会在内存中开辟新的存储区域，即每次都会创建一个新的对象。
@@ -305,12 +311,14 @@ class SuperPerson extends Person {
   constructor (name, age, gender) {
     super(name, age, gender)
   }
+
+  // ... 子类的原型方法
 }
 
 const jack = new SuperPerson('Jack', 20, 'male')
 const lily = new SuperPerson('Lily', 20, 'female')
 
-// say 方法是父类原型方法，能被任何子类实例访问
+// say 方法是父类原型方法，能被任何子类实例通过原型链访问
 'say' in jack // true
 'say' in jack.__proto__ // true
 jack.hasOwnProperty('say') // false
@@ -325,6 +333,8 @@ lily.__proto__.hasOwnProperty('say') // false
 以上代码实现了基于原型链的继承方案实现。使得创建的每个 `SuperPerson` 实例都继承过了父类 `Person` 的原型方法。
 
 ## 原型模式
+
+关键词：共享属性，共享方法，原型链。
 
 即 `Prototype Pattern`。
 
@@ -348,6 +358,8 @@ yourCar.drive // 'I am driving!'
 示例代码中，`Object.create` 指定了以参数对象为新对象的原型对象。那么由 `Object.create(car)` 创建的所有新对象都共享 `car` 对象的所有属性和方法。
 
 ## 模块模式
+
+关键词：私有变量，公共接口。
 
 即 `Module Pattern`。
 
@@ -497,6 +509,8 @@ const customModule = (function () {
 
 ## 单例模式
 
+关键词：实例唯一。
+
 即 `Singleton Pattern`。
 
 在 `模块模式` 基础上发展而成的 `单例模式`，在实例化时，最多在全局只创建一个该类的实例。
@@ -635,6 +649,8 @@ document.querySelector('.btn').addEventListener('click', evt => {
 
 ## 观察者模式
 
+关键词：主体对象，观察者
+
 即 `Observer Pattern`。
 
 观察者模式：一个主体对象（`subject`）维护一个观察者对象（`observers list`）列表，并且主体对象对状态的任何修改都会被观察者对象 ***自动通知***。对主体对象修改状态的行为感兴趣的对象只需要接受观察者的通知即可。
@@ -749,6 +765,8 @@ sub.removeObserver(obs)
 [observer-pattern]:https://rawgit.com/lbwa/lbwa.github.io/dev/source/images/post/js-design-pattern/observer-pattern.svg
 
 ## 发布/订阅模式
+
+关键词：发布者，`topic/event channel`，订阅者
 
 即 `Publish/Subscribe Pattern`。
 
@@ -888,7 +906,52 @@ eventBus.$off('goPublish', handler) // unsubscribe
 
     2. 发布者与订阅者二者之间的动态关系（动态体现在并不一一对应，可能触发一个或多个订阅者）也导致了 ***难以追踪*** 其中的执行过程。
 
+## 外观模式
 
-## 中介者模式
+关键词：封装模块，`facade` 公共接口
 
-即 `Mediator Pattern`。
+|结构性设计模式|描述|
+|-------------|----|
+|facade|一个隐藏了整个子系统的复杂实现的类|
+
+即 `Facade Pattern`。
+
+该模式专注于对外提供一个高级别且便捷的接口，以用于隐藏内部的复杂实现。该模式所暴露的接口是对内部实现的抽象概括。
+
+`Facade Pattern` 模式常见于 JS 库中，尽管该模式实现了具有广泛性为的方法，但是只有这些内部方法的 `facade`（可理解为内部方法的有限抽象）被提供给外部使用。
+
+这允许我们直接与 `facade` 交互，而不是内部的子系统。每当我们调用 `jQuery` 的 `$(el).css()` 之类的方法时，我们实际调用的是 `facade`（它是避免为了实现某一行为而直接使用 `jQuery` 内部核心的多个方法的公共接口）。这也直接避免了我们与 `DOM` 的 `API` 直接交互，也不用维护因直接交互而产生的状态变量。
+
+### 实现
+
+```js
+const addListener = function (el, evt, callback) {
+  if (el.addEventListener) {
+    el.addEventListener(evt, callback, false)
+  } else if (el.attachEvent) {
+    el.attachEvent(`on${evt}`, callback)
+  } else {
+    el[`on${el}`] = callback
+  }
+}
+```
+
+示例代码中，`addListener` 的参数即是对外暴露的给元素添加事件处理程序的接口。我们只需要传入三个参数就可以给对应的标签对象 `el` 添加监听 `evt` 事件的 `callback` 事件监听器。整个过程都被整体简化，同时也避免我们直接接触内部实现代码。
+
+常见地，`Facade Pattern` 模式可与其他设计模式整合，比如 `module pattern`。
+
+### 外观模式利弊
+
+- 优势
+
+    1. 该模式既简化了某个目标类的内部接口，也将该类与调用它的模块解耦，中间由  `facede` 这一抽象接口维系。
+
+    2. 避免我们直接与 `Facade Pattern` 所形成的子系统（模块内部）直接交互。间接交互也降低了与子系统交互时意外引入 `bug` 的风险。
+
+    3. `Facade Pattern` 模式更为显著的特点是易用性高，且通常实现该模式的代码量体积小。
+
+- 弊端
+
+    1. 性能问题。在 `Facade Pattern` 模块被确定时，即其内部实现已确定，那么不论我们传入何种参数，其内部总会实现其所有判断逻辑（如有）。那么这就可能带来一些隐性的性能消耗。
+    
+        - 比如使用了 `Facade Pattern` 的公共接口 `$(el)`（其内部通过 `document.querySelector` 实现查找元素）对比 `document.getElementById` 将有更高的性能损耗。因为 `document.getElementById` 只专注于元素 id 查找，而 `document.querySelector` 接受任何元素选择器，那么这其中执行判断逻辑（判断以何种方式查找元素）就会带来性能损耗。
