@@ -7,18 +7,19 @@ tags:
     - 设计模式
 ---
 
-本文是 《[Learning JavaScript Design Patterns][Learning JavaScript Design Patterns]》的读书笔记。该书的作者是鼎鼎大名的 `Addy Osmani`。撰写本文的目的就是为了学习参考大牛的思想，并结合自己的理解来加强自己的知识架构。另外，这本书中提到的 `GoF book` 即 `Gang Of Four book` 指的是 `Design Patterns` 这本书。该书列举了编程领域常见的 23 种编程模式和相应的设计原则。
+本文是 《[Learning JavaScript Design Patterns][Learning JavaScript Design Patterns]》的读书笔记。该书的作者是谷歌工程师的 `Addy Osmani`。撰写本文的目的就是为了学习参考前辈的编程开发思维，并结合自己的理解来加强自己的知识体系。另外，这本书中提到的 `GoF book` 即 `Gang Of Four book` 指的是 `Design Patterns` 这本书。该书列举了编程领域常见的 23 种编程模式和相应的设计原则。
 
 [Learning JavaScript Design Patterns]:https://addyosmani.com/resources/essentialjsdesignpatterns/book/
 
 |基本概念| 描述 |
 |---|---|
-|factory method|可根据不同的参数数据或参数事件对象而实例化生成不同的实例|
-|prototype|一个包含类的所有实例共享的属性和方法的对象|
-|singleton|在全局作用域中只有一个实例的类|
-|abstract class|一个永不会被实例化为具体对象的类。如 '水果' 是抽象概念，即抽象类，'苹果' 有实物，即具体类。|
+|factory method|可根据不同的参数数据或参数事件对象而实例化生成不同的实例。|
+|prototype|一个包含类的所有实例共享的属性和方法的对象。|
+|singleton|在全局作用域中只有一个实例的类。|
+|abstract factory|在没有具体类的详细细节的情况下创建多个相似的类的实例，即可传入具体类来让工厂决定是否实例化。|
+|abstract class|一个永不会被实例化为具体对象的类。如 `水果` 是抽象概念，即抽象类，`苹果` 有实物，即具体类。|
 
-抽象类（[wiki][wiki-class]）既可包含抽象方法也可包含具体方法。只有当抽象类的所有抽象方法都被实现后，子类才能被实例化。
+抽象类（[wiki][wiki-class]）既可包含抽象方法也可包含具体方法。只有当抽象类的所有抽象方法都被子类实现后，子类才能被实例化。
 
 [wiki-class]:https://zh.wikipedia.org/wiki/类_(计算机科学)#抽象类
 
@@ -73,7 +74,7 @@ car instanceof Vehicle // true
 
 即 `Factory Pattern`。
 
-工厂模式的 `工厂` 是创建 `产品` 的地方，其目的是将产品的创建于产品的使用 ***分离***。实际中，是对构造方法封装的抽象（`abstract`），是对一个功能的抽象集合。它以特定接口实现创建对象的细节的函数封装，微观上，提高代码复用性，避免创建相似对象时产生大量重复代码；宏观上，使得被封装功能与应用整体比较时，工厂将被抽象为一个概念。这样在架构应用时整体思考只需要考虑抽象化后的功能，而不必过于纠结该功能的具体实现。
+工厂模式的 `工厂` 是创建 `产品` 的地方，其目的是将产品的创建于产品的使用 ***分离***。实际中，是对构造方法封装的抽象（`abstract`），是对一个功能的抽象集合。它以特定接口实现对创建对象的具体类进行封装，由工厂来决定是否执行实例化或执行哪一个实例化路径。微观上，该模式提高了代码复用性，避免创建相似对象时产生大量重复代码；宏观上，使得被封装功能与应用整体比较时，工厂将被抽象为一个概念。这样在架构应用时整体思考只需要考虑抽象化后的功能，而不必过于纠结该功能的具体实现。
 
 外部调用者只关心该工厂所暴露给外部的使用接口。即外部使用者只关心调用该工厂即可完成特定的相似对象创建或相似的功能实现，并不关心其中的内部实现。
 
@@ -175,7 +176,7 @@ truck instanceof Truck // true
         
         - 除非创建结构相似的对象并提供一个接口是代码设计的目标（指上文的工厂模式适用场景，如以抽象化功能为目标），否则都应该显式地使用构造函数来创建对象。这样可以避免不必要的性能开销（`unnecessary overhead`）。
 
-    2. 基于创建对象的行为通过接口被抽象化，那么可能会为单元测试带来一些困难（因为外部无法感知内部实现）。至于有多困难取决于被抽象化的行为有多复杂。
+    2. 基于创建对象的行为通过接口被抽象化这一事实，那么这可能会为单元测试带来一些困难（因为外部无法感知内部实现）。至于有多困难取决于被抽象化的行为有多复杂。
 
 ## 抽象工厂模式
 
@@ -193,7 +194,7 @@ truck instanceof Truck // true
 
 ### 实现
 
-一个简单且容易理解的示例是下面的载具工厂示例 `AbstractVehicleFactory`。它实现了得到载具类型 `getVehicle` 和注册载具类型 `registerVehicle` 的方法。这个抽象工厂允许定义类似 `car` 或 `truck` 这样的载具类型，并且最终只有符合特定条件的载具类才能被具体工厂实现。
+一个简单且容易理解的示例是下面的载具工厂示例 `AbstractVehicleFactory`。它实现了得到载具类型方法 `getVehicle` 和注册载具类型方法 `registerVehicle`。这个抽象工厂允许定义类似 `car` 或 `truck` 这样的载具类型，并且最终只有符合特定条件的载具类才能被具体工厂实现。
 
 ```js
 class AbstractVehicleFactory {
@@ -206,7 +207,7 @@ class AbstractVehicleFactory {
     })
   }
 
-  // 静态方法常用于实现构造函数的某个功能，但该功能应该仅限在构造函数上被调用的情形下使用。
+  // 静态方法常用于实现构造函数的某个功能，但该功能应该仅限在构造函数上被调用的情形下。
   static getVehicle (type, customization) {
     const Vehicle = this._types[type]
 
@@ -254,6 +255,8 @@ const truck = AbstractVehicleFactory.getVehicle('truck', {
 
 即 `Constructor Pattern`。
 
+解决创建多个结构相似的对象的问题。每次构造函数被实例化，都会在内存中开辟新的存储区域，即每次都会创建一个新的对象。
+
 ```js
 class Person {
   constructor (name, age, gender) {
@@ -273,6 +276,53 @@ mary.__proto__.constructor === Person //true
 john instanceof Person // true
 mary instanceof Person // true
 ```
+
+### 与原型对象结合
+
+将 `构造函数模式` 与 `原型对象` 相结合，那么可以实现基于构造函数对象的原型对象创建出不同的构造函数实例，即根据子类的不同可创建出不同的原型继承链。
+
+```js
+class Person {
+  constructor (name, age, gender) {
+    this.name = name
+    this.age = age
+    this.gender = gender
+  }
+
+  // 原型方法，它被所有 Person 的实例以及 Person 的子类所共享
+  say (property) {
+    const detect = `${property}` in this
+    if (!detect) {
+      throw new Error('parameter must be a string of `name, age, gender`')
+      return
+    }
+
+    return this[property]
+  }
+}
+
+class SuperPerson extends Person {
+  constructor (name, age, gender) {
+    super(name, age, gender)
+  }
+}
+
+const jack = new SuperPerson('Jack', 20, 'male')
+const lily = new SuperPerson('Lily', 20, 'female')
+
+// say 方法是父类原型方法，能被任何子类实例访问
+'say' in jack // true
+'say' in jack.__proto__ // true
+jack.hasOwnProperty('say') // false
+jack.__proto__.hasOwnProperty('say') // false
+
+'say' in lily // true
+'say' in lily.__proto__ // true
+lily.hasOwnProperty('say') // false
+lily.__proto__.hasOwnProperty('say') // false
+```
+
+以上代码实现了基于原型链的继承方案实现。使得创建的每个 `SuperPerson` 实例都继承过了父类 `Person` 的原型方法。
 
 ## 原型模式
 
@@ -296,38 +346,6 @@ yourCar.drive // 'I am driving!'
 ```
 
 示例代码中，`Object.create` 指定了以参数对象为新对象的原型对象。那么由 `Object.create(car)` 创建的所有新对象都共享 `car` 对象的所有属性和方法。
-
-### 结合构造函数模式
-
-将 `构造函数模式` 与 `原型模式` 相结合，那么可以实现基于构造函数对象的原型对象创建出不同的构造函数实例。
-
-```js
-class SuperPerson extends Person {
-  constructor (name, age, gender) {
-    super(name, age, gender)
-  }
-
-  // 原型方法，它被所有 SuperPerson 的实例所共享
-  say (property) {
-    const detect = `${property}` in this
-    if (!detect) {
-      throw new Error('parameter must be a string of `name, age, gender`')
-      return
-    }
-
-    return this[property]
-  }
-}
-
-const jack = new SuperPerson('Jack', 20, 'male')
-const lily = new SuperPerson('Lily', 20, 'female')
-
-// say 方法是原型方法，能被任何实例访问，但它不单独属于任何实例
-'say' in jack // true
-jack.hasOwnProperty('say') // false
-'say' in lily // true
-lily.hasOwnProperty('say') // false
-```
 
 ## 模块模式
 
