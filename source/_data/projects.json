@@ -1,7 +1,7 @@
 [
   {
-    "name":"vue-reactive",
-    "url":"https://github.com/lbwa/vue-reactive",
+    "name":"reactive-render",
+    "url":"https://github.com/lbwa/reactive-render",
     "desc":"Vue.js 响应式原理及其依赖收集分析"
   },
   {
