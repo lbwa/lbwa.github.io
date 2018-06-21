@@ -5,7 +5,7 @@
     "desc":"Vue.js 响应式原理及其依赖收集分析"
   },
   {
-    "name": "jsonp",
+    "name": "better-jsonp",
     "url": "https://github.com/lbwa/jsonp",
     "desc": "一个轻量化的 JSONP 实现"
   },
