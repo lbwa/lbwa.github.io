@@ -56,7 +56,7 @@
 
 ## Skills
 
-[Issues][issues] 中记录了自己遇到的一些小问题，主要偏向实际应用方面。
+[Issues][issues] 中记录了开发过程中遇到的部分问题的解决方案，主要偏向实际应用方面。
 
 [blog]:https://lbwa.github.io
 
