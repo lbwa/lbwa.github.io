@@ -22,7 +22,7 @@
   "devDependencies": {
     "babel-eslint": "^8.2.1",
     "commitizen": "^2.10.1",
-    "conventional-changelog-cli": "^2.0.1",
+    "cz-conventional-changelog": "^2.1.0",
     "eslint": "^4.15.0",
     "eslint-friendly-formatter": "^3.0.0",
     "eslint-loader": "^1.7.1",
@@ -30,5 +30,10 @@
     "node-sass": "^4.9.0",
     "sass-loader": "^7.0.3",
     "webpack": "^4.12.1"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
