@@ -1,0 +1,15 @@
+<!-- <% if(page.comments && theme.disqus.enabled){ %>
+  <div class="blog-post-comments">
+      <div id="disqus_thread">
+          <noscript><%= __('comments.no_js') %></noscript>
+      </div>
+  </div>
+<% } %> -->
+
+<% if(page.comments && theme.gitment.enabled){ %>
+  <div class="blog-post-comments">
+      <div id="gitment_thread">
+          <noscript><%= __('comments.no_js') %></noscript>
+      </div>
+  </div>
+<% } %>
