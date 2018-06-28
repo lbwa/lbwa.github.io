@@ -24,17 +24,30 @@ html
 ul,ol
   padding-left: 1.2em
 
-ul, ol, p
-  line-height: 1.7
-
 p
-  margin: 1em 0
+  line-height: 1.8
+  margin: .5em 0
 
-h2
+h1, h2, h3, h4
   margin: 0.83em 0
 
 a
   color: $theme-lightgreen
+
+table
+  display: block
+  width: 100%
+  border-collapse: collapse
+  border-spacing: 0
+  margin: 16px 0
+  tr:nth-child(2n)
+    background-color: #f6f8fa
+  tr
+    background-color: $background-white
+    border-top: 1px solid $text-grey
+    th, td
+      padding: 6px 13px
+      border: 1px solid $theme-grey
 
 .button--green
   display: inline-block

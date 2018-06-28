@@ -2,7 +2,7 @@
   <section class="blog">
     <Header/>
     <keep-alive>
-      <router-view role="main"/>
+      <router-view class="wrapper" role="main"/>
     </keep-alive>
   </section>
 </template>
@@ -28,18 +28,19 @@ export default {
 @import '~/assets/style/index.sass'
 
 .blog
-  margin: 0 auto
   position: relative
   color: $text-dark
-  +desktop
-    max-width: $desktop - (2 * $gap)
-    width: $desktop - (2 * $gap)
-  +widescreen
-    max-width: $widescreen - (2 * $gap)
-    width: $widescreen - (2 * $gap)
-  +fullhd
-    max-width: $fullhd - (2 * $gap)
-    width: $fullhd - (2 * $gap)
+  .wrapper
+    margin: 0 auto
+    +desktop
+      max-width: $desktop - (2 * $gap)
+      width: $desktop - (2 * $gap)
+    +widescreen
+      max-width: $widescreen - (2 * $gap)
+      width: $widescreen - (2 * $gap)
+    +fullhd
+      max-width: $fullhd - (2 * $gap)
+      width: $fullhd - (2 * $gap)
 
   a.header-anchor
     font-size: .85em
@@ -50,7 +51,7 @@ export default {
 
   code
     color: $text-quote
-    padding: 0.25em .5em
+    padding: 0.05em .3em
     margin: 0
     background-color: $background-dark
     border-radius: 3px

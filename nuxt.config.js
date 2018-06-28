@@ -30,7 +30,7 @@ module.exports = {
     { src: '@@/plugins/ga.js', ssr: false }
   ],
 
-  loading: { color: '#3B8070' },
+  loading: { color: '#3eaf7c', height: '2px' },
 
   build: {
     build: {

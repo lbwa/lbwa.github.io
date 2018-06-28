@@ -1,12 +1,17 @@
 <template>
-  <div class="blog-catalog">
-    <a href="/blog/writing/180608-http-request.md" class="test">design pattern</a>
+  <div class="writing-catalog-wrapper">
+    <Catalog/>
   </div>
 </template>
 
 <script>
+import Catalog from '~/components/catalog'
 export default {
+  // TODO: get post catalog data and input them to Catalog component
+  asyncData () {},
+
   components: {
+    Catalog
   }
 }
 </script>
