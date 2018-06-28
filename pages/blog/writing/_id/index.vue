@@ -30,8 +30,6 @@ export default {
 </script>
 
 <style lang="sass">
-@import '~/assets/style/index.sass'
-
 .blog-post
   padding: 0 40px
 </style>

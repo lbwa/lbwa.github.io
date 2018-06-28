@@ -48,7 +48,6 @@ export default {
     padding-right: 0.23em
     margin-top: 0.125em
 
-
   code
     color: $text-quote
     padding: 0.25em .5em

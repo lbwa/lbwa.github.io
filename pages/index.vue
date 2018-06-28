@@ -33,6 +33,7 @@ export default {
 
 <style lang="sass">
 @import '~/assets/style/variable.sass'
+
 .container
   min-height: 100vh
   display: flex
