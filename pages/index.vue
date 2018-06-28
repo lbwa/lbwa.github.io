@@ -32,6 +32,7 @@ export default {
 </script>
 
 <style lang="sass">
+@import '~/assets/style/variable.sass'
 .container
   min-height: 100vh
   display: flex
@@ -44,13 +45,13 @@ export default {
   display: block
   font-weight: 300
   font-size: 5vh
-  color: #35495e
+  color: $text-title
   letter-spacing: 1px
 
 .subtitle
   font-weight: 300
   font-size: 2vh
-  color: #526488
+  color: $text-subtitle
   word-spacing: 5px
   padding-bottom: 15px
 

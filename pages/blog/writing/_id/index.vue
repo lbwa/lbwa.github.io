@@ -29,7 +29,10 @@ export default {
 }
 </script>
 
-<style lang="scss">
-@import '~~/assets/highlight/github.scss';
+<style lang="sass">
+@import '~/assets/style/index.sass'
+
+.blog-post
+  padding: 0 40px
 </style>
 

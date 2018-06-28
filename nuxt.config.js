@@ -7,13 +7,14 @@ module.exports = {
       { hid: 'description', name: 'description', content: 'Personal blog' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', href:'https://cdn.jsdelivr.net/npm/bulma@0.7.1/css/bulma.min.css' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
 
   css: [
-    { src: '~/assets/blog-transition.sass', lang: 'sass' }
+    { src: '~/assets/blog-transition.sass', lang: 'sass' },
+    // highlight style
+    { src: '~/assets/highlight/dracula.scss', lang: 'scss'}
   ],
 
   router: {
