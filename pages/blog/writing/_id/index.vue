@@ -1,9 +1,8 @@
 <template>
-  <div class="blog-post">
-    <h2 class="post-title"></h2>
-    <h4 class="author">post.author</h4>
-    <div v-html="htmlData"></div>
-  </div>
+  <article class="blog-post">
+    <h2 class="title">i am a title</h2>
+    <div class="blog-content" v-html="htmlData"></div>
+  </article>
 </template>
 
 <script>
@@ -31,6 +30,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import url('~~/assets/highlight/github.scss');
+@import '~~/assets/highlight/github.scss';
 </style>
 

@@ -17,6 +17,7 @@
     "highlight.js": "^9.12.0",
     "markdown-it": "^8.4.1",
     "markdown-it-anchor": "^5.0.2",
+    "markdown-it-table-of-contents": "^0.3.6",
     "nuxt": "^1.0.0"
   },
   "devDependencies": {

@@ -1,10 +1,10 @@
 <template>
-  <div class="blog">
+  <section class="blog">
     <Header/>
     <keep-alive>
       <router-view role="main"/>
     </keep-alive>
-  </div>
+  </section>
 </template>
 
 <script>
@@ -24,7 +24,19 @@ export default {
 }
 </script>
 
-<style lang="scss">
-
+<style lang="sass">
+@import '~/assets/style/index.sass'
+.blog
+  margin: 0 auto
+  position: relative
+  +desktop
+    max-width: $desktop - (2 * $gap)
+    width: $desktop - (2 * $gap)
+  +widescreen
+    max-width: $widescreen - (2 * $gap)
+    width: $widescreen - (2 * $gap)
+  +fullhd
+    max-width: $fullhd - (2 * $gap)
+    width: $fullhd - (2 * $gap)
 </style>
 

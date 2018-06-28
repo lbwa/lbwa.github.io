@@ -53,7 +53,7 @@ export default {
       transition: color .15s ease;
       margin-right: 2.3125rem;
       &.router-link-active, &.nuxt-link-active {
-        font-weight: 400;
+        color: #000000;
       }
     }
     .github-link {

@@ -122,7 +122,7 @@ tags:
 ```html
 <form action="/target-url" id="form" method="POST" enctype="multipart/form-data">
   <input type="text" name="username">
-  <input type="password" name="password"P
+  <input type="password" name="password">
   <input type="file" name="file" id="file-functions">
   <input type="submit">
 </form>
