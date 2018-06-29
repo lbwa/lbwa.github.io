@@ -35,7 +35,7 @@ tags:
 
 （[来源][suspended]）
 
-> Once the running execution context has been suspended a different execution context may become the running execution context and commence evaluating its code. At some later time a suspended execution context may again become the running execution context and continue evaluating its code at the point where it had previously been suspended. 
+> Once the running execution context has been suspended a different execution context may become the running execution context and commence evaluating its code. At some later time a suspended execution context may again become the running execution context and continue evaluating its code at the point where it had previously been suspended.
 
 1. 从当前运行的执行上下文相关联的可执行代码转移控制权（`control`，可理解为执行权）到与该执行上下文不相关的可执行代码时，就会创建新的执行上下文。
 

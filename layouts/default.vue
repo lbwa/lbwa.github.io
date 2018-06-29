@@ -5,6 +5,8 @@
 <style lang="sass">
 @import '~/assets/style/variable.sass'
 
+// global sass
+
 html
   width: 100vw
   overflow-x: hidden
@@ -81,4 +83,20 @@ table
 
 .appear-active
   transition: opacity 0.4s ease
+
+.title
+  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif
+  display: block
+  font-weight: 300
+  font-size: 5vh
+  color: $text-title
+  letter-spacing: 1px
+
+.subtitle
+  font-weight: 300
+  font-size: 2vh
+  color: $text-subtitle
+  word-spacing: 5px
+  padding-bottom: 15px
+
 </style>

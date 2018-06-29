@@ -40,20 +40,4 @@ export default {
   justify-content: center
   align-items: center
   text-align: center
-
-.title
-  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif
-  display: block
-  font-weight: 300
-  font-size: 5vh
-  color: $text-title
-  letter-spacing: 1px
-
-.subtitle
-  font-weight: 300
-  font-size: 2vh
-  color: $text-subtitle
-  word-spacing: 5px
-  padding-bottom: 15px
-
 </style>

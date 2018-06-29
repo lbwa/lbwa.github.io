@@ -1,7 +1,10 @@
 <template>
   <article class="blog-post">
-    <h2 class="title">i am a title</h2>
-    <div class="blog-content" v-html="htmlData"></div>
+    <h2 class="title" v-html="title"></h2>
+    <span class="post-author" v-html="author"></span>
+    <span class="post-date" v-html="date"></span>
+    <div class="post-tags" v-html="tags"></div>
+    <div class="blog-content" v-html="content"></div>
   </article>
 </template>
 
@@ -20,8 +23,9 @@ export default {
     //
     try {
       const { id } = params
-      const htmlData = mdParser(id)
-      return { htmlData }
+      const { title, date, author, tags, content } = mdParser(id)
+
+      return { title, date, author, tags, content }
     } catch (err) {
       error({ statusCode: 404, message: err })
     }

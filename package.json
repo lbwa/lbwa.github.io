@@ -28,6 +28,7 @@
     "eslint-friendly-formatter": "^3.0.0",
     "eslint-loader": "^1.7.1",
     "eslint-plugin-vue": "^4.0.0",
+    "front-matter": "^2.3.0",
     "node-sass": "^4.9.0",
     "sass-loader": "^7.0.3",
     "webpack": "^4.12.1"
