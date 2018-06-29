@@ -34,7 +34,21 @@ export default {
 </script>
 
 <style lang="sass">
+@import '~/assets/style/mixins.sass'
+
 .blog-post
   padding: 0 40px
+  .post-author, .post-date
+    display: inline-block
+    margin: 0 10px 10px 0
+    font-weight: bold
+  .post-tags
+    display: inline-block
+    +mobile
+      display: block
+  .post-tag
+    margin: 0 5px
+    &:first-child
+      margin-left: 0
 </style>
 
