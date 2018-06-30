@@ -35,7 +35,8 @@ module.exports = {
   loading: { color: '#3eaf7c', height: '2px' },
 
   build: {
-    vendor: ['highlight.js'],
+    // 只打包 highlight.js 的核心代码，否则打包而成的 vendor chunk 非常大
+    vendor: ['highlight.js/lib/highlight'],
     extend (config, { isDev, isClient }) {
       if (isDev && isClient) {
         config.module.rules.push(
