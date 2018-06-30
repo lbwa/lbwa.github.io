@@ -35,7 +35,7 @@ tags:
 
 示例如下：
 
-```javascript
+```js
 new Vue({
   el: '#app',
   data: {
@@ -70,7 +70,7 @@ new Vue({
 
 ## 解决方案
 
-```javascript
+```js
 watch: {
   // 法一
   'obj.a': { // 对象属性的样式一定要是字符串形式
@@ -143,7 +143,7 @@ watch: {
 
 示例如下：
 
-``` javascript
+```js
 const ChildComponent = {
   data () {
     return {
@@ -202,7 +202,7 @@ new Vue({
 
 # 在渲染函数中使用 $slot
 
-``` javascript
+```js
 const ChildComponent = {
   render (h) {
     return h('div', {

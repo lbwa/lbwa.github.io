@@ -8,51 +8,51 @@
 
 - [JS 设计模式][js-design-patter]
 
-[js-design-patter]:https://lbwa.github.io/2018/06/12/180612-js-design-pattern/
+[js-design-patter]:https://lbwa.github.io/blog/writing/180612-js-design-pattern/
 
 - [HTTP 协议请求首部][http-request]
 
-[http-request]:https://lbwa.github.io/2018/06/08/180608-http-request/
+[http-request]:https://lbwa.github.io/blog/writing/180608-http-request/
 
 - [HTTP 协议响应首部][http-response]
 
-[http-response]:https://lbwa.github.io/2018/06/07/180607-http-response/
+[http-response]:https://lbwa.github.io/blog/writing/180607-http-response/
 
 - [HTTP 协议][http-protocol]
 
-[http-protocol]:https://lbwa.github.io/2018/06/06/180606-http-protocol/
+[http-protocol]:https://lbwa.github.io/blog/writing/180606-http-protocol/
 
 - [JS 执行上下文][execution-context]
 
-[execution-context]:https://lbwa.github.io/2018/05/07/180507-execution-context/
+[execution-context]:https://lbwa.github.io/blog/writing/180507-execution-context/
 
 - [对 Vue 插槽和生命周期的一点思考][vue-lifecycle-and-slots]
 
-[vue-lifecycle-and-slots]:https://lbwa.github.io/2018/04/24/180424-vue-lifecycle-and-slots/
+[vue-lifecycle-and-slots]:https://lbwa.github.io/blog/writing/180424-vue-lifecycle-and-slots/
 
 - [总结如何进行单元测试][vue-unit-test]
 
-[vue-unit-test]:https://lbwa.github.io/2018/04/21/180421-Learning-vue-unit-test/
+[vue-unit-test]:https://lbwa.github.io/blog/writing/180421-learning-vue-unit-test/
 
 - [客户端跨域解决方案][cross-domain-solution]
 
-[cross-domain-solution]:https://lbwa.github.io/2018/04/19/180419-Cross-domain-solution/
+[cross-domain-solution]:https://lbwa.github.io/blog/writing/180419-cross-domain-solution/
 
 - [探究 BFC 以及闭合浮动原理][css-bfc]
 
-[css-bfc]:https://lbwa.github.io/2018/03/29/180329-CSS-BFC/
+[css-bfc]:https://lbwa.github.io/blog/writing/180329-css-bfc/
 
 - [解析 event loops][event-loop]
 
-[event-loop]:https://lbwa.github.io/2018/03/08/180308-Event-loop/
+[event-loop]:https://lbwa.github.io/blog/writing/180308-event-loop/
 
 - [比较 CommonJS 与 ES6 Module 语法][compare-cjs-with-esm]
 
-[compare-cjs-with-esm]:https://lbwa.github.io/2018/02/27/180227-Compare-CommonJS-with-ES6-module/
+[compare-cjs-with-esm]:https://lbwa.github.io/blog/writing/180227-compare-commonjs-with-esm/
 
 - [理解 this 的指向][understand-this]
 
-[understand-this]:https://lbwa.github.io/2018/02/06/180206-Understand-this/
+[understand-this]:https://lbwa.github.io/blog/writing/180206-keyword-this/
 
 ## Skills
 
