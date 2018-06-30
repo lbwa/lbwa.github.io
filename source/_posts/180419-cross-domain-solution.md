@@ -23,9 +23,7 @@ tags:
 
 ![跨域请求][cross-domain-solution-img1]
 
-[cross-domain-solution-img1]:https://raw.githubusercontent.com/lbwa/lbwa.github.io/master/images/post/Cross-domain-solution/kuayuyanzheng.PNG
-
-<!-- more -->
+[cross-domain-solution-img1]:https://raw.githubusercontent.com/lbwa/lbwa.github.io/vue/source/images/post/Cross-domain-solution/kuayuyanzheng.PNG
 
 ## 解决方案
 
@@ -137,9 +135,9 @@ app.get('/api/getJSONPData', (req, res) => {
 
 ### 场景二：目标服务器返回 JSONP 格式
 
-当目标服务器返回的是 JSONP 格式时，<span style="color: red">仍然使用 axios 请求中转服务器</span>，不同于场景一的是，在返回的 JSONP 数据中需要**剔除回调函数并转化为 JSON 格式**。
+当目标服务器返回的是 JSONP 格式时，***仍然使用 axios 请求中转服务器***，不同于场景一的是，在返回的 JSONP 数据中需要**剔除回调函数并转化为 JSON 格式**。
 
-那么可总结为，使用 axios 转发模拟带 headers 验证的 JSONP 时，<span style="color: red">必须以 ajax 请求中转服务器</span>。我们根据目标服务器返回给中转服务器的数据类型来决定是否在中转服务器中添加**剔除回调函数并转化为 JSON 格式**这一数据处理的步骤。
+那么可总结为，使用 axios 转发模拟带 headers 验证的 JSONP 时，***必须以 ajax 请求中转服务器***。我们根据目标服务器返回给中转服务器的数据类型来决定是否在中转服务器中添加**剔除回调函数并转化为 JSON 格式**这一数据处理的步骤。
 
 [header-refer-JSONP]:https://github.com/lbwa/vue-sonar/blob/master/build/webpack.dev.conf.js#L47-L71
 

@@ -50,7 +50,7 @@ tags:
 ```
 
 总结：@include bottom-1px() 要与 scale **配合使用**
-<!-- more -->
+
 ## 组件生命周期中的 ajax 请求
 
 app.vue 中 created 函数是异步请求，那么初始化时第一次传递给 sellerData  的就是 sellerDetail 的初始值，即 {} ，在 created 异步请求返回后，回调函数内 sellerDetail 变化，那么重新传递 sellerData 值，此时传递正常数据值。由此，在示例中，初始化时会 props 值会变化两次

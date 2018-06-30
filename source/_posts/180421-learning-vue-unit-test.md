@@ -41,7 +41,7 @@ tags:
 [Matt O'Connell]:http://slides.com/mattoconnell/deck#/
 
 [Chai]:http://www.chaijs.com/guide/styles/#assert
-<!-- more -->
+
 # 单元测试技巧
 
 ## 测试异步行为
@@ -160,13 +160,13 @@ before_install:
 
 `export CHROME_BIN=chromium-browser` 表示指定测试时使用的 Chrome 浏览器(最好字指明，还有 `google-chrome` 可选)。
 
-在 `karma.conf.js` [示例配置][karma.conf.js]中调用 `Chrome` 等**界面浏览器**时，以下两项是<span style="color: red">必须项</span>。
+在 `karma.conf.js` [示例配置][karma.conf.js]中调用 `Chrome` 等**界面浏览器**时，以下两项是***必须项***。
 
 `export DISPLAY=:99.0` 指定一个 GUI 测试。[出处][display-origin]
 
 `sh -e /etc/init.d/xvfb start` 指定一个在 `travis CI` 中测试时的图形界面。[出处][xvfb-origin]
 
-特别地，在 travis CI 中调用不需要图形界面的 ChromeHeadless 版本（[示例配置][ChromeHeadless]）的时候，那么以上两项就<span style="color: red">不是必须的</span>。
+特别地，在 travis CI 中调用不需要图形界面的 ChromeHeadless 版本（[示例配置][ChromeHeadless]）的时候，那么以上两项就***不是必须的***。
 
 [ChromeHeadless]:https://github.com/lbwa/vue-ssr/blob/master/test/unit/karma.conf.js#L19-L23
 

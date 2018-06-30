@@ -92,7 +92,7 @@ setTimeout 是 this.$nextTick 的一种实现，nextTick 本质上是利用 [事
 
 基础组件常见内容: props、state、methods（**侧重**被外部调用，改变基础组件的状态，并不是侧重处理数据的 methods）、event（向外部传递并携带载荷，告知数据变化）
 
-基础组件一般不放跟 vuex 数据处理相关的东西，<span style="color: red">基础组件侧重展示数据的功能</span>。
+基础组件一般不放跟 vuex 数据处理相关的东西，***基础组件侧重展示数据的功能***。
 
 # 滚动组件
 
@@ -351,9 +351,9 @@ export default new Vuex.Store({
 
 # 业务逻辑层和表现层
 
-业务逻辑（常见于业务组件）也是核心逻辑，业务逻辑层<span style="color: red">专注于数据的处理</span>，因业务逻辑层常改变，所以将业务逻辑层独立出来，降低修改业务逻辑对其他层的影响。业务逻辑的特点是不与使用者交互
+业务逻辑（常见于业务组件）也是核心逻辑，业务逻辑层***专注于数据的处理***，因业务逻辑层常改变，所以将业务逻辑层独立出来，降低修改业务逻辑对其他层的影响。业务逻辑的特点是不与使用者交互
 
-表现层（常见于基础组件）专注于<span style="color: red">数据展现</span>，指界面和交互。
+表现层（常见于基础组件）专注于***数据展现***，指界面和交互。
 
 # 在单文件组件中引用子组件
 
@@ -817,7 +817,7 @@ export const selectedPlay = ({ commit, state }, { list, index }) => {
 ```
 （注：当前播放歌曲是依据 playList 计算而来，sequenceList 是用于展示（交互）的列表，详见 [vuex store][currentSong]）
 
-<span style="color: red; font-weight: bold">关键点：</span>
+***关键点：***
 
 a. 在 selectedPlay 中，区分`随机播放`和`其他模式播放`，在当前模式为`随机播放`时，找到传入索引在打乱后的歌单中的索引，并设置新的索引。
 
@@ -987,7 +987,7 @@ function debounce (fn, delay = 200) { // 延迟默认值 200ms
   }
 }
 ```
-<span style="color: red; font-weight: bold;">注</span>：一个**易错点**就是 setTimeout 中为**箭头函数**时，因为箭头函数自身是没有 this 对象的，它内部的 this 对象是外部的 this 对象，那么此时可**直接调用**匿名包装函数的 this（这也是箭头函数的一个典型应用）。但若 setTimout 中是**非箭头函数**时，必须先在**外部引用**匿名函数的 this，即 `_that = this`，然后再用 `apply()` 方法指定调用 fn 时的 this 对象。
+***注***：一个**易错点**就是 setTimeout 中为**箭头函数**时，因为箭头函数自身是没有 this 对象的，它内部的 this 对象是外部的 this 对象，那么此时可**直接调用**匿名包装函数的 this（这也是箭头函数的一个典型应用）。但若 setTimout 中是**非箭头函数**时，必须先在**外部引用**匿名函数的 this，即 `_that = this`，然后再用 `apply()` 方法指定调用 fn 时的 this 对象。
 
 以上示例中，`debounce 函数`起**修饰作用**，用于定义一个闭包变量存储定时器和传入延迟载荷，返回的匿名函数也是 `fn 函数`的一个**修饰**，用于判断是否执行函数。其中 `...args` 为 ES6 `rest 参数`，它定义了在调用匿名函数时，由传入的参数组成的**真**数组（对于 arguments 伪数组而言）。
 
