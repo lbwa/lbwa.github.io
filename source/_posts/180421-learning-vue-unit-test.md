@@ -68,7 +68,7 @@ tags:
 
 ## 测试环境中的事件触发与监听
 
-``` javascript
+```js
 it('测试点击 todo 单项事件 - refreshThisCompleted', done => {
     const wrapper = mount(ContentItem, {
       propsData: {
@@ -86,7 +86,7 @@ it('测试点击 todo 单项事件 - refreshThisCompleted', done => {
 
 注：在原本的测试环境中 `Vue.js` 的 watcher 是不能被触发的，其中的 watcher 都是需要手动触发的。
 
-``` javascript
+```js
 // 创建事件并触发
 const evt = new window.Event('click') // Event() 代替 Document.createEvent() 成为标准
 button.dispatchEvent(evt)
@@ -96,7 +96,7 @@ vm._watcher.run() // vm 表示测试环境中的 Vue 实例
 
 特别地，特定按键的事件触发如下:
 
-``` javascript
+```js
 it('刷新显示的 todo 单项 - refreshItems', () => {
     const wrapper = mount(LayoutContent)
     const inputBox = wrapper.find('.add-item')
@@ -117,7 +117,7 @@ it('刷新显示的 todo 单项 - refreshItems', () => {
 
 那么在需要取得某个元素的 value 值的情况下，我们可以有以下的实现：
 
-``` javascript
+```js
 const input = wrapper.find('input')
 input.element.value = 100
 input.trigger('click')
@@ -146,7 +146,7 @@ Vue Test Utils 是同步触发事件。因此 Vue.nextTick 不是必须的。
 
 在 travis CI 集成时，调用 Chrome 的[必须选项][chrome-options]：
 
-``` bash
+```yml
 sudo: required
 
 addons:
@@ -174,7 +174,7 @@ before_install:
 
 在 `karma.conf.js` [示例配置][karma.conf.js]中将部分配置修改如下：
 
-``` javascript
+```js
 module.exports = function karmaConfig (config) {
   config.set({
     // browsers: ['PhantomJS'], 结合 vue-test-utils 挂载时 执行 mount() 会报错

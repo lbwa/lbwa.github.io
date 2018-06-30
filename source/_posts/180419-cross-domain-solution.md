@@ -65,7 +65,7 @@ tags:
 
 典型的需要验证 header 的 JSONP 请求模拟[示例][the-recommend.js-jsonp]
 
-```javascript
+```js
 export function getJSONPData (recommendId) {
   const data = {
     ...commonParams,
@@ -93,7 +93,7 @@ export function getJSONPData (recommendId) {
 
 中转服务器示例配置(express 为例)[点我][aqjhddm]
 
-``` javascript
+```js
 // devServer.before(它是一个 express API)
 
 app.get('/api/getJSONPData', (req, res) => {

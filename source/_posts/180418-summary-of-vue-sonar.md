@@ -35,8 +35,6 @@ tags:
 
 所谓`同源`是指，**域名，协议，端口**都相同。浏览器执行 JavaScript 脚本时，会检查这个脚本属于哪个页面，如果不是同源页面，就不会被执行。
 
-<!-- more -->
-
 ## 解决方案
 
 [点我，查看我的另一篇博文][cross-domain-origin]
@@ -102,7 +100,7 @@ setTimeout 是 this.$nextTick 的一种实现，nextTick 本质上是利用 [事
 
 滚动基础组件中包含一些**代理**执行的函数，可从**外部调用**执行来更新组件内部状态。
 
-``` javascript
+```js
  // child component
  // 代理执行的方法，意在组件外部调用内部方法更新组件状态
   enable () {
@@ -117,7 +115,7 @@ setTimeout 是 this.$nextTick 的一种实现，nextTick 本质上是利用 [事
     this.scroll && this.scroll.refresh()
   }
 ```
-``` javascript
+```js
 // parent component
 // 在外部改变子组件（ref="child"）内部状态
 this.$refs.child.enable()
@@ -172,7 +170,7 @@ this.$refs.child.refresh()
 
 设立一个 watcher 观察传入组件的 props 的变化，在 vue 更新 DOM 之后（nextTick）调用计算高度的函数 `_calculatHeight` 函数，计算各个类别元素的高度，加上初始高度 0，即可得到各个锚点（anchor）的位置，用 `listHeight` 变量存储。
 
-``` javascript
+```js
 _calculateHeight {
   const group = this.$refs.group
   let listHeight = []
@@ -198,7 +196,7 @@ _calculateHeight {
 
 子组件 `base-scroll.vue`（以`better-scroll` 和 `slot 插槽` 建立的滚动基础组件）中设置监听事件 `scroll` ，并在事件处理程序中向父组件派发一个 `scroll` 事件。
 
-``` javascript
+```js
 // 在初始化组件的函数中加入
 if (this.listenScroll) { // this.listenScroll 是 props 属性，表示是否监听 scroll 事件
   let that = this
@@ -210,7 +208,7 @@ if (this.listenScroll) { // this.listenScroll 是 props 属性，表示是否监
 
 父组件中的监听程序
 
-``` javascript
+```js
 scroll () {
   this.scrollY = pos.y
 }
@@ -224,7 +222,7 @@ scroll () {
 
 ### 1.3. 监听 scrollY 变化，以计算当前 currentIndex
 
-``` javascript
+```js
 watch: {
   scrollY (newY) { // watch 中函数可传入 newValue 和 oldValue，表示新值和旧值
     const listHeight = this.listHeight
@@ -255,7 +253,7 @@ watch: {
 
 触摸触发 active 切换：
 
-``` javascript
+```js
 _scrollTo (index) {
   this.scrollY = -this.listHeight[index] // 效果：点击行为切换 active 类
   //...
@@ -264,7 +262,7 @@ _scrollTo (index) {
 
 滚动触发 active 切换：
 
-``` javascript
+```js
 _scrollTo (index) {
   // ... 
   this.$refs.list.scrollToElement(this.$refs.group[index], 0) // 调用子组件方法跳转至锚点, 0表示动画时间
@@ -283,7 +281,7 @@ _scrollTo (index) {
 
 注：这里涉及到一个复用的思维，即可能在之后的开发中复用该功能，那么我们可以将该函数独立到公共 JS 中。
 
-```javascript
+```js
 export function getData (el, name, value) {
   const prefix = 'data-'
   name = prefix + name
@@ -297,7 +295,7 @@ export function getData (el, name, value) {
 
 ### touchstart 事件
 
-``` javascript
+```js
 // 得到锚点 index ，调用 better-scroll 方法跳转至锚点
 onTouchStart (evt) {
   let anchorIndex = getData(evt.target, 'index') // 得到自定义 data-index 值
@@ -308,7 +306,7 @@ onTouchStart (evt) {
 ```
 ### touchmove 事件
 
-``` javascript
+```js
 // 计算偏移距离，以至于得到偏移个数，之后调用跳转元素方法，达到 touchmove 滚动 list 的效果
 onTouchMove (evt) {
   this.touch.y2 = evt.touches[0].pageY
@@ -332,7 +330,7 @@ onTouchMove (evt) {
 
 mutations 常有 mutation-types.js 来存储 mutation 的名字（设置为常量）
 
-``` javascript
+```js
 //...
 import createLogger from 'vuex/dist/logger' // 每次修改 state ，都会打印新旧 state
 
@@ -362,7 +360,7 @@ export default new Vuex.Store({
 ``` html
 <child-component ref="child">
 ```
-``` javascript
+```js
 this.$refs.child // 返回对组件的引用
 this.$refs.child.$el  // 返回对 DOM 节点的引用
 ```
@@ -379,7 +377,7 @@ this.$refs.child.$el  // 返回对 DOM 节点的引用
 
 目标：实现 autoprefixer 的自动添加厂商前缀
 
-``` javascript
+```js
 // 浏览器能力检测，查询能够被当前浏览器识别的前缀
 let elementStyle = document.createElement('div').style
 
@@ -418,7 +416,7 @@ export function prefixStyle (style) {
 
 常见场景： 兼容不同浏览器，可能会有不同的 CSS 属性名
 
-``` javascript
+```js
 // const transform = prefixStyle('transform')
 this.$refs.cd.style[transform] = `translate3d(${x}, ${y}, 0) scale(${scale})`
 ```
@@ -448,7 +446,7 @@ base 组件（即基础组件）**只**起展示作用？数据处理**都**在�
 
 示例：
 
-``` javascript
+```js
 // base-song-list 组件中
 // template
 @click="selectedItem(item, index)"
@@ -460,7 +458,7 @@ selectedItem (song, index) {
 ```
 子组件（扩展为基础组件）中派发 select 事件，传递点击事件后产生的载荷 song 和 index，此时，子组件（扩展为基础组件） base-song-list 并不知道这里的载荷 song 和 index 接下来将被如何使用，以及会不会使用，它的职责**只是**提供他所能够提供的数据 song 和 index。这里的一个思维就是：不要以派发事件 select 之后如何使用数据来定义子组件（扩展为基础组件） base-song-list 传递数据的这一行为，如何使用数据并不是子组件 base-song-list 的职责
 
-``` javascript 
+```js 
 // parts-music-list 组件中
 // template
 @select="selectedSong"
@@ -533,7 +531,7 @@ methods: {
 
 注：该方法最终返回的结果是**字符串**。使用补0时，第一个参数 locales 要设置（如：'zh'）。
 
-``` javascript
+```js
 const num = 2333333;
 num.toLocaleString('zh', { style: 'decimal' }) // 2,333,333
 num.toLocaleString('zh', { style: 'percent' }) // 233,333,300%
@@ -557,7 +555,7 @@ num.toLocaleString('zh', { maximumSignificantDigits: 4, useGrouping: false }) //
 
 [Date.prototype.toLocaleString][toLocaleString]( [ locales [, options ] ] ) 可将数字格式化为特定格式**字符串**
 
-``` javascript
+```js
 const date = new Date();
 date.toLocaleString('en', { weekday: 'narrow', era: 'narrow' }) // W A
 date.toLocaleString('en', { weekday: 'short', era: 'short' }) // Wed AD
@@ -582,7 +580,7 @@ date.toLocaleString('en', { month: 'long' }) // April
 
 # $refs 对象的生命周期
 
-``` javascript
+```js
 computed: {
   /**
   * https://cn.vuejs.org/v2/api/#ref
@@ -613,7 +611,7 @@ computed: {
 
 ### 改变样式
 
-``` javascript 
+```js 
 methods: {
   // ...
   _offset (length) { // 修改当前显示进度的样式
@@ -628,7 +626,7 @@ methods: {
 
 在基础组件中，是不应该有业务逻辑的。换句话说，业务逻辑只出现在业务组件中，那么在修改样式之后，通过向父组件派发事件的方式来启动业务逻辑。
 
-```javascript
+```js
 methods: {
   // ...
   _triggerPercent () { // 载荷为目标时间百分比（当前样式百分比）
@@ -648,7 +646,7 @@ methods: {
 
 组件初始化时，建立一个在 `touchstart`,`touchmove`,`touchend` 三个事件中可共享的数据容器
 
-``` javascript
+```js
 created () {
   this.touch = {}
 }
@@ -658,7 +656,7 @@ created () {
 
 得到当前播放控件的坐标位置，为后续计算移动距离做准备
 
-``` javascript
+```js
 progressTouchStart (evt) {
   this.touch.initiated = true // 表示是否已经初始化
   this.touch.startX = evt.touches[0].pageX
@@ -668,7 +666,7 @@ progressTouchStart (evt) {
 
 ### touchmove —— 计算当前的移动距离
 
-``` javascript
+```js
 const PROGRESS_BTN_WIDTH = 16 // 圆点控件的宽度
 
 progressTouchMove () {
@@ -686,7 +684,7 @@ progressTouchMove () {
 
 ### touchend —— 重置初始状态
 
-``` javascript
+```js
 progressTouchEnd (evt) {
   this.touch.initiated = false
   this._triggerPercent() // 派发事件，启动业务逻辑
@@ -699,7 +697,7 @@ progressTouchEnd (evt) {
 
 ### 当前点击的位置 —— offsetX
 
-``` javascript
+```js
 methods: {
   // ...
   progressClick (evt) {
@@ -722,7 +720,7 @@ methods: {
 
 # 在某数值范围内循环
 
-``` javascript
+```js
 methods: {
   // ...
   changeMode () {
@@ -737,7 +735,7 @@ methods: {
 
 # 打乱数组
 
-``` javascript
+```js
 function getRandomInt (min, max) { // 产生介于 min 和 max 之间的随机数，包含上下限
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
@@ -759,7 +757,7 @@ export function shuffle (arr) { // 经典打乱数组算法
 
 得到的[对象][client-rect]为：
 
-``` javascript
+```js
 DOMRect {x: 67.53125, y: 682, width: 240.2604217529297, height: 30, top: 682, …}
     bottom:712 // 矩形盒子A的底部相对于视口圆点的 y 坐标
     height:30 // 元素高度 = bottom - top
@@ -780,7 +778,7 @@ DOMRect {x: 67.53125, y: 682, width: 240.2604217529297, height: 30, top: 682, �
 
 始于 randomPlaySong ==> actions 中 randomPlay (==> actions 中 selectedPlay 对应修改 ==> common/js/util 中 shuffle 函数修改 )
 
-``` javascript
+```js
 function getRandomInt (min, max) { // 产生介于 min 和 max 之间的随机数，包含上下限
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
@@ -800,7 +798,7 @@ export function shuffle (arr) { // 经典打乱数组算法
 
 shuffle 函数中的**关键点**是，**不能**对传入的参数数组造成影响，否则在 selectedPlay 中的`index = findIndex(randomList, list[index])` 将导致无法找到正确的当前播放歌曲的索引
 
-``` javascript
+```js
 export const selectedPlay = ({ commit, state }, { list, index }) => {
   commit(types.SET_SEQUENCE_LIST, list)
 
@@ -861,7 +859,7 @@ b. `index = findIndex(randomList, list[index])`一定要保证 `list[index]` 的
 
 # 组件 watcher 的另一种写法
 
-``` javascript
+```js
 created () {
   this.$watch('query', debounce(newQuery => {
     this.$emit('queryChange', newQuery)
@@ -872,7 +870,7 @@ created () {
 
 # 对子组件的一种传值方法，当该值不需要监听时
 
-``` javascript
+```js
 // child component
 methods: {
   setQuery (query) {
@@ -900,7 +898,7 @@ methods: {
 
 ## vuex store 中慎用 splice() 等会修改原对象的方法
 
-``` javascript
+```js
 export const insertSong = ({ commit, state }, song) => {
   /**
    * 为了在之后使用 Array.prototype.splice() 方法，这里使用拓展运算符浅复制数组
@@ -970,7 +968,7 @@ export const insertSong = ({ commit, state }, song) => {
 
 实现：
 
-``` javascript
+```js
 /**
  * @param  {Function} fn     要实现函数防抖的原函数
  * @param  {Number}   delay  延迟时间
@@ -995,7 +993,7 @@ function debounce (fn, delay = 200) { // 延迟默认值 200ms
 
 其中在 `setTimeout` 任务分发器中，是一个**异步调用**，那么必须指定调用 fn 的 this 和调用 fn 的包装匿名函数的传入参数。这是为了保证在使用防抖函数后调用 fn 与在没有使用防抖函数时调用 fn 的 this 对象和 arguments 对象**一致**。若不指定那么执行fn 时的 this 将指向 window，并且调用 fn 时无法正确传入 arguments 参数对象。
 
-``` javascript
+```js
 // Vue.js 中使用函数防抖
 
 created () {

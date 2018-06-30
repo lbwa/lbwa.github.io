@@ -2,7 +2,7 @@
   <header class="header">
     <nav class="navigator" role="navigation">
       <router-link class="blog-logo" to="/" exact>
-        <img class="logo" src="./logo.png" alt="logo">
+        <img class="header-logo" src="./logo.png" alt="logo">
       </router-link>
       <div class="links">
         <router-link
@@ -47,6 +47,9 @@ export default {
 
     .blog-logo
       flex: 0 0 50px
+
+      .header-logo
+        width: 30px
 
     .links
       flex: 1

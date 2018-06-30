@@ -46,7 +46,7 @@ module.exports = {
       // https://webpack.docschina.org/plugins/context-replacement-plugin/
       new webpack.ContextReplacementPlugin(
         /highlight\.js\/lib\/languages$/,
-        new RegExp(`^./(${['css', 'scss', 'js', 'ts', 'bash'].join('|')})$`),
+        new RegExp(`^./(${['css', 'scss', 'js', 'ts', 'bash', 'html', 'yml'].join('|')})$`),
       )
     ],
     extend (config, { isDev, isClient }) {

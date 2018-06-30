@@ -339,7 +339,7 @@ let vm5 = new Vue({
 `<input v-model.number="age" type="number">`
 这通常很有用，因为即使在` type="number" `时，HTML 输入元素的值也总会返回（某个数字的字符串形式）字符串。
 
-```
+```js
 // 当没有.number修饰符时，返回某个字符串的String类型形式
 typeof vm.age === 'String'
 
@@ -655,7 +655,7 @@ export default {
 对这两种情况，正确的应对方式是：
 1. 定义一个局部变量，并用 prop 的值初始化它：
 
-```javascript
+```js
 props: ['initialCounter'],
 data: function () {
   return { counter: this.initialCounter }
@@ -664,7 +664,7 @@ data: function () {
 
 2. 定义一个计算属性，处理 prop 的值并返回：
 
-```javascript
+```js
 props: ['size'],
 computed: {
   normalizedSize: function () {
