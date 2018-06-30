@@ -1,4 +1,5 @@
 const posts = require('./source/_posts/menu.json')
+const webpack = require('webpack-bundle-analyzer')
 
 module.exports = {
   head: {
@@ -6,7 +7,8 @@ module.exports = {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Personal blog' }
+      { name: 'keywords', content: 'bowen博客 vue ssr blog,前端开发,前端,web开发,node,vue,react,webpack,git' },
+      { hid: 'description', name: 'description', content: 'bowen博客 vue ssr blog,前端开发,前端,web开发,node,vue,react,webpack,git' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
@@ -35,7 +37,6 @@ module.exports = {
   loading: { color: '#3eaf7c', height: '2px' },
 
   build: {
-    vendor: ['highlight.js/lib/highlight'],
     extend (config, { isDev, isClient }) {
       if (isDev && isClient) {
         config.module.rules.push(

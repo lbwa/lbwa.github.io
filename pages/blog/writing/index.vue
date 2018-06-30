@@ -6,7 +6,7 @@
 
 <script>
 import menu from '~/source/_posts/menu.json'
-import Catalog from '~/components/Catalog/index.vue'
+import Catalog from '~/components/Catalogs'
 export default {
   data () {
     return {
