@@ -1,5 +1,4 @@
-const posts = require('./source/_posts/menu.json')
-const webpack = require('webpack-bundle-analyzer')
+const webpack = require('webpack')
 
 module.exports = {
   head: {
@@ -37,6 +36,19 @@ module.exports = {
   loading: { color: '#3eaf7c', height: '2px' },
 
   build: {
+    analyze: {
+      analyzerMode: 'static'
+    },
+    plugins: [
+      // only way to reduce highlight.js bundle size
+      // If not, webpack alway import all language package
+      // https://bjacobel.com/2016/12/04/highlight-bundle-size/
+      // https://webpack.docschina.org/plugins/context-replacement-plugin/
+      new webpack.ContextReplacementPlugin(
+        /highlight\.js\/lib\/languages$/,
+        new RegExp(`^./(${['css', 'scss', 'js', 'ts', 'bash'].join('|')})$`),
+      )
+    ],
     extend (config, { isDev, isClient }) {
       if (isDev && isClient) {
         config.module.rules.push(
@@ -59,6 +71,7 @@ module.exports = {
       minifyJS: true
     },
     routes: function () {
+      const posts = require('./source/_posts/menu.json')
       return posts.map(post => {
         return `/blog/writing/${post.to}`
       })

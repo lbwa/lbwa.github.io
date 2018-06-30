@@ -18,7 +18,7 @@
     "markdown-it": "^8.4.1",
     "markdown-it-anchor": "^5.0.2",
     "markdown-it-table-of-contents": "^0.3.6",
-    "nuxt": "^1.0.0"
+    "nuxt": "^1.4.1"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.1",
@@ -30,8 +30,7 @@
     "eslint-plugin-vue": "^4.0.0",
     "front-matter": "^2.3.0",
     "node-sass": "^4.9.0",
-    "sass-loader": "^7.0.3",
-    "webpack": "^4.12.1"
+    "sass-loader": "^7.0.3"
   },
   "config": {
     "commitizen": {
