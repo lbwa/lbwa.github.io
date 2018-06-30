@@ -1,6 +1,6 @@
 <template>
   <article class="blog-post">
-    <h2 class="title" v-html="title"></h2>
+    <h2 class="post-title" v-html="title"></h2>
     <span class="post-author" v-html="author"></span>
     <span class="post-date" v-html="date"></span>
     <div class="post-tags" v-html="tags"></div>
@@ -9,11 +9,11 @@
 </template>
 
 <script>
-import mdParser from '~/lib/parseMarkdown'
+import markdownParser from '~/lib/parseMarkdown'
 
 export default {
   validate ({ params }) {
-    // TODO: detect title
+    // TODO: detect title in catalog object
     return /^\d+/.test(params.id)
   },
 
@@ -23,7 +23,9 @@ export default {
     //
     try {
       const { id } = params
-      const { title, date, author, tags, content } = mdParser(id)
+
+      // extract meta info from markdown file
+      const { title, date, author, tags, content } = markdownParser(id)
 
       return { title, date, author, tags, content }
     } catch (err) {
@@ -38,6 +40,8 @@ export default {
 
 .blog-post
   padding: 0 40px
+  .post-title
+    font-size: 2.5rem
   .post-author, .post-date
     display: inline-block
     margin: 0 10px 10px 0

@@ -26,7 +26,7 @@ html
 ul,ol
   padding-left: 1.2em
 
-p
+p, li
   line-height: 1.8
   margin: .5em 0
 
@@ -58,10 +58,9 @@ table
   color: $theme-green
   text-decoration: none
   padding: 10px 30px
-
-.button--green:hover
-  color: #fff
-  background-color: $theme-green
+  &:hover
+    color: #fff
+    background-color: $theme-green
 
 .button--grey
   display: inline-block
@@ -71,10 +70,9 @@ table
   text-decoration: none
   padding: 10px 30px
   margin-left: 15px
-
-.button--grey:hover
-  color: #fff
-  background-color: $theme-blue
+  &:hover
+    color: #fff
+    background-color: $theme-blue
 
 .view
   max-width: 800px
