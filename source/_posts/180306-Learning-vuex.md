@@ -21,7 +21,7 @@ state 用于缓存状态（计算属性）数据。可**类比**于 vue 实例�
 特点：
 
 1. 具有响应式变化的特点，最简单读取 vuex 实例（store）的状态的方法是，在计算属性中返回某个状态。如下所示:
-``` javascript
+```js
 computed: {
   count () {
     return store.state.count
@@ -43,7 +43,7 @@ getter 中的处理函数接受 state 中的状态数据作为**第一参数**�
 
 `mapGetters`的实现和`mapState`很类似，不同的是`mapGetters`函数的参数**不能是函数**，只能是一个字符串。对比如下：
 
-``` javascript
+```js
 import { mapState, mapGetters } from 'vuex'
 export default {
   // ...
@@ -107,7 +107,7 @@ export default {
 
 不能直接调用 mutation handler，可类比调用`this.$emit`方法触发某自定义事件。那么，使用 mutation handler 的方法如下：
 
-``` javascript
+```js
 store.commit('mutations 选项中的回调函数名')
 ```
 
@@ -115,7 +115,7 @@ store.commit('mutations 选项中的回调函数名')
 
 另外，还可以使用对象风格的提交方式（其中必包含事件类型 type ），该对象将整体传入 mutation 对象。如下所示提交 mutation 的三种方法：
 
-``` javascript
+```js
 store.commit('increment')
 // 或者写为
 store.commit('increment', { amount: 10 })
@@ -127,7 +127,7 @@ store.commit({
 ```
 
 综上，在组件中使用`this.$store.commit('xxx')`来提交 mutation。或使用`mapMutations`将组件的 methods 映射为`store.commit`调用（需要在根节点注入 store）
-``` javascript
+```js
 import { mapMutations } from 'vuex'
 
 export default {
@@ -167,7 +167,7 @@ actions 选项中的回调函数接受的**参数**是一个与 store 实例对�
 
 常见[action 注册][action]如下：
 
-``` javascript
+```js
 const store = new Vuex.Store({
   state: {
     count: 0
@@ -191,7 +191,7 @@ const store = new Vuex.Store({
 
 因为在[分发 action][action]时要使用到`store.dispatch`来触发 action 中的函数，那么我们给 action 对象中的函数定义时需要一个名字，该函数名作为分发 action 的**依据**。此时，该函数的参数对象会**获得与 store 实例相同的方法和实例**，而且因为有 ES6 的[解构赋值][destructuring]的存在，那么之前注册 actions 选项的代码与下面的代码等价：
 
-``` javascript
+```js
 actions: {
 
   /**
@@ -210,7 +210,7 @@ actions: {
 
 action 通过`store.dispatch`方法触发分发。
 
-``` javascript
+```js
 store.dispatch('actions 中的回调函数')
 ```
 
@@ -222,7 +222,7 @@ store.dispatch('actions 中的回调函数')
 
 在组件中使用`this.$store.dispatch('xxx')`分发 action，或者使用`mapActions`辅助函数将组件的 methods 映射为 `store.dispatch` 调用（需要先在根节点注入 store ）：
 
-``` javascript
+```js
 import { mapActions } from 'vuex'
 
 export default {
@@ -251,7 +251,7 @@ export default {
 
 首先，必须明白`store.dispatch`可以处理 被触发的 action 内部的处理函数返回的 Promise，简而言之，`store.dispatch`**可以**处理 Promise。并且`store.dispatch`方法本身仍旧**返回 Promise 对象**。
 
-``` javascript
+```js
 actions: {
   actionA ({ commit }) {
     return new Promise((resolve, reject) => {// actionA 函数返回一个 Promise
@@ -282,7 +282,7 @@ actions: {
 
 因为有进化版的 Promise，即[async/await][async]，aysnc 函数本身返回一个 Promise 对象，那么我们可以据此组合 action：
 
-``` javascript
+```js
 // 假设 getData() 和 getOtherData() 返回的是 Promise
 
 actions: {
@@ -304,7 +304,7 @@ actions: {
 
 对于模块内部的 mutation 和 getter，接收的第一个参数是模块的**局部状态对象**。
 
-``` javascript
+```js
 const moduleA = {
   state: { count: 0 },
   mutations: {
@@ -318,7 +318,7 @@ const moduleA = {
 
 对于模块内部的 action，局部状态通过`context.state`暴露出来，根节点状态则为`context.rootState`（参数对象简写成以下代码格式的原因见 Action 章节简介）：
 
-``` javascript
+```js
 const moduleA = {
   // ...
   actions: {
@@ -334,7 +334,7 @@ const moduleA = {
 
 对于模块内部的 getter，根节点状态会作为第三个参数暴露出来：
 
-``` javascript
+```js
 const moduleA = {
   // ...
   getters: {

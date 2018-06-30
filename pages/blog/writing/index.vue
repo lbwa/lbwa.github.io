@@ -6,7 +6,7 @@
 
 <script>
 import menu from '~/source/_posts/menu.json'
-import Catalog from '~/components/catalog'
+import Catalog from '~/components/Catalog'
 export default {
   data () {
     return {

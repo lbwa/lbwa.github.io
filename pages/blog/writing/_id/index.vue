@@ -23,7 +23,6 @@ export default {
     //
     try {
       const { id } = params
-      console.log('params :', params)
 
       // extract meta info from markdown file
       const { title, date, author, tags, content } = markdownParser(id)

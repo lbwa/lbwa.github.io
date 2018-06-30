@@ -2,7 +2,7 @@
   <header class="header">
     <nav class="navigator" role="navigation">
       <router-link class="blog-logo" to="/" exact>
-        <img src="./logo.png" alt="logo" width="30px">
+        <img class="logo" src="./logo.png" alt="logo">
       </router-link>
       <div class="links">
         <router-link
@@ -32,6 +32,9 @@ export default {
 
 <style lang="sass">
 @import '~/assets/style/index.sass'
+
+.logo
+  width: 30px
 
 .header
   background-color: $theme-deepgreen

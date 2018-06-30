@@ -1,5 +1,12 @@
 <template>
   <div class="logo">
-    <img src="./avatar.jpg" alt="avatar" width="180px">
+    <img class="avatar" src="./avatar.jpg" alt="avatar">
   </div>
 </template>
+
+<style lang="sass">
+
+.avatar
+  width: 180px
+</style>
+

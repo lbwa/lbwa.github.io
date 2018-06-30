@@ -1,4 +1,4 @@
-# Website
+# https://set.sh [![Build Status](https://travis-ci.org/lbwa/lbwa.github.io.svg?branch=vue)](https://travis-ci.org/lbwa/lbwa.github.io)
 
 在线博客[浏览][blog]
 

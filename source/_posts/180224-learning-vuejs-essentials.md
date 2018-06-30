@@ -64,7 +64,7 @@ Vue实例除了数据属性之外，还暴露了一些实例属性和方法，�
 
 Mustache语法不能作用在HTML特性上，遇到这种情况要（响应式赋值）使用v-bind指令：
 
-``` html
+```html
 <!-- html -->
 <div id="app">
   <span v-bind:id="dynamicId" >testing text</span>
@@ -72,7 +72,7 @@ Mustache语法不能作用在HTML特性上，遇到这种情况要（响应式�
 </div>
 ```
 
-``` javascript
+```js
 // JavaScript
 let vm = new Vue({
    el:'#app',
@@ -90,7 +90,7 @@ let vm = new Vue({
 对于所有的数据绑定，`Vue.js`都提供完全的JavaScript表达式的支持。
 在Mustache语法中只支持表达式，不支持流控制。 　
 
-``` javascript
+```js
 
 // 这是语句，不是表达式
 { { let a = 1; } }
@@ -118,7 +118,7 @@ let vm = new Vue({
 计算属性和侦听器
 一般只在Mustache语法中写入显而易见的JavaScript表达式，否则在Mustache语法中请使用计算属性或方法。
 
-``` html
+```html
 <!-- html -->
 <div id="app">
   <p>{ {reverseMsg} }</p>
@@ -126,7 +126,7 @@ let vm = new Vue({
 </div>
 ```
 
-``` javascript
+```js
 // JavaScript
 let vm = new Vue({
     el: '#app2',
@@ -190,7 +190,7 @@ let vm = new Vue({
 `vm.items.length = newLengt`
 为了解决第一类问题，以下两种方式都可以实现和 `vm.items[indexOfItem] = newValue`相同的效果，同时也将触发状态更新：
 
-``` javascript
+```js
 // Vue.set
 Vue.set(example1.items, indexOfItem, newValue)
 // Array.prototype.splice
@@ -218,7 +218,7 @@ vm.b = 2
 
 对于已经创建的实例，Vue 不能动态添加根级别的响应式属性。但是，可以使用 `Vue.set(object, key, value)` 方法向嵌套对象添加响应式属性。例如，对于：
 
-``` javascript
+```js
 var vm = new Vue({
   data: {
     userProfile: {
@@ -234,7 +234,7 @@ var vm = new Vue({
 `vm.$set(vm.userProfile, 'age', 27)`
 有时你可能需要为已有对象赋予多个新属性，比如使用 `Object.assign()` 或 `_.extend()`。在这种情况下，你应该用两个对象的属性创建一个新的对象。所以，如果你想添加新的响应式属性，不要像这样：
 
-``` javascript
+```js
 Object.assign(vm.userProfile, {
   age: 27,
   favoriteColor: 'Vue Green'
@@ -243,7 +243,7 @@ Object.assign(vm.userProfile, {
 
 你应该这样做：
 
-``` javascript
+```js
 vm.userProfile = Object.assign({}, vm.userProfile, {
   age: 27,
   favoriteColor: 'Vue Green'
@@ -262,7 +262,7 @@ vm.userProfile = Object.assign({}, vm.userProfile, {
 
 Vue 还对应 addEventListener 中的 passive 选项提供了 `.passive`修饰符。
 
-``` html
+```html
 
 <!-- 滚动事件的默认行为 (即滚动行为) 将会立即触发 -->
 <!-- 而不会等待 `onScroll` 完成  -->
@@ -298,7 +298,7 @@ Vue 还对应 addEventListener 中的 passive 选项提供了 `.passive`修饰�
 
 含义：对于单选、复选以及选择框的选项，`v-model`绑定的值通常是静态字符串（对于复选按钮也可以是布尔值），进一步，可用`v-bind`指令将一个动态属性（该值可以不是字符串）绑定在`v-model`值上。其中，单选/复选按钮本身value值只能是布尔值，这是在Vue内部维护的。`v-model`值只是表单控件的value属性的一个体现。
 
-``` html
+```html
 <!-- html -->
 <div id="app5">
     <!-- 注：在复选框中值绑定，必须绑定为 true-value 和 false-value 这两个属性，否则
@@ -315,7 +315,7 @@ Vue 还对应 addEventListener 中的 passive 选项提供了 `.passive`修饰�
 </div>
 ```
 
-``` javascript
+```js
 // JavaScript
 let vm5 = new Vue({
     el: '#app5',
@@ -355,7 +355,7 @@ typeof vm.age === 'Number'
 
 ### 全局注册
 
-``` javascript
+```js
 // 全局注册组件，component方法不带s
 Vue.component('my-component', {
   template: '<div>A custom component!</div>'
@@ -372,14 +372,14 @@ new Vue({
 
 示例代码如下：
 
-``` html
+```html
 <!-- html -->
 <div id="app1">
   <my></my>
 </div>
 ```
 
-``` javascript
+```js
 // JavaScript
 const child = {
   template: '<div>A anther component!</div>'
@@ -407,7 +407,7 @@ new Vue({
 
 这样不可以
 
-``` html
+```html
 <body>
   <div id="app">
     <select>
@@ -509,7 +509,7 @@ new Vue({
 原因：首先明白，只有在创建Vue实例时，才会创建对data对象的引用。
 　　若是data对象不是函数，那么在多处使用该组件（创建Vue实例）时，将造成多处的组件使用的是**同一**data对象。若是data是函数，那么在多处使用该组件时，在创建Vue实例时执行data函数，此时才会真正的创建仅仅属于每个组件自己的data对象，那么此时多处的组件都有自己的data对象（即每使用一次该组件都会重新创建一个新的data对象），这些data对象是相互独立，互不影响的，达到解耦。
 
-``` javascript
+```js
 // 在局部组件中添加data对象
 const child = {
   template: `<div>{ {fn} }</div>`,
@@ -547,7 +547,7 @@ new Vue({
 ### camelCase vs. kebab-case
 
 HTML 特性是不区分大小写的。所以，当使用的不是字符串模板时，camelCase (驼峰式命名) 的 prop 需要转换为相对应的 kebab-case (短横线分隔式命名)：
-``` javascript
+```js
 Vue.component('child', {
   // 在 JavaScript 中使用 camelCase
   props: ['myMessage'],
@@ -574,7 +574,7 @@ Vue.component('child', {
 
 动态prop作用是动态修改prop，与静态prop不同的是，动态prop的侧重点是**动态修改prop**
 
-``` html
+```html
 <!-- html -->
 <div id="app4">
   <input type="text" v-model="parentMsg">
@@ -583,7 +583,7 @@ Vue.component('child', {
 </div>
 ```
 
-``` javascript
+```js
 // JavaScript
 let vm4 = new Vue({
     el:'#app4',
@@ -608,13 +608,13 @@ let vm4 = new Vue({
 其中v-model的属性值与input输入框双向绑定。
 
 借鉴上面的示例，我们可以将**父组件的方法**经 Vue 实例中的 prop 传递给子组件。
-``` html
+```html
 <!-- parent.vue -->
 <div id="app">
   <custom :methods="myMethods"></custom>
 </div>
 ```
-``` javascript
+```js
 // child.vue
 export default {
   // 此处传递 methods 的值是一个对象（函数 myMethods），而不是固定思维中的基本类型值
@@ -700,14 +700,14 @@ computed: {
 
 示例如下：
 
-``` html
+```html
 <!-- html -->
 <div id="app6">
   <mine data-line="red" style="color:red;"></mine>
 </div>
 ```
 
-``` javascript
+```js
 // JavaScript
 let vm6 = new Vue({
     el:'#app6',
@@ -729,7 +729,7 @@ let vm6 = new Vue({
 
 应用场景：使用Vue的自定义事件可以达到子组件与父组件通信的目的。（父组件与子组件通过Vue实例中prop特性将数据传递给子组件）。
 
-``` html
+```html
 <!-- html -->
 <div id="app7">
     <p>{ {total} }</p>
@@ -740,7 +740,7 @@ let vm6 = new Vue({
 </div>
 ```
 
-``` javascript
+```js
 // JavaScript
 let vm7 = new Vue({
     el:'#app7',
@@ -781,7 +781,7 @@ let vm7 = new Vue({
 我们可以为组件的 prop 指定验证规则。如果传入的数据不符合要求，Vue 会发出警告。这对于开发给他人使用的组件非常有用。
 要指定验证规则，需要用对象的形式来定义 prop，而不能用字符串数组：
 
-``` javascript
+```js
 Vue.component('example', {
   props: {
     // 基础类型检测 (`null` 指允许任何类型)
@@ -832,7 +832,7 @@ type 也可以是一个自定义构造器函数，使用 instanceof 检测。
 （2.2.0 新增 ）
 默认情况下，一个组件的` v-model `会使用 `value prop` 和 input 事件。但是诸如单选框、复选框之类的输入类型可能把 value 用作了别的目的。model 选项可以避免这样的冲突：
 
-``` javascript
+```js
 Vue.component('my-checkbox', {
   //以下model选项作用是自定义v-model属性
   model: {
@@ -856,7 +856,7 @@ Vue.component('my-checkbox', {
 
 有如下示例：
 
-``` html
+```html
 <app>
   <app-header></app-header>
   <appfooter></appfooter>
@@ -885,7 +885,7 @@ Vue.component('my-checkbox', {
 
 示例代码如下：
 
-``` html
+```html
 <div id="app9">
   <app-layout>
     <!-- slot属性对应子组件模板中的同名slot元素 -->
@@ -899,7 +899,7 @@ Vue.component('my-checkbox', {
 </div>
 ```
 
-``` html
+```html
 let vm9 = new Vue({
   el:'#app9',
   components:{
@@ -926,7 +926,7 @@ let vm9 = new Vue({
 
 渲染结果为：
 
-``` html 
+```html 
 <div id="app">
   <div class="container">
     <header>
@@ -955,7 +955,7 @@ slot插槽的侧重点在**设计子组件如何复用**
 
 示例代码如下：
 
-``` html
+```html
 <div id="app10">
   <child>
     <!-- 拥有slot-scape属性的template标签表示是作用域插槽的模板 -->
@@ -968,7 +968,7 @@ slot插槽的侧重点在**设计子组件如何复用**
 </div>
 ```
 
-``` javascript
+```js
 let vm10 = new Vue({
   el:'#app10',
   components:{
@@ -1003,7 +1003,7 @@ let vm10 = new Vue({
 
 一个简单应用，将slot插槽与作用域插槽结合起来：自定义如何渲染列表的每一项：
 
-``` html
+```html
 <div id="app11">
   <my-list :item="items">
     <li slot="item" slot-scope="props" class="my-fancy-item">{{props.text}}</li>
@@ -1011,7 +1011,7 @@ let vm10 = new Vue({
 </div>
 ```
 
-``` javascript
+```js
 let vm11 = new Vue({
   el:'#app11',
   data:{
@@ -1090,13 +1090,13 @@ Vue 组件的 API 来自三部分 —— prop、事件、slot插槽：
 
 若子组件有inline-template属性，那么组件将它本身的内容（子节点）代替组件模板渲染出来，而不是把它当作分发内容。
 
-``` html
+```html
 <app inline-template>
   <p>From custom element</p>
 </app>
 ```
 
-``` javascript
+```js
 new Vue({
   el:'app',
   components: {
@@ -1124,13 +1124,13 @@ new Vue({
 
 除组件模板、内联模板外，第三种定义模本的方式是在JavaScript标签中使用`text/x-template`类型。并指定一个id属性。
 
-``` html
+```html
 <script type="text/x-template" id="hello-world-template">
   <p>Hello hello hello</p>
 </script>
 ```
 
-``` javascript
+```js
 Vue.component('hello-world', {
   template: '#hello-world-template'  // 此处引用了定义的模板
 })

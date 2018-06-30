@@ -23,6 +23,9 @@ html
   box-sizing: border-box
   margin: 0
 
+img
+  width: 100%
+
 ul,ol
   padding-left: 1.2em
 

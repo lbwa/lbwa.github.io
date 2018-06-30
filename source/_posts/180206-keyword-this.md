@@ -19,7 +19,7 @@ tags:
 
 **注**：在严格模式中默认的this值不是window，而是undefined。
 
-``` javascript
+```js
 let num = () => {
    a = 10;
    console.log(this);
@@ -31,7 +31,7 @@ num();     // window
 <!-- more -->
 **情况二**：函数被上一级（一个）对象调用时，那么该this值指向的是调用的对象，即指向上一级对象。
 
-``` javascript
+```js
 let num = {
   a: 10,
   fn: function() {
@@ -45,7 +45,7 @@ num.fn();    // num
 
 **情况三**：函数外有多个对象包围时，尽管函数是被最外层的对象调用，那么函数中的this值只指向上一级对象。
 
-``` javascript
+```js
 let num = {
   a: 10,
   b: {
@@ -61,7 +61,7 @@ num.b.fn();  // 对象b
 
 **情况四：先赋值，后执行**
 
-``` javascript
+```js
 let num = {
   a: 10,
   b: {
@@ -76,7 +76,7 @@ digit() // window   与情况三的差别在于，先赋值，后调用
 
 　　this值始终指向最后调用它的对象，且只在调用函数时才能确定this的指向。这里首先是把num.b.fn函数赋值给digit，虽然fn是被对象b所引用，但并没有直接执行函数，而执行digit时才确定了this的指向，window调用了digit，所以指向window。
 
-``` javascript
+```js
 var length = 10;
 function fn() {
   console.log(this.length)
@@ -108,7 +108,7 @@ obj.method(fn, 1);
 
 **构造函数中的this**
 
-``` javascript
+```js
 function Fn(){
     this.user = "Jack";
 }
@@ -120,7 +120,7 @@ console.log(a.user); // Jack
 
 实践也可证明：
 
-``` javascript
+```js
 function Foo() {
   this.name =  'Jack';
   console.log(this);
@@ -157,7 +157,7 @@ Note:
 
 代码如下：
 
-``` javascript
+```js
 Function.method('new', function() {
   // 创建一个新对象（对象that）， that和构造函数共用同一个对象
   // this 指向（与new连用的）构造函数，Object.create()创建一个以参数为原型对象的对象
@@ -181,7 +181,7 @@ Function.method('new', function() {
 
 回到之前的代码：
 　
-``` javascript
+```js
 function Fn(){
     this.user = "Jack";
 }
@@ -210,7 +210,7 @@ console.log(a.user); // Jack
 
 当函数的return语句返回一个对象时：　
 
-``` javascript
+```js
 function Fn(){
     this.user = "Jack";
     return {};
@@ -222,7 +222,7 @@ console.log(a); // {} 此时a并没有继承Fn的user属性，可见Fn函数内t
 
 当函数的return语句返回一个基本类型值时
 
-``` javascript
+```js
 function Fn(){
     this.user = "Jack";
     return 1;
@@ -234,7 +234,7 @@ console.log(a); // {user: "Jack"} 此时a继承Fn的user属性，可见Fn函数�
 
 当函数的return语句返回null时
 
-``` javascript
+```js
 function Fn(){
     this.user = "Jack";
     return null; // null是特殊对象值，但此时this仍指向构造函数实例a
@@ -250,7 +250,7 @@ console.log(a); //  {user: "Jack"} 此时a继承Fn的user属性，可见Fn函数
 
 箭头函数可以让this绑定定义时所在的作用域，而不是指向运行时所在的作用域。
 
-``` javascript
+```js
 function foo() {
   setTimeout(() => {
     console.log('id:', this.id);
@@ -269,7 +269,7 @@ foo.call({ id: 42 }); // id: 42
 
 简化代码如下：
 
-``` javascript
+```js
 let foo = () => {
       let a = 111;
       return {
@@ -301,7 +301,7 @@ ins.num();
 
 若要让num方法中的this指向foo，就使用原有的function声明代替箭头函数。这样在调用num方法时，最后调用该方法的对象是foo，所以此时的num方法中的this指向foo。
 
-``` javascript
+```js
 let foo = () => {
       let a = 111;
       return {

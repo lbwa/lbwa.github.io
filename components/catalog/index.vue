@@ -12,7 +12,7 @@
           <div class="post-date">{{post.date}}</div>
         </div>
         <a class="post-title"
-          :href='`/blog/writing/${post.to}`'
+          :href='genLink(post.to)'
         >{{post.title}}</a>
       </li>
     </ul>
@@ -35,6 +35,12 @@ export default {
       default () {
         return {}
       }
+    }
+  },
+
+  methods: {
+    genLink (path) {
+      return `/blog/writing/${path}`
     }
   }
 }

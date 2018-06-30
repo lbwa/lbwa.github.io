@@ -61,7 +61,7 @@ ES6 模块[加载规则][1]在浏览器中是模块之间是同步的，对于�
 
 在使用`vue-cli`构建`vue`单文件组件时，有部分JavaScript文件有以下一行代码：
 
-``` javascript
+```js
 // 在构建时，若只有模块名，则将会去 node_modules 目录下寻找vue模块
 // 当前模块的 Vue 变量将被赋值被加载模块的默认输出对象（即export default {...}）
 import Vue from 'vue'
