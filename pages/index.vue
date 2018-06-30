@@ -6,7 +6,7 @@
         Bowen
       </h1>
       <h4 class="subtitle">
-        Think more, do more.
+        Positive exploration, deep thinking
       </h4>
       <div class="links">
         <nuxt-link

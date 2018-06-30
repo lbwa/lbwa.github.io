@@ -330,7 +330,7 @@ server {
 
 与代理缓存相关的响应首部（对于 `client` 来说）
 
-  1. `Cache-Control`
+1. `Cache-Control`
 
     - `s-maxage`: 功能与 `max-age` 相同，且 `s-maxage` 覆盖 `max-age`。二者区别在于 `s-maxage` 适用对象仅限共享缓存的对象，如中转代理服务器。
 
@@ -354,30 +354,30 @@ server {
     })
     ```
 
-  2. `Vary`: `Vary` 指定某一 `client` 端请求头，只有当该请求首部的值与上次请求首部的值相等时，才缓存响应数据。
+2. `Vary`: `Vary` 指定某一 `client` 端请求头，只有当该请求首部的值与上次请求首部的值相等时，才缓存响应数据。
 
-  ```js
-  // client
-  const index = 0
+    ```js
+    // client
+    const index = 0
 
-  fetch('/data', {
-    headers: {
-      // 只有当此次 `x-test-Cache` 的值与上次请求相同时，才缓存此次响应数据
-      'X-test-Cache': index++
-    }
-  })
-  ```
+    fetch('/data', {
+      headers: {
+        // 只有当此次 `x-test-Cache` 的值与上次请求相同时，才缓存此次响应数据
+        'X-test-Cache': index++
+      }
+    })
+    ```
 
-  ```js
-  // 资源服务器
-  response.writeHead(200, {
-    'Cache-Control': 's-maxage=200',
-    // 只有当 `Vary` 所标注的请求首部当次值与上次请求时的值相同时，才缓存当前响应数据
-    'Vary': 'X-test-Cache'
-  })
-  ```
+    ```js
+    // 资源服务器
+    response.writeHead(200, {
+      'Cache-Control': 's-maxage=200',
+      // 只有当 `Vary` 所标注的请求首部当次值与上次请求时的值相同时，才缓存当前响应数据
+      'Vary': 'X-test-Cache'
+    })
+    ```
 
-  适用场景：在同一 URL 情况下，根据不同的 `userAgent` 来缓存不同的响应数据。比如根据移动端与 PC 端返回不同的数据。
+适用场景：在同一 URL 情况下，根据不同的 `userAgent` 来缓存不同的响应数据。比如根据移动端与 PC 端返回不同的数据。
 
 ## HTTPS
 

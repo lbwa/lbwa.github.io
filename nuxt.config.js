@@ -1,3 +1,5 @@
+const posts = require('./source/_posts/menu.json')
+
 module.exports = {
   head: {
     title: 'Bowen',
@@ -27,16 +29,13 @@ module.exports = {
   },
 
   plugins: [
-    { src: '@@/plugins/ga.js', ssr: false }
+    { src: '~/plugins/ga.js', ssr: false }
   ],
 
   loading: { color: '#3eaf7c', height: '2px' },
 
   build: {
-    build: {
-      vendor: ['axios']
-    },
-
+    vendor: ['highlight.js'],
     extend (config, { isDev, isClient }) {
       if (isDev && isClient) {
         config.module.rules.push(
@@ -48,6 +47,20 @@ module.exports = {
           }
         )
       }
+    }
+  },
+
+  generate: {
+    minify: {
+      collapseBooleanAttributes: true,
+      collapseWhitespace: true,
+      minifyCSS: true,
+      minifyJS: true
+    },
+    routes: function () {
+      return posts.map(post => {
+        return `/blog/writing/${post.to}`
+      })
     }
   }
 }
