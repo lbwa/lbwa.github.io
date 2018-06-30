@@ -10,7 +10,7 @@ install: yarn
 script:
   - yarn run generate
   - cp README.md dist/README.md
-  - cp CNAME dist CNAME
+  - cp CNAME dist/CNAME
 
 
 deploy:
