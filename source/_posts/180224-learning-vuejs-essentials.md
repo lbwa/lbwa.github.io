@@ -204,7 +204,7 @@ example1.items.splice(indexOfItem, 1, newValue)
 
 还是由于 JavaScript 的限制，Vue 不能检测对象属性的添加或删除：
 
-```javascript
+```js
 var vm = new Vue({
   data: {
     a: 1
