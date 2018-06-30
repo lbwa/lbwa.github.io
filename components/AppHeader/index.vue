@@ -33,9 +33,6 @@ export default {
 <style lang="sass">
 @import '~/assets/style/index.sass'
 
-.logo
-  width: 30px
-
 .header
   background-color: $theme-deepgreen
   z-index: 999
