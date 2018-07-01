@@ -1,7 +1,7 @@
 <template>
-  <section class="home-container">
+  <section class="home-container fullscreen-center-helper">
     <app-logo/>
-    <h1 class="title">
+    <h1 class="home-title title">
       Bowen
     </h1>
     <h4 class="home-subtitle subtitle">
@@ -33,19 +33,19 @@ export default {
 @import '~/assets/sass/index.sass'
 
 .home-container
-  min-height: 100vh
-  display: flex
   flex-direction: column
-  justify-content: center
-  align-items: center
-  text-align: center
+
+  .home-title
+    margin-top: 20px
+    text-transform: uppercase
+
+  .home-subtitle
+    display: block
 
   .home-navigator
     display: flex
     .home-btn
       flex: 1 0 0
       margin: 0 12px
-
-  .home-subtitle
-      display: block
+      transition: all .4s
 </style>

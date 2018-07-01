@@ -9,7 +9,7 @@
 .avatar-wrapper
   position: relative
   width: 180px
-  padding-top: 180px // padding 占位，防止加载图像时弹跳
+  padding-top: 180px // padding is used to avatar debounce
   overflow: hidden
   white-space: nowrap
 

@@ -62,7 +62,7 @@ export default {
 
 +mobile
   .catalog-wrapper
-    padding-top: 20px
+    padding-top: 60px
 
   .blog-catalog
     width: 100%

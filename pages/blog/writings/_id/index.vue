@@ -58,18 +58,21 @@ export default {
 
 +desktop
   .blog-writings
-    padding: 100px 40px
+    padding: 100px 50px
+
     .article-title
       margin-bottom: 50px
       font-size: 2rem
+
     .article-tags
       display: inline-block
+      
     .article-content
       margin-top: 50px
 
 +mobile
   .blog-writings
-    padding: 20px 40px
+    padding: 70px 30px
 
 </style>
 

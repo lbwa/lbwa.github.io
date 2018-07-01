@@ -41,9 +41,13 @@ export default {
 @import '~/assets/sass/index.sass'
 
 .header
+  position: fixed
+  top: 0
+  left: 0
+  width: 100vw // keep header debounce when scroll bar show up
   background-color: $background-dark
   z-index: 999
-  font-size: 0
+  font-size: 0 // delete white space
 
   .navigator
     display: flex
@@ -61,7 +65,7 @@ export default {
       text-decoration: none
       transition: color .15s ease
 
-// TODO: 适配移动端，显示图标而不是直接显示 navigator bar
+// TODO: 适配低分辨率移动端
 +mobile
   .header
     .navigator

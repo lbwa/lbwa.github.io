@@ -29,6 +29,8 @@ export default {
 
 .blog
   position: relative
+  top: 0
+  left: 0
   color: $text
 
   .wrapper
