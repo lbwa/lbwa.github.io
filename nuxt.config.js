@@ -25,7 +25,7 @@ module.exports = {
     routes: [
       {
         path: '/blog',
-        redirect: '/blog/writing'
+        redirect: '/blog/writings'
       }
     ]
   },
@@ -87,7 +87,7 @@ module.exports = {
     routes: function () {
       const posts = require('./source/_posts/menu.json')
       return posts.map(post => {
-        return `/blog/writing/${post.to}`
+        return `/blog/writings/${post.to}`
       })
     }
   }

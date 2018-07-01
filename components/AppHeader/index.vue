@@ -30,7 +30,6 @@ export default {
       if (name === 'home') {
         return '/'
       } else if (name !== 'contact') {
-        console.log('name :', name)
         return `/blog/${name.toLowerCase()}`
       }
     }
