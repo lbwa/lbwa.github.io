@@ -1,10 +1,12 @@
 <template>
-  <article class="blog-post">
-    <h2 class="post-title" v-html="title"></h2>
-    <span class="post-author" v-html="author"></span>
-    <span class="post-date" v-html="date"></span>
-    <div class="post-tags" v-html="tags"></div>
-    <div class="blog-content" v-html="content"></div>
+  <article class="blog-writings">
+    <div class="article-header">
+      <h2 class="article-title" v-html="title"></h2>
+      <span class="article-author" v-html="author"></span>
+      <span class="article-date" v-html="date"></span>
+      <div class="article-tags" v-html="tags"></div>
+    </div>
+    <div class="article-content" v-html="content"></div>
   </article>
 </template>
 
@@ -38,21 +40,36 @@ export default {
 <style lang="sass">
 @import '~/assets/sass/mixins.sass'
 
-.blog-post
-  padding: 0 40px
-  .post-title
-    font-size: 2.5rem
-  .post-author, .post-date
-    display: inline-block
-    margin: 0 10px 10px 0
-    font-weight: bold
-  .post-tags
-    display: inline-block
-    +mobile
-      display: block
-  .post-tag
-    margin: 0 5px
-    &:first-child
-      margin-left: 0
+.article-header
+  text-align: center
+
+.article-author, .article-date
+  display: inline-block
+  margin: 0 10px 10px 0
+  font-weight: bold
+
+// generate by parseMarkdown.js
+.article-tag
+  margin: 0 5px
+  &:first-child
+    margin-left: 0
+  &:last-child
+    margin-right: 0
+
++desktop
+  .blog-writings
+    padding: 100px 40px
+    .article-title
+      margin-bottom: 50px
+      font-size: 2rem
+    .article-tags
+      display: inline-block
+    .article-content
+      margin-top: 50px
+
++mobile
+  .blog-writings
+    padding: 20px 40px
+
 </style>
 

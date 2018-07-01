@@ -30,6 +30,7 @@ export default {
 .blog
   position: relative
   color: $text
+
   .wrapper
     margin: 0 auto
     +desktop

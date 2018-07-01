@@ -48,8 +48,4 @@ export default {
 
   .home-subtitle
       display: block
-
-+mobile
-  html
-    font-size: 14px
 </style>

@@ -37,8 +37,6 @@ module.exports = {
   loading: { color: '#3eaf7c', height: '2px' },
 
   build: {
-    vendor: ['normalize.css'],
-
     extractCSS: {
       allChunks: true
     },
