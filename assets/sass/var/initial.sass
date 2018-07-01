@@ -1,0 +1,49 @@
+// 依据值来创建变量，用于派生变量
+// 不推荐将以值命名的变量直接在业务中使用，而应该使用以作用来命名的变量 derived 变量
+
+/* basic color */
+$black:        hsl(0, 0%, 4%) !default
+$black-bis:    hsl(0, 0%, 7%) !default
+$black-ter:    hsl(0, 0%, 14%) !default
+
+$grey-darker:  hsl(0, 0%, 21%) !default
+$grey-dark:    hsl(0, 0%, 29%) !default
+$grey:         hsl(0, 0%, 48%) !default
+$grey-light:   hsl(0, 0%, 71%) !default
+$grey-lighter: hsl(0, 0%, 86%) !default
+
+$white-ter:    hsl(0, 0%, 96%) !default
+$white-bis:    hsl(0, 0%, 98%) !default
+$white:        hsl(0, 0%, 100%) !default
+
+$blue:         hsl(217, 71%, 53%) !default
+$blue-light:   hsl(210, 29%, 97%) !default // github table
+
+$orange:       hsl(14,  100%, 53%) !default
+$yellow:       hsl(48,  100%, 67%) !default
+$green:        hsl(141, 71%,  48%) !default
+$turquoise:    hsl(171, 100%, 41%) !default
+$cyan:         hsl(204, 86%,  53%) !default
+$purple:       hsl(271, 100%, 71%) !default
+$red:          hsl(348, 100%, 61%) !default
+
+$github-dark:  hsl(210, 12%, 16%) !default
+
+// RWD
+$gap: 64px !default
+$tablet: 769px !default
+
+// 960px container + 2 * $gap
+$desktop: 960px + (2 * $gap) !default
+
+// 1152px container + 2 * $gap
+// $widescreen: 1152px + (2 * $gap) !default
+// $widescreen-enabled: true !default
+
+// 1344px container + 2 * $gap
+// $fullhd: 1344px + (2 * $gap) !default
+// $fullhd-enabled: true !default
+
+// font
+$font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif
+$code-font-family: source-code-pro,Menlo,Monaco,Consolas,Courier New,monospace

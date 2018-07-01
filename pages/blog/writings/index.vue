@@ -23,7 +23,7 @@ export default {
 </script>
 
 <style lang="sass">
-@import '~/assets/style/index.sass'
+@import '~/assets/sass/index.sass'
 
 .catalog-wrapper
   padding: 100px 25px 25px 25px
@@ -41,7 +41,7 @@ export default {
     font-size: 1.125rem
 
   .catalog-subtitle
-    color: $theme-deepgrey
+    color: $text-subtitle
     font-size: .875rem
     font-weight: normal
 
@@ -53,10 +53,12 @@ export default {
       display: flex
 
       .post-info
-        flex: 1 0 0
+        flex: 1
 
       .post-title
-        flex: 2 0 0
+        flex: 2
+        text-decoration: none
+        font-weight: bold
 
 +mobile
   .catalog-wrapper

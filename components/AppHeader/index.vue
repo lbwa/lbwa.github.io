@@ -1,17 +1,13 @@
 <template>
   <header class="header">
     <nav class="navigator" role="navigation">
-      <router-link class="blog-logo" to="/" exact>
-        <img class="header-logo" src="./logo.png" alt="logo">
-      </router-link>
-      <div class="links">
-        <router-link
-          class="navigator-link"
-          v-for="item of category" :key="item"
-          :to="`/blog/${item.toLowerCase()}`"
-        >{{ item }}</router-link>
-        <a href="https://github.com/lbwa" target="_blank" rel="noopener banner" class="github-link">Created by Bowen</a>
-      </div>
+      <router-link
+        class="navigator-link hover-animation"
+        v-for="item of category" :key="item"
+        :to="genPath(item)"
+        exact
+      >{{ item.toUpperCase() }}</router-link>
+      <a class="navigator-link hover-animation" href="https://github.com/lbwa" target="_blank">CONTACT</a>
     </nav>
   </header>
 </template>
@@ -21,81 +17,63 @@ export default {
   data () {
     return {
       category: [
-        'Writing',
-        'Tags',
-        'Project'
+        'home',
+        'writings',
+        'tags',
+        'projects'
       ]
+    }
+  },
+
+  methods: {
+    genPath (name) {
+      if (name === 'home') {
+        return '/'
+      } else if (name !== 'contact') {
+        console.log('name :', name)
+        return `/blog/${name.toLowerCase()}`
+      }
     }
   }
 }
 </script>
 
 <style lang="sass">
-@import '~/assets/style/index.sass'
+@import '~/assets/sass/index.sass'
 
 .header
-  background-color: $theme-deepgreen
+  background-color: $background-dark
   z-index: 999
-  height: 55px
   font-size: 0
 
   .navigator
     display: flex
-    box-sizing: border-box
     margin: 0 auto
-    padding: 13px 10px
+    padding: 20px 10px
+    max-width: 500px
+    text-align: center
 
-    .blog-logo
-      flex: 0 0 50px
-
-      .header-logo
-        width: 30px
-
-    .links
+    .navigator-link
       flex: 1
-      display: flex
-
-    .navigator-link, .github-link
+      vertical-align: top
+      color: $text-light
       font-size: 1rem
       font-weight: 300
       text-decoration: none
-
-    .navigator-link
-      display: inline-block
-      vertical-align: top
-      color: $text-light
       transition: color .15s ease
-      margin-right: 1.6875rem
 
-    .github-link
-      color: $text-light
-      margin-left: auto
-
+// TODO: 适配移动端，显示图标而不是直接显示 navigator bar
 +mobile
   .header
     .navigator
       padding: 15px
-    .navigator-link, .github-link
+    .navigator-link
       margin-right: 1em
-    .github-link
-      display: none
 
 +desktop
   .navigator
     max-width: $desktop - (2 * $gap)
     width: $desktop - (2 * $gap)
-  .router-link-active, .nuxt-link-active
-    margin-bottom: -2px
-    border-bottom: 2px solid rgba(255, 255, 255, .2)
 
-+widescreen
-  .navigator
-    max-width: $widescreen - (2 * $gap)
-    width: $widescreen - (2 * $gap)
-
-+fullhd
-  .navigator
-    max-width: $fullhd - (2 * $gap)
-    width: $fullhd - (2 * $gap)
 </style>
 

@@ -14,7 +14,7 @@ export default {
   // redirect solution: https://nuxtjs.org/api/context
   asyncData ({ route, redirect }) {
     if (/^\/blog(\/)?$/i.test(route.path)) {
-      redirect(301, '/blog/writing')
+      redirect(301, '/blog/writings')
     }
   },
 
@@ -25,41 +25,23 @@ export default {
 </script>
 
 <style lang="sass">
-@import '~/assets/style/index.sass'
+@import '~/assets/sass/index.sass'
 
 .blog
   position: relative
-  color: $text-dark
+  color: $text
   .wrapper
     margin: 0 auto
     +desktop
       max-width: $desktop - (2 * $gap)
       width: $desktop - (2 * $gap)
-    +widescreen
-      max-width: $widescreen - (2 * $gap)
-      width: $widescreen - (2 * $gap)
-    +fullhd
-      max-width: $fullhd - (2 * $gap)
-      width: $fullhd - (2 * $gap)
 
   a.header-anchor
-    font-size: .85em
+    font-size: .9em
     float: left
     margin-left: -0.87em
     padding-right: 0.23em
     margin-top: 0.125em
 
-  code
-    color: $text-quote
-    padding: 0.05em .3em
-    margin: 0
-    background-color: $background-dark
-    border-radius: 3px
-    font-size: .95em
-    font-family: source-code-pro,Menlo,Monaco,Consolas,Courier New,monospace
-
-  pre code
-    color: $text-light
-    padding: 0
 </style>
 

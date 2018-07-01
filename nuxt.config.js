@@ -15,7 +15,8 @@ module.exports = {
   },
 
   css: [
-    { src: '~/assets/blog-transition.sass', lang: 'sass' },
+    { src: '~/assets/global-preset.sass', lang: 'sass' },
+    { src: '~/assets/global-transition.sass', lang: 'sass' },
     // highlight style
     { src: '~/assets/highlight/dracula.scss', lang: 'scss'}
   ],
@@ -36,9 +37,16 @@ module.exports = {
   loading: { color: '#3eaf7c', height: '2px' },
 
   build: {
+    vendor: ['normalize.css'],
+
+    extractCSS: {
+      allChunks: true
+    },
+
     analyze: {
       analyzerMode: 'static'
     },
+
     plugins: [
       // only way to reduce highlight.js bundle size
       // If not, webpack alway import all language package
@@ -51,6 +59,11 @@ module.exports = {
     ],
     extend (config, { isDev, isClient }) {
       if (isDev && isClient) {
+        // extract css
+        const extract = config.plugins.find(plugin => plugin.renderExtractedChunk)
+        extract.options.allChunks = true
+
+        // eslint
         config.module.rules.push(
           {
             enforce: 'pre',
@@ -70,6 +83,7 @@ module.exports = {
       minifyCSS: true,
       minifyJS: true
     },
+
     routes: function () {
       const posts = require('./source/_posts/menu.json')
       return posts.map(post => {

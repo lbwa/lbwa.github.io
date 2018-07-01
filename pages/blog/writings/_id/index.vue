@@ -36,7 +36,7 @@ export default {
 </script>
 
 <style lang="sass">
-@import '~/assets/style/mixins.sass'
+@import '~/assets/sass/mixins.sass'
 
 .blog-post
   padding: 0 40px

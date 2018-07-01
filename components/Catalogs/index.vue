@@ -40,7 +40,7 @@ export default {
 
   methods: {
     genLink (path) {
-      return `/blog/writing/${path}`
+      return `/blog/writings/${path}`
     }
   }
 }
