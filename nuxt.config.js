@@ -1,5 +1,3 @@
-const webpack = require('webpack')
-
 module.exports = {
   head: {
     title: 'Bowen',
@@ -18,17 +16,8 @@ module.exports = {
     { src: '~/assets/global-preset.sass', lang: 'sass' },
     { src: '~/assets/global-transition.sass', lang: 'sass' },
     // highlight style
-    { src: '~/assets/highlight/dracula.scss', lang: 'scss'}
+    { src: '~/assets/highlight/highlight.scss', lang: 'scss'}
   ],
-
-  router: {
-    routes: [
-      {
-        path: '/blog',
-        redirect: '/blog/writings'
-      }
-    ]
-  },
 
   plugins: [
     { src: '~/plugins/ga.js', ssr: false }
@@ -46,14 +35,7 @@ module.exports = {
     },
 
     plugins: [
-      // only way to reduce highlight.js bundle size
-      // If not, webpack alway import all language package
-      // https://bjacobel.com/2016/12/04/highlight-bundle-size/
-      // https://webpack.docschina.org/plugins/context-replacement-plugin/
-      new webpack.ContextReplacementPlugin(
-        /highlight\.js\/lib\/languages$/,
-        new RegExp(`^./(${['css', 'scss', 'js', 'ts', 'bash', 'html', 'yml'].join('|')})$`),
-      )
+
     ],
     extend (config, { isDev, isClient }) {
       if (isDev && isClient) {

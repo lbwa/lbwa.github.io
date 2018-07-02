@@ -464,7 +464,7 @@ response.writeHead(200, {
 实现方法二：
 
 ```html
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'">
 ```
 
 结果：
