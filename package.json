@@ -5,10 +5,11 @@
   "author": "Bowen <mr_lbw@outlook.com>",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
-    "build": "nuxt build",
+    "dev": "yarn run genMenu && nuxt",
+    "build": "yarn run genMenu && nuxt build",
     "start": "nuxt start",
-    "generate": "nuxt generate",
+    "generate": "yarn run genMenu && nuxt generate",
+    "genMenu": "node lib/genMenu.js",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "precommit": "npm run lint",
     "commit": "git add . && git-cz"
