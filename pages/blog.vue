@@ -33,7 +33,7 @@ export default {
   left: 0
   color: $text
 
-  // route view location
+  // locate route view
   .wrapper
     margin: 0 auto
     padding: 100px 25px 25px 25px
