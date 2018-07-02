@@ -262,7 +262,7 @@ tags:
 
 （以下 `Cookie` 都是指 `HTTP Cookie`，除非特别指明是 `Cookie` 请求首部（[extension][cookie-request-header]）。）
 
-  ```bash
+  ```markup
   # 创建 client 端 Cookie
   Set-Cookie: <cookie-name>=<cookie-value>
   ```

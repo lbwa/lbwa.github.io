@@ -146,7 +146,7 @@ Vue Test Utils 是同步触发事件。因此 Vue.nextTick 不是必须的。
 
 在 travis CI 集成时，调用 Chrome 的[必须选项][chrome-options]：
 
-```yml
+```yaml
 sudo: required
 
 addons:

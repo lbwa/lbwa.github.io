@@ -282,7 +282,7 @@ console.log('I am from script bottom')
 
 以下是在客户端（Node.js 可能有不同结果）的输入结果：
 
-```bash
+```markup
 I am from script beginning
 I am from internal part
 I am from script bottom

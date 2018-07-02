@@ -36,14 +36,14 @@ export default {
   // locate route view
   .wrapper
     margin: 0 auto
-    padding: 100px 25px 25px 25px
+    padding: 100px 25px
 
     +desktop
       max-width: $desktop - (2 * $gap)
       width: $desktop - (2 * $gap)
 
     +mobile
-      padding-top: 60px
+      padding: 60px 25px
 
   a.header-anchor
     font-size: .9em

@@ -15,8 +15,7 @@ module.exports = {
   css: [
     { src: '~/assets/global-preset.sass', lang: 'sass' },
     { src: '~/assets/global-transition.sass', lang: 'sass' },
-    // highlight style
-    { src: '~/assets/highlight/highlight.scss', lang: 'scss'}
+    { src: '~/assets/code/highlight.scss', lang: 'scss'}
   ],
 
   plugins: [

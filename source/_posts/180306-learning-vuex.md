@@ -254,7 +254,7 @@ export default {
 ```js
 actions: {
   actionA ({ commit }) {
-    return new Promise((resolve, reject) => {// actionA 函数返回一个 Promise
+    return new Promise((resolve, reject) => { // actionA 函数返回一个 Promise
       setTimeout(() => {
         commit('someMutation')
         resolve()
@@ -409,7 +409,8 @@ new Vuex.Store({
       //...
       actions: {
         getMoreState: {
-          // context 包含了命名空间的所有 state, getters, mutations, actions, dispatch, commit, rootState, rootGetters
+          // context 包含了命名空间的所有 state, getters, mutations, actions,
+          // dispatch, commit, rootState, rootGetters
           // 或根据需要写成形如 { commit } 的形式
           handler (context) {
             // ...
@@ -442,7 +443,8 @@ new Vuex.Store({
       actions: {
         getMoreState: {
           root: true,
-          // context 包含了命名空间的所有 state, getters, mutations, actions, dispatch, commit, rootState, rootGetters
+          // context 包含了命名空间的所有 state, getters, mutations, actions, 
+          // dispatch, commit, rootState, rootGetters
           handler (context) {
             // ...
           }

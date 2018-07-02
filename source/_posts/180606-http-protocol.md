@@ -129,14 +129,14 @@ tags:
 
 除了在浏览器中可以观察 HTTP 请求的细节外，亦可使用 `curl` 命令行工具来观察。 
 
-```bash
+```powershell
 # -v 表示显示报文信息
 curl -v www.baidu.com
 ```
 
 返回数据如下：
 
-```bash
+```powershell
 * Rebuilt URL to: www.google.com/
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
@@ -199,7 +199,7 @@ API 文档：[API Docs][Nginx-api]
 
 命令行参数：[Command-line parameters][nginx-clp]
 
-```bash
+```powershell
 # -c file 使用一个指定的配置文件代替默认配置文件，默认值为 nginx/nginx.conf
 
 # 启动服务
@@ -233,7 +233,7 @@ cat logs/nginx.pid
 
 - 系统 API
 
-```bash
+```powershell
 # 查看端口占用，如 8800 端口
 # -ano 是三个参数 -a -n -o 简写形式
 netstat -ano|findstr 8800
@@ -272,7 +272,7 @@ taskkill //pid pidNumber //f
 
 1. 在 `host` 文件中映射原始请求地址。示例：
 
-```bash
+```powershell
 # 用于将 example.com 解析为 127.0.0.1，原理是 PC 首先在本地 host 文件中解析 URL
 127.0.0.1 example.com
 ```
@@ -281,7 +281,7 @@ taskkill //pid pidNumber //f
 
 拓展：`http` 是明文传输，故可在代理层修改原始请求的请求首部和内容。
 
-```bash
+```nginx
 # 每个代理服务都在一个 server 中定义
 server {
   # 监听的端口
@@ -308,7 +308,7 @@ server {
 
 ### 缓存功能
 
-```bash
+```nginx
 # proxy_cache_path 配置缓存存放路径
 # levels 配置生成多级文件夹，使得多个代理分离为自己独立的文件夹
 # keys_zone 配置在内存中分配给匹配的缓存（因为匹配的缓存将暂存在内存中）的区域名称和大小
@@ -405,7 +405,7 @@ server {
 
 （[reference][nginx-https-server]）
 
-```bash
+```nginx
 proxy_cache_path cache levels=1:2 keys_zone=my_cache:10m;
 
 server {
@@ -429,7 +429,7 @@ server {
 
 补充：将 `HTTP` 转发至 `HTTPS`
 
-```bash
+```nginx
 # 在 部署.2 的基础上实现
 
 server {
@@ -457,7 +457,7 @@ server {
 
 在 `HTTP 2` 标准中，`HTTP 2` 并不强制使用 `HTTPS`。值得注意的是，目前浏览器都要在开启 `HTTPS` 的情况下才能使用 `HTTP 2`。
 
-```bash
+```nginx
 # 中转服务器
 server {
   listen             443 ssl http2;
