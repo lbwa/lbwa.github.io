@@ -1,9 +1,12 @@
 <template>
   <div class="blog-tags">
-    <!-- <h2 class="tags-header">tags</h2> -->
-    <div class="tags-content fullscreen-center-helper">
+    <div class="tags-header">
+      <h2 class="tags-title">标签</h2>
+      <h4 class="tags-subtitle">归纳总结</h4>
+    </div>
+    <div class="tags-content">
       <router-link
-        class="tag-link"
+        class="tag-link button-primary"
         v-for="(tag, index) in tags"
         :key="index"
         :to="genLink(tag)">{{tag}}</router-link>
@@ -38,12 +41,36 @@ export default {
 }
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
 @import '~/assets/sass/index.sass'
 
 .blog-tags
-  .tag-link
-    margin: 0 10px
-    flex: 1
+  text-align: center
+
+  .tags-header
+    margin: 0 0 3.125rem 0
+
+  .tags-title
+    letter-spacing: 5px
+    font-size: 1.125rem
+
+  .tags-subtitle
+    color: $text-subtitle
+    font-size: .875rem
+    font-weight: normal
+
+  .tags-content
+    display: flex
     flex-wrap: wrap
+    justify-content: center
+    align-items: center
+    text-align: center
+
+    .tag-link
+      margin: 0 10px 10px 10px
+      flex: 1
+      white-space: nowrap // 防止拆字换行
+      text-decoration: none
+      &:hover
+        transition: all .3s
 </style>

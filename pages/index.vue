@@ -1,5 +1,5 @@
 <template>
-  <section class="home-container fullscreen-center-helper">
+  <section class="home-container">
     <app-logo/>
     <h1 class="home-title title">
       Bowen
@@ -33,7 +33,7 @@ export default {
 @import '~/assets/sass/index.sass'
 
 .home-container
-  flex-direction: column
+  +fullscreen-center-helper(100vh, column)
 
   .home-title
     margin-top: 20px
@@ -48,4 +48,5 @@ export default {
       flex: 1 0 0
       margin: 0 12px
       transition: all .4s
+
 </style>

@@ -19,8 +19,8 @@ export default {
       category: [
         'home',
         'writings',
-        'tags',
-        'projects'
+        'projects',
+        'tags'
       ]
     }
   },

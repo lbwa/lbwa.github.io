@@ -1,5 +1,13 @@
 @import './var/initial.sass'
 
+=fullscreen-center-helper ($height: 100vh, $direction: row)
+  display: flex
+  min-height: $height
+  justify-content: center
+  align-items: center
+  text-align: center
+  flex-direction: $direction
+
 /* RWD */
 
 =mobile
