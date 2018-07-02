@@ -33,11 +33,17 @@ export default {
   left: 0
   color: $text
 
+  // route view location
   .wrapper
     margin: 0 auto
+    padding: 100px 25px 25px 25px
+
     +desktop
       max-width: $desktop - (2 * $gap)
       width: $desktop - (2 * $gap)
+
+    +mobile
+      padding-top: 60px
 
   a.header-anchor
     font-size: .9em

@@ -1,5 +1,5 @@
 <template>
-  <div class="catalog-wrapper">
+  <div class="blog-writings">
     <Catalog :title="catalogTitle" :subtitle="catalogSubtitle" :list="list"/>
   </div>
 </template>
@@ -22,30 +22,31 @@ export default {
 }
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
 @import '~/assets/sass/index.sass'
 
-.catalog-wrapper
-  padding: 100px 25px 25px 25px
+// /deep/ is one of `>>>` alias
+// deep selector: https://github.com/vuejs/vue-loader/issues/661
+// https://vue-loader.vuejs.org/zh/guide/scoped-css.html#深度作用选择器
 
-.blog-catalog
+.catalog-wrapper
   margin: 0 auto
   width: 500px
 
-  .catalog-text
+  /deep/ .catalog-text
     margin: 0 0 3.125rem
     text-align: center
 
-  .catalog-title
-    letter-spacing: 5px
-    font-size: 1.125rem
+    .catalog-title
+      letter-spacing: 5px
+      font-size: 1.125rem
 
-  .catalog-subtitle
-    color: $text-subtitle
-    font-size: .875rem
-    font-weight: normal
+    .catalog-subtitle
+      color: $text-subtitle
+      font-size: .875rem
+      font-weight: normal
 
-  .catalog-items
+  /deep/ .catalog-writings
     list-style-type: none
     padding: 0
 
@@ -62,8 +63,5 @@ export default {
 
 +mobile
   .catalog-wrapper
-    padding-top: 60px
-
-  .blog-catalog
     width: 100%
 </style>
