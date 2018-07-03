@@ -9,8 +9,39 @@
 
 <script>
 import Header from '~/components/AppHeader'
+import debounce from '~/lib/debounce'
+import eventBus from '~/lib/event-bus'
 
 export default {
+  data () {
+    return {
+      initialScroll: 0,
+      nowScroll: 0
+    }
+  },
+
+  methods: {
+    onScroll () {
+      // Must filter `/blog/writings`, otherwise it will cause a bug that show a error `style of undefined` when from `/` to '/blog/writings` first time
+      if (this.$route.path === '/blog/writings') return
+
+      this.nowScroll = document.body.scrollTop + document.documentElement.scrollTop
+
+      if (this.nowScroll > this.initialScroll) {
+        eventBus.$emit('hideHeader')
+      } else if (this.nowScroll < this.initialScroll) {
+        eventBus.$emit('showHeader')
+      }
+
+      this.initialScroll = this.nowScroll
+    }
+  },
+
+  mounted() {
+    window.addEventListener('scroll', debounce(this.onScroll))
+  },
+
+
   // redirect solution: https://nuxtjs.org/api/context
   asyncData ({ route, redirect }) {
     if (/^\/blog(\/)?$/i.test(route.path)) {

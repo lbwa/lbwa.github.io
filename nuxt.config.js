@@ -3,9 +3,11 @@ module.exports = {
     title: 'Bowen',
     meta: [
       { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' },
       { name: 'keywords', content: 'bowen博客 vue ssr blog,前端开发,前端,web开发,node,vue,react,webpack,git' },
-      { hid: 'description', name: 'description', content: 'bowen博客 vue ssr blog,前端开发,前端,web开发,node,vue,react,webpack,git' }
+      { hid: 'description', name: 'description', content: 'bowen博客 vue ssr blog,前端开发,前端,web开发,node,vue,react,webpack,git' },
+      { name: 'apple-mobile-web-app-capable', content: 'yes'},
+      { name: 'apple-mobile-web-app-status-bar-style', content: 'black'}
     ],
     link: [
       { rel: 'alternate', href:'https://set.sh', hreflang: 'zh'},

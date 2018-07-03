@@ -1,5 +1,5 @@
 <template>
-  <header class="header">
+  <header class="header components-animation" ref="header">
     <nav class="navigator" role="navigation">
       <router-link
         class="navigator-link hover-animation"
@@ -13,6 +13,8 @@
 </template>
 
 <script>
+import eventBus from '~/lib/event-bus'
+
 export default {
   data () {
     return {
@@ -23,6 +25,15 @@ export default {
         'tags'
       ]
     }
+  },
+
+  created () {
+    eventBus.$on('hideHeader', () => {
+      this.$refs.header.style.transform = 'translateY(-90%)'
+    })
+    eventBus.$on('showHeader', () => {
+      this.$refs.header.style.transform = 'translateY(0)'
+    })
   },
 
   methods: {
@@ -65,7 +76,7 @@ export default {
       text-decoration: none
       transition: color .15s ease
 
-// TODO: 适配低分辨率移动端
+// TODO: 适配低分辨率移动端，如 i5
 +mobile
   .header
     .navigator

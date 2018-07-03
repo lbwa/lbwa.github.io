@@ -14,6 +14,7 @@
 import markdownParser from '~/lib/parseMarkdown'
 
 export default {
+  // nuxt function
   validate ({ params }) {
     // TODO: detect title in catalog object
     return /^\d+/.test(params.id)
@@ -35,6 +36,7 @@ export default {
     }
   },
 
+  // vue-meta
   head () {
     return {
       title: this.title
