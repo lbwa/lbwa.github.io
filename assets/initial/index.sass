@@ -1,0 +1,54 @@
+@import '~/assets/sass/var/index.sass'
+
+html
+  width: 100vw // keep header debounce when scroll bar show up
+  overflow-x: hidden
+  font-family: $font-family
+  font-size: 16px
+  word-spacing: 1px
+  -ms-text-size-adjust: 100%
+  -webkit-text-size-adjust: 100%
+  -moz-osx-font-smoothing: grayscale
+  -webkit-font-smoothing: antialiased
+  box-sizing: border-box
+
+*, *:before, *:after
+  box-sizing: border-box
+  margin: 0
+
+img
+  display: block
+  margin: 0 auto
+  max-width: 100%
+
+ul,ol
+  padding-left: 1.2em
+
+p, li
+  margin: .5em 0
+  line-height: 1.75
+
+strong
+  color: $text-attention
+
+h1, h2, h3, h4
+  margin: 0.83em 0
+
+a
+  color: $link
+  &:hover
+    color: $link-hover
+
+code
+  padding: 0.05em .3em
+  margin: 0
+  border-radius: 3px
+  background-color: $code-unblock-backgrouud
+  font-size: .9em
+  font-family: $code-font-family
+
+pre
+  code
+    padding: 0
+    color: $text-light
+    background-color: transparent

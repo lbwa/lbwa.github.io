@@ -8,13 +8,13 @@ module.exports = {
       { hid: 'description', name: 'description', content: 'bowen博客 vue ssr blog,前端开发,前端,web开发,node,vue,react,webpack,git' }
     ],
     link: [
+      { rel: 'alternate', href:'https://set.sh', hreflang: 'zh'},
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
 
   css: [
-    { src: '~/assets/global-preset.sass', lang: 'sass' },
-    { src: '~/assets/global-transition.sass', lang: 'sass' },
+    { src: '~/assets/theme.sass', lang: 'sass' },
     { src: '~/assets/code/highlight.scss', lang: 'scss'}
   ],
 

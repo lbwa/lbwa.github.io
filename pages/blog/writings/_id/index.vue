@@ -33,6 +33,12 @@ export default {
     } catch (err) {
       error({ statusCode: 404, message: err })
     }
+  },
+
+  head () {
+    return {
+      title: this.title
+    }
   }
 }
 </script>
@@ -66,7 +72,7 @@ export default {
 
     .article-tags
       display: inline-block
-      
+
     .article-content
       margin-top: 50px
 

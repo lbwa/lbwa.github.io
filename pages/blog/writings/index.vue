@@ -1,7 +1,7 @@
 <template>
   <div class="blog-writings">
 
-    <Catalog :title="catalogTitle" :subtitle="catalogSubtitle">
+    <Catalog :title="title" :subtitle="subtitle">
       <ul class="catalog-writings" v-if="list[0] && list[0].author" slot="main">
         <li
           class="catalog-item"
@@ -26,9 +26,15 @@ import Catalog from '~/components/Catalogs'
 export default {
   data () {
     return {
-      catalogTitle: '指南',
-      catalogSubtitle: '主动探索，积极思考',
+      title: '写作',
+      subtitle: '主动探索，积极思考',
       list: menu
+    }
+  },
+
+  head () {
+    return {
+      title: this.title
     }
   },
 
