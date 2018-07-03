@@ -1,22 +1,31 @@
 <template>
   <div class="blog-tags">
-    <div class="tags-header">
-      <h2 class="tags-title">标签</h2>
-      <h4 class="tags-subtitle">归纳总结</h4>
-    </div>
-    <div class="tags-content">
-      <router-link
-        class="tag-link button-primary"
-        v-for="(tag, index) in tags"
-        :key="index"
-        :to="genLink(tag)">{{tag}}</router-link>
-    </div>
+
+    <Catalog :title="title" :subtitle="subtitle">
+      <nav class="tags-content" slot="main">
+        <router-link
+          class="tag-link button-primary"
+          v-for="(tag, index) in tags"
+          :key="index"
+          :to="genLink(tag)">{{tag}}</router-link>
+      </nav>
+    </Catalog>
+
   </div>
 </template>
 
 <script>
+import Catalog from '~/components/Catalogs'
 import postsData from '~/source/_posts/menu.json'
+
 export default {
+  data () {
+    return {
+      title: '标签',
+      subtitle: '归纳总结'
+    }
+  },
+
   computed: {
     tags () {
       let result = new Set()
@@ -37,6 +46,10 @@ export default {
     genLink (tag) {
       return `/blog/tags/${tag.toLowerCase()}`
     }
+  },
+
+  components: {
+    Catalog
   }
 }
 </script>
@@ -44,20 +57,9 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/sass/index.sass'
 
-.blog-tags
+.catalog-wrapper
   text-align: center
-
-  .tags-header
-    margin: 0 0 3.125rem 0
-
-  .tags-title
-    letter-spacing: 5px
-    font-size: 1.125rem
-
-  .tags-subtitle
-    color: $text-subtitle
-    font-size: .875rem
-    font-weight: normal
+  +catalog-header
 
   .tags-content
     display: flex

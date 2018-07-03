@@ -1,12 +1,28 @@
 <template>
   <div class="blog-projects">
-    <Catalog :title="title" :subtitle="subtitle" :list="list"/>
+
+    <Catalog :title="title" :subtitle="subtitle">
+      <ul class="catalog-projects" v-if="list[0] && list[0].name" slot="main">
+        <li
+          class="catalog-item"
+          v-for="project in list" :key="project.url"
+        >
+          <a
+            class="project-name"
+            :href="project.url"
+            target="_blank"
+          >{{project.name}}</a>
+          <div class="project-desc">{{project.desc}}</div>
+        </li>
+      </ul>
+    </Catalog>
+
   </div>
 </template>
 
 <script>
-import projects from '~/source/_projects/projects.json'
 import Catalog from '~/components/Catalogs'
+import projects from '~/source/_projects/projects.json'
 
 export default {
   data () {
@@ -34,21 +50,9 @@ export default {
 .catalog-wrapper
   margin: 0 auto
   width: 500px
+  +catalog-header
 
-  /deep/ .catalog-text
-    margin: 0 0 3.125rem
-    text-align: center
-
-    .catalog-title
-      letter-spacing: 5px
-      font-size: 1.125rem
-
-    .catalog-subtitle
-      color: $text-subtitle
-      font-size: .875rem
-      font-weight: normal
-
-  /deep/ .catalog-projects
+  .catalog-projects
     list-style-type: none
     padding: 0
 

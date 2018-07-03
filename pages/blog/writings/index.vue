@@ -1,12 +1,28 @@
 <template>
   <div class="blog-writings">
-    <Catalog :title="catalogTitle" :subtitle="catalogSubtitle" :list="list"/>
+
+    <Catalog :title="catalogTitle" :subtitle="catalogSubtitle">
+      <ul class="catalog-writings" v-if="list[0] && list[0].author" slot="main">
+        <li
+          class="catalog-item"
+          v-for="post in list" :key="post.title">
+          <div class="post-info">
+            <div class="post-date">{{post.date}}</div>
+          </div>
+          <a class="post-title"
+            :href='`/blog/writings/${post.to}`'
+          >{{post.title}}</a>
+        </li>
+      </ul>
+    </Catalog>
+
   </div>
 </template>
 
 <script>
 import menu from '~/source/_posts/menu.json'
 import Catalog from '~/components/Catalogs'
+
 export default {
   data () {
     return {
@@ -32,21 +48,9 @@ export default {
 .catalog-wrapper
   margin: 0 auto
   width: 500px
+  +catalog-header
 
-  /deep/ .catalog-text
-    margin: 0 0 3.125rem
-    text-align: center
-
-    .catalog-title
-      letter-spacing: 5px
-      font-size: 1.125rem
-
-    .catalog-subtitle
-      color: $text-subtitle
-      font-size: .875rem
-      font-weight: normal
-
-  /deep/ .catalog-writings
+  .catalog-writings
     list-style-type: none
     padding: 0
 

@@ -1,5 +1,19 @@
 @import './var/initial.sass'
 
+=catalog-header
+  /deep/ .catalog-text
+    margin: 0 0 3.125rem 0
+    text-align: center
+
+    .catalog-title
+      letter-spacing: 5px
+      font-size: 1.125rem
+
+    .catalog-subtitle
+      color: $text-subtitle
+      font-size: .875rem
+      font-weight: normal
+
 =fullscreen-center-helper ($height: 100vh, $direction: row)
   display: flex
   min-height: $height
