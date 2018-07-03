@@ -112,6 +112,6 @@ CommonJS 模块的加载机制详见前文[模块缓存/加载机制][2]
 
 [1]:http://es6.ruanyifeng.com/#docs/module-loader#%E5%8A%A0%E8%BD%BD%E8%A7%84%E5%88%99
 
-[2]:https://lbwa.github.io/2018/02/27/Compared-CommonJS-with-ES6-module/#%E6%A8%A1%E5%9D%97%E7%BC%93%E5%AD%98%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6
+[2]:https://lbwa.github.io//blog/writings/180227-compare-commonjs-with-esm/#模块缓存-加载机制
 
 [3]:http://es6.ruanyifeng.com/#docs/module-loader#%E5%8A%A0%E8%BD%BD%E8%A7%84%E5%88%99
