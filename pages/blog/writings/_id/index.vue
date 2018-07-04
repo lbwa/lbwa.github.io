@@ -23,10 +23,10 @@ export default {
   // 是基于路由改变而调用，而与有无服务端无关
   // 在组件创建之前被调用，故此时无上下文
   async asyncData ({ params, error }) {
-    //
     try {
       const { id } = params
-
+      // FIXME: parse markdown fail when client env(from `tags` page to
+      // `writings` page)
       // extract meta info from markdown file
       const { title, date, author, tags, content } = markdownParser(id)
 

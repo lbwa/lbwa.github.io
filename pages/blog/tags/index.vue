@@ -17,6 +17,7 @@
 <script>
 import Catalog from '~/components/Catalogs'
 import postsData from '~/source/_posts/menu.json'
+import { clearTimeout } from 'timers';
 
 export default {
   data () {
@@ -26,19 +27,25 @@ export default {
     }
   },
 
-  computed: {
-    tags () {
+  async asyncData ({error}) {
+
+    try {
       let result = new Set()
+
       postsData.forEach(post => {
         post.tags.forEach(tag => {
           result.add(tag)
         })
       })
+
       // I'm confusing that correct Set instance is part of `_c` property.
       // It should return correct instance including unique data, but return a
       // instance that has only property `_c` in fact.
       // `_c` is a wrapper.
-      return [...result._c]
+      const tags = [...result._c]
+      return { tags }
+    } catch (err) {
+      error({ statusCode: 404, message: err })
     }
   },
 

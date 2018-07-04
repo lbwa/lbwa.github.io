@@ -65,11 +65,16 @@ module.exports = {
       minifyJS: true
     },
 
-    routes: function () {
-      const posts = require('./source/_posts/menu.json')
-      return posts.map(post => {
-        return `/blog/writings/${post.to}`
-      })
+    // multiple dynamic routes
+    // https://github.com/nuxt/nuxt.js/issues/1018
+    // https://github.com/nuxt/nuxt.js/issues/440
+    routes: async function () {
+      const posts = await require('./source/_posts/menu.json')
+      // const tags = await require('./source/_posts/tags.json')
+      const postLink = posts.map(post => `/blog/writings/${post.to}`)
+      // const tagLink = tags.map(tag => `/blog/tags/${tag}`)
+      return [...postLink]
+      // return [...postLink, ...tagLink]
     }
   }
 }
