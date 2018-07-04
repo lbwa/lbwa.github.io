@@ -12,6 +12,7 @@
 
 <script>
 import markdownParser from '~/lib/parseMarkdown'
+import axios from '~/lib/axios'
 
 export default {
   // nuxt function
@@ -25,10 +26,29 @@ export default {
   async asyncData ({ params, error }) {
     try {
       const { id } = params
-      // FIXME: parse markdown fail when client env(from `tags` page to
-      // `writings` page)
+
       // extract meta info from markdown file
-      const { title, date, author, tags, content } = markdownParser(id)
+
+      // It will throw a error because of client env when route skip from
+      // `tags/*` to `writings/*`
+      // There is no `fs` module in client env
+
+      // let raw = ''
+      // if (process.server) {
+      //   raw = await require('fs').readFile(`${postPath}/source/_posts/${id}.md`, 'utf8')
+      // } else {
+      //   // from tags page to writings page in client env
+      //   raw = await axios.get(`/${id}.md`)
+      //     .then(res => res.data)
+      //     .catch(err => console.error(err))
+      // }
+
+      // `axios` module is a drop in replacement for `fs`
+      const raw = await axios.get(`/${id}.md`)
+          .then(res => res.data)
+          .catch(err => console.error(err))
+
+      const { title, date, author, tags, content } = markdownParser(raw)
 
       return { title, date, author, tags, content }
     } catch (err) {
