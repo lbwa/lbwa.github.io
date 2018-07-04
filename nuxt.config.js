@@ -31,6 +31,8 @@ module.exports = {
       allChunks: true
     },
 
+    vendor: ['axios'],
+
     analyze: {
       analyzerMode: 'static'
     },
@@ -74,7 +76,7 @@ module.exports = {
       const tags = new Set()
       posts.forEach(post => {
         post.tags.forEach(tag => {
-          tags.add(tag)
+          tags.add(tag.toLowerCase())
         })
       })
       const tagLink = Array.from(tags).map(tag => `/blog/tags/${tag}`)

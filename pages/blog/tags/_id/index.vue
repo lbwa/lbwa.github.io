@@ -1,6 +1,6 @@
 <template>
   <div class="tags-detail">
-    <Catalog :title="mainTitle" :subtitle="subtitle">
+    <Catalog :title="result[0].tag || title" :subtitle="subtitle">
       <nav class="tag-list" slot="main">
         <router-link
           class="tag-link"
@@ -20,7 +20,7 @@ import Catalog from '~/components/Catalogs'
 export default {
   data () {
     return {
-      mainTitle: '标签',
+      title: '标签',
       subtitle: '归纳总结'
     }
   },
@@ -31,7 +31,13 @@ export default {
     let result = []
     postsData.forEach(post => {
       post.tags.forEach(tag => {
-        if (tag === id) result.push({tag, title: post.title, to: post.to})
+
+        // tag.toLowerCase() -- compatible uppercase tags
+        if (tag.toLowerCase() === id) result.push({
+          tag: tag.toLowerCase(),
+          title: post.title,
+          to: post.to
+        })
       })
     })
 
@@ -42,11 +48,27 @@ export default {
     Catalog
   },
 
-  // head () {
-  //   return {
-  //     title: this.title
-  //   }
-  // }
+  head () {
+    return {
+      title: this.result[0].tag || '标签'
+    }
+  }
 }
 </script>
 
+<style lang="sass" scoped>
+@import '~/assets/sass/mixins.sass'
+
+.catalog-wrapper
+  +catalog-header
+
+  .tag-list
+    display: flex
+    flex-direction: column
+    text-align: center
+
+    .tag-link
+      flex: 1
+      margin: .625rem 0
+
+</style>
