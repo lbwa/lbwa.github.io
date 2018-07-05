@@ -39,7 +39,7 @@ tags:
 
 [点我，查看我的另一篇博文][cross-domain-origin]
 
-[cross-domain-origin]:https://lbwa.github.io/2018/04/19/Cross-domain-solution/
+[cross-domain-origin]:https://lbwa.github.io/blog/writings/180419-cross-domain-solution/
 
 # 基础模块通过 npm 下载
 
@@ -71,7 +71,7 @@ setTimeout 是 this.$nextTick 的一种实现，nextTick 本质上是利用 [事
 
 [vuenexttickshixian]:https://mp.weixin.qq.com/s/mCcW4OYj3p3471ghMBylBw
 
-[eventloop]:https://lbwa.github.io/2018/03/08/2018-3-8-event-loop/
+[eventloop]:https://lbwa.github.io/blog/writings/180308-event-loop/
 
 >事实上，vue在2.5版本中已经删去了MutationObserver相关的代码，因为它是HTML5新增的特性，在 iOS 上尚有bug。
 

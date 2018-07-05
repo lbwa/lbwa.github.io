@@ -179,9 +179,9 @@ curl -v www.baidu.com
 
 👉[HTTP 请求首部][http-request]
 
-[http-response]:https://lbwa.github.io/2018/06/07/180607-http-response/
+[http-response]:https://lbwa.github.io/blog/writings/180607-http-response/
 
-[http-request]:https://lbwa.github.io/2018/06/08/180608-http-request/
+[http-request]:https://lbwa.github.io/blog/writings/180608-http-request/
 
 ## 实战
 

@@ -15,7 +15,7 @@ tags:
 
 存在两种 `event loops`（[W3C][event loops]），即一种在 `browsing context` 下的事件循环，一种是在 `web workers` 下的循环。本文讨论在 `browsing context` 下的事件循环。
 
-[event-loop-blog]:https://lbwa.github.io/2018/03/08/Event-loop/
+[event-loop-blog]:https://lbwa.github.io/blog/writings/180308-event-loop/
 
 ## 事件循环定义
 
@@ -307,7 +307,7 @@ I am from setTimeout
 
 一般地，在 JS 开发过程中，凡是可能造成代码阻塞的地方都可根据实际情况考虑使用异步操作。比如，数据获取等等。
 
-[post-execution-context]:https://lbwa.github.io/2018/05/07/execution-context/
+[post-execution-context]:https://lbwa.github.io/blog/writings/180507-execution-context/
 
 [promise-standard]:https://promisesaplus.com/
 
