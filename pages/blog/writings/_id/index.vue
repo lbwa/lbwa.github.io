@@ -22,7 +22,7 @@ export default {
   },
 
   // 是基于路由改变而调用，而与有无服务端无关
-  // 在组件创建之前被调用，故此时无上下文
+  // 在组件创建之前被调用，故此时无组件实例 this
   async asyncData ({ params, error }) {
     try {
       const { id } = params

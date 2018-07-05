@@ -70,11 +70,14 @@ export default {
     .navigator-link
       flex: 1
       vertical-align: top
-      color: $text-light
+      color: $text-grey-light
       font-size: 1rem
       font-weight: 300
       text-decoration: none
       transition: color .15s ease
+
+      &.nuxt-link-exact-active
+        color: $text-light
 
 // TODO: 适配低分辨率移动端，如 i5
 +mobile
