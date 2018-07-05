@@ -4,11 +4,13 @@
     <keep-alive>
       <router-view class="wrapper" role="main"/>
     </keep-alive>
+    <Footer/>
   </section>
 </template>
 
 <script>
 import Header from '~/components/AppHeader'
+import Footer from '~/components/AppFooter'
 import debounce from '~/lib/debounce'
 import eventBus from '~/lib/event-bus'
 
@@ -22,7 +24,8 @@ export default {
 
   methods: {
     onScroll () {
-      // Must filter `/blog/writings`, otherwise it will cause a bug that show a error `style of undefined` when from `/` to '/blog/writings` first time
+      // Must filter `/blog/writings`, otherwise it will cause a bug that show
+      // a error `style of undefined` when from `/` to '/blog/writings` first time
       if (this.$route.path === '/blog/writings') return
 
       this.nowScroll = document.body.scrollTop + document.documentElement.scrollTop
@@ -50,7 +53,8 @@ export default {
   },
 
   components: {
-    Header
+    Header,
+    Footer
   }
 }
 </script>
@@ -62,7 +66,12 @@ export default {
   position: relative
   top: 0
   left: 0
+  min-height: 100%
+  padding-bottom: 150px
   color: $text
+  
+  +mobile
+    padding-bottom: 100px
 
   // locate route view
   .wrapper
