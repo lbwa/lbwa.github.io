@@ -11,6 +11,7 @@
             class="project-name"
             :href="project.url"
             target="_blank"
+            rel="noopener"
           >{{project.name}}</a>
           <div class="project-desc">{{project.desc}}</div>
         </li>
@@ -23,8 +24,11 @@
 <script>
 import Catalog from '~/components/Catalogs'
 import projects from '~/source/_projects/projects.json'
+import { headMixin } from '~/lib/mixins'
 
 export default {
+  mixins: [headMixin],
+
   data () {
     return {
       title: '实践',
@@ -35,12 +39,6 @@ export default {
   computed: {
     list () {
       return projects
-    }
-  },
-
-  head () {
-    return {
-      title: this.title
     }
   },
 

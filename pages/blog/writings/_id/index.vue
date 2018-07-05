@@ -13,8 +13,11 @@
 <script>
 import markdownParser from '~/lib/parseMarkdown'
 import axios from '~/lib/axios'
+import { headMixin } from '~/lib/mixins'
 
 export default {
+  mixins: [headMixin],
+
   // nuxt function
   validate ({ params }) {
     // TODO: detect title in catalog object
@@ -53,13 +56,6 @@ export default {
       return { title, date, author, tags, content }
     } catch (err) {
       error({ statusCode: 404, message: err })
-    }
-  },
-
-  // vue-meta
-  head () {
-    return {
-      title: this.title
     }
   }
 }

@@ -7,7 +7,7 @@
         :to="genPath(item)"
         exact
       >{{ item.toUpperCase() }}</router-link>
-      <a class="navigator-link hover-animation" href="https://github.com/lbwa" target="_blank">CONTACT</a>
+      <a class="navigator-link hover-animation" href="https://github.com/lbwa" target="_blank" rel="noopener">CONTACT</a>
     </nav>
   </header>
 </template>
@@ -29,10 +29,12 @@ export default {
 
   created () {
     eventBus.$on('hideHeader', () => {
-      this.$refs.header.style.transform = 'translateY(-90%)'
+      // this.$refs.header.style.transform = 'translateY(-90%)'
+      this.$refs.header.classList.add('hide-menu')
     })
     eventBus.$on('showHeader', () => {
-      this.$refs.header.style.transform = 'translateY(0)'
+      // this.$refs.header.style.transform = 'translateY(0)'
+      this.$refs.header.classList.remove('hide-menu')
     })
   },
 
@@ -48,8 +50,11 @@ export default {
 }
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
 @import '~/assets/sass/index.sass'
+
+.hide-menu
+  transform: translateY(-90%)
 
 .header
   position: fixed

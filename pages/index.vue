@@ -14,6 +14,7 @@
       <a
         href="https://github.com/lbwa"
         target="_blank"
+        rel="noopener"
         class="home-btn button-primary">GitHub</a>
     </div>
   </section>

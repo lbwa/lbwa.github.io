@@ -17,9 +17,11 @@
 <script>
 import Catalog from '~/components/Catalogs'
 import postsData from '~/source/_posts/menu.json'
-import { clearTimeout } from 'timers';
+import { headMixin } from '~/lib/mixins'
 
 export default {
+  mixins: [headMixin],
+
   data () {
     return {
       title: '标签',
@@ -52,12 +54,6 @@ export default {
   methods: {
     genLink (tag) {
       return `/blog/tags/${tag.toLowerCase()}`
-    }
-  },
-
-  head () {
-    return {
-      title: this.title
     }
   },
 

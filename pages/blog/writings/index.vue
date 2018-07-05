@@ -22,19 +22,16 @@
 <script>
 import menu from '~/source/_posts/menu.json'
 import Catalog from '~/components/Catalogs'
+import { headMixin } from '~/lib/mixins'
 
 export default {
+  mixins: [headMixin],
+
   data () {
     return {
       title: '写作',
       subtitle: '主动探索，积极思考',
       list: menu
-    }
-  },
-
-  head () {
-    return {
-      title: this.title
     }
   },
 

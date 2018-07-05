@@ -1,7 +1,7 @@
 <template>
   <footer class="blog-footer">
     <div class="footer-info">Copyright &copy; {{genYear}} <a
-    target="_blank" href="https://github.com/lbwa" class="author">Bowen</a></div>
+    target="_blank" rel="noopener" href="https://github.com/lbwa" class="author">Bowen</a></div>
   </footer>
 </template>
 
