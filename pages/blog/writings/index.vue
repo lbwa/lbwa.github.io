@@ -11,6 +11,7 @@
           </div>
           <a class="post-title"
             :href='`/blog/writings/${post.to}`'
+            @click.stop.prevent="navigate"
           >{{post.title}}</a>
         </li>
       </ul>
@@ -23,6 +24,7 @@
 import menu from '~/source/_posts/menu.json'
 import Catalog from '~/components/Catalogs'
 import { headMixin } from '~/lib/mixins'
+import eventBus from '~/lib/event-bus'
 
 export default {
   mixins: [headMixin],
@@ -33,6 +35,25 @@ export default {
       subtitle: '主动探索，积极思考',
       list: menu
     }
+  },
+
+  methods: {
+    // htmlParse component in nuxt-org
+    // 阻止浏览器默认的多页面跳转行为，转为使用 vue 路由跳转，即可以使用 `读取` 进度条
+    // 多页面跳转无法处理过渡动画的问题
+    navigate (evt) {
+      eventBus.$emit('toggleLoading', true)
+      const href = evt.target.getAttribute('href')
+      this.$router.push(href)
+    },
+
+    toggleLoading () {
+      eventBus.$emit('toggleLoading', false)
+    }
+  },
+
+  watch: {
+    '$route': 'toggleLoading'
   },
 
   components: {

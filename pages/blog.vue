@@ -1,16 +1,21 @@
 <template>
   <section class="blog">
     <Header/>
+
     <keep-alive>
       <router-view class="wrapper" role="main"/>
     </keep-alive>
+
     <Footer/>
+
+    <Loading/>
   </section>
 </template>
 
 <script>
 import Header from '~/components/AppHeader'
 import Footer from '~/components/AppFooter'
+import Loading from '~/components/Loading'
 import debounce from '~/lib/debounce'
 import eventBus from '~/lib/event-bus'
 
@@ -44,7 +49,6 @@ export default {
     window.addEventListener('scroll', debounce(this.onScroll))
   },
 
-
   // redirect solution: https://nuxtjs.org/api/context
   asyncData ({ route, redirect }) {
     if (/^\/blog(\/)?$/i.test(route.path)) {
@@ -54,7 +58,8 @@ export default {
 
   components: {
     Header,
-    Footer
+    Footer,
+    Loading
   }
 }
 </script>

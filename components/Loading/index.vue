@@ -7,7 +7,7 @@
       <div class="loading-item"></div>
       <div class="loading-item"></div>
     </div>
-    <a class="loading-tips"  @click="hideLoading">Close</a>
+    <a class="loading-tips"  @click.stop.prevent="back">Back to page</a>
   </section>
 </template>
 
@@ -26,8 +26,9 @@ export default {
       this.show = status
     },
 
-    hideLoading () {
-      this.show = false
+    back () {
+      this.toggleLoading(false)
+      this.$router.push('/blog/writings')
     }
   },
 
@@ -62,7 +63,7 @@ export default {
   flex-direction: column
   justify-content: center
   align-items: center
-  background-color: rgba(0, 0, 0, .5)
+  background-color: rgba(0, 0, 0, .95)
 
 @for $i from 1 through 5
   .loading-item:nth-child(#{$i})

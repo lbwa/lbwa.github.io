@@ -7,8 +7,8 @@ module.exports = {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' },
-      { name: 'keywords', content: 'bowen博客 vue ssr blog,前端开发,前端,web开发,node,vue,react,webpack,git' },
-      { hid: 'description', name: 'description', content: 'bowen博客 vue ssr blog,前端开发,前端,web开发,node,vue,react,webpack,git' },
+      { name: 'keywords', content: 'bowen blog, bowen 博客, vuejs, reactjs, ssr, 前端开发, 前端 , web开发, nodejs, github' },
+      { hid: 'description', name: 'description', content: '一个分享代码经历的地方' },
       { name: 'apple-mobile-web-app-capable', content: 'yes'},
       { name: 'apple-mobile-web-app-status-bar-style', content: 'black'}
     ],
@@ -29,13 +29,13 @@ module.exports = {
 
   loading: { color: '#3eaf7c', height: '2px' },
 
-  // TODO: https://nuxtjs.org/api/configuration-loading-indicator
-  // Only work for SPA
-  loadingIndicator: {
-    name: 'rectangle-bounce',
-    color: '#24292e',
-    background: 'white'
-  },
+  // https://nuxtjs.org/api/configuration-loading-indicator
+  // Only work for SPA mode
+  // loadingIndicator: {
+  //   name: 'rectangle-bounce',
+  //   color: '#24292e',
+  //   background: 'white'
+  // },
 
   // mode: 'spa',
   mode: 'universal',

@@ -1,5 +1,5 @@
 <template>
-  <header class="header components-animation" ref="header">
+  <header :class="['header', 'components-animation', hide ? 'hide-menu' : '']" ref="header">
     <nav class="navigator" role="navigation">
       <router-link
         class="navigator-link hover-animation"
@@ -23,19 +23,18 @@ export default {
         'writings',
         'projects',
         'tags'
-      ]
+      ],
+
+      hide: false
     }
   },
 
-  created () {
+  mounted () {
     eventBus.$on('hideHeader', () => {
-      // this.$refs.header.style.transform = 'translateY(-90%)'
-      this.$refs.header.classList.add('hide-menu')
+      this.hideMenu()
     })
     eventBus.$on('showHeader', () => {
-      // this.$refs.header.style.transform = 'translateY(0)'
-      this.$refs.header.classList.remove('hide-menu')
-      // https://github.com/lbwa/lbwa.github.io/issues/5
+      this.showMenu()
     })
   },
 
@@ -46,6 +45,16 @@ export default {
       } else if (name !== 'contact') {
         return `/blog/${name.toLowerCase()}`
       }
+    },
+
+    // https://cn.vuejs.org/v2/api/#ref
+    // 不推荐使用 $refs 来进行数据绑定
+    hideMenu () {
+      this.hide = true
+    },
+
+    showMenu () {
+      this.hide = false
     }
   }
 }
@@ -54,6 +63,7 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/sass/index.sass'
 
+// https://github.com/lbwa/lbwa.github.io/issues/5
 .hide-menu
   transform: translateY(-90%)
 
