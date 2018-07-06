@@ -35,6 +35,7 @@ export default {
     eventBus.$on('showHeader', () => {
       // this.$refs.header.style.transform = 'translateY(0)'
       this.$refs.header.classList.remove('hide-menu')
+      // https://github.com/lbwa/lbwa.github.io/issues/5
     })
   },
 

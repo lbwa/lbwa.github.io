@@ -29,6 +29,17 @@ module.exports = {
 
   loading: { color: '#3eaf7c', height: '2px' },
 
+  // TODO: https://nuxtjs.org/api/configuration-loading-indicator
+  // Only work for SPA
+  loadingIndicator: {
+    name: 'rectangle-bounce',
+    color: '#24292e',
+    background: 'white'
+  },
+
+  // mode: 'spa',
+  mode: 'universal',
+
   build: {
     extractCSS: {
       allChunks: true

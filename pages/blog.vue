@@ -26,17 +26,17 @@ export default {
     onScroll () {
       // Must filter `/blog/writings`, otherwise it will cause a bug that show
       // a error `style of undefined` when from `/` to '/blog/writings` first time
-      if (this.$route.path === '/blog/writings') return
+      if (/^\/blog\/writings\/\d+/.test(this.$route.path)) {
+        this.nowScroll = document.body.scrollTop + document.documentElement.scrollTop
 
-      this.nowScroll = document.body.scrollTop + document.documentElement.scrollTop
+        if (this.nowScroll > this.initialScroll) {
+          eventBus.$emit('hideHeader')
+        } else if (this.nowScroll < this.initialScroll) {
+          eventBus.$emit('showHeader')
+        }
 
-      if (this.nowScroll > this.initialScroll) {
-        eventBus.$emit('hideHeader')
-      } else if (this.nowScroll < this.initialScroll) {
-        eventBus.$emit('showHeader')
+        this.initialScroll = this.nowScroll
       }
-
-      this.initialScroll = this.nowScroll
     }
   },
 
@@ -69,7 +69,7 @@ export default {
   min-height: 100%
   padding-bottom: 150px
   color: $text
-  
+
   +mobile
     padding-bottom: 100px
 
