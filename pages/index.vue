@@ -9,7 +9,7 @@
     </h4>
     <div class="home-navigator">
       <nuxt-link
-        to="/blog/writings"
+        to="/blog/writings/"
         class="home-btn button-primary">Writings</nuxt-link>
       <a
         href="https://github.com/lbwa"

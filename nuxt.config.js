@@ -86,14 +86,14 @@ module.exports = {
     // https://github.com/nuxt/nuxt.js/issues/440
     routes: async function () {
       const posts = await require('./source/_posts/menu.json')
-      const postLink = posts.map(post => `/blog/writings/${post.to}`)
+      const postLink = posts.map(post => `/blog/writings/${post.to}/`)
       const tags = new Set()
       posts.forEach(post => {
         post.tags.forEach(tag => {
           tags.add(tag.toLowerCase())
         })
       })
-      const tagLink = Array.from(tags).map(tag => `/blog/tags/${tag}`)
+      const tagLink = Array.from(tags).map(tag => `/blog/tags/${tag}/`)
       return [...postLink, ...tagLink]
     }
   }

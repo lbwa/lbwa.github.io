@@ -53,7 +53,7 @@ export default {
 
   methods: {
     genLink (tag) {
-      return `/blog/tags/${tag.toLowerCase()}`
+      return `/blog/tags/${tag.toLowerCase()}/`
     }
   },
 

@@ -10,7 +10,7 @@
             <div class="post-date">{{post.date}}</div>
           </div>
           <a class="post-title"
-            :href='`/blog/writings/${post.to}`'
+            :href='`/blog/writings/${post.to}/`'
             @click.stop.prevent="navigate"
           >{{post.title}}</a>
         </li>

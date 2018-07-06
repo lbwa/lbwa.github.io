@@ -6,7 +6,7 @@
           class="tag-link"
           v-for="post in result"
           :key="post.to"
-          :to="`/blog/writings/${post.to}`"
+          :to="`/blog/writings/${post.to}/`"
         >{{post.title}}</router-link>
       </nav>
     </Catalog>

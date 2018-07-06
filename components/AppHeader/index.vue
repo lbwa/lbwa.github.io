@@ -43,7 +43,7 @@ export default {
       if (name === 'home') {
         return '/'
       } else if (name !== 'contact') {
-        return `/blog/${name.toLowerCase()}`
+        return `/blog/${name.toLowerCase()}/`
       }
     },
 

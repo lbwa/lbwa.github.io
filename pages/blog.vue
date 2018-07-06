@@ -29,8 +29,6 @@ export default {
 
   methods: {
     onScroll () {
-      // Must filter `/blog/writings`, otherwise it will cause a bug that show
-      // a error `style of undefined` when from `/` to '/blog/writings` first time
       if (/^\/blog\/writings\/\d+/.test(this.$route.path)) {
         this.nowScroll = document.body.scrollTop + document.documentElement.scrollTop
 
@@ -52,7 +50,7 @@ export default {
   // redirect solution: https://nuxtjs.org/api/context
   asyncData ({ route, redirect }) {
     if (/^\/blog(\/)?$/i.test(route.path)) {
-      redirect(301, '/blog/writings')
+      redirect(301, '/blog/writings/')
     }
   },
 
