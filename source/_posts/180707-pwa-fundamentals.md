@@ -27,7 +27,7 @@ tags:
 
 3. `PWA` 无需手动更新，它借助 `Service Worker` 保持最新状态。
 
-## 对于以上二者
+### 对于以上二者
 
 1. `PWA` 兼容任何具有浏览器的设备。因为它只依赖于支持 `Service Worker` 的浏览器运行。
 
@@ -56,7 +56,7 @@ tags:
 
 另附截止至本文发表之时 `Service Worker` 的兼容性列表 —— [Is Service Worker ready][Is Service Worker ready]。
 
-## `Service Worker` 与 `App shell`
+### `Service Worker` 与 `App shell`
 
 基于 `Service Worker` 的可离线使用，消息推送，网络请求代理等特性，我们可以使用 `Service Worker` 来缓存 `App shell` 来实现 `PWA` 的渐进增强。
 
@@ -114,7 +114,7 @@ self.addEventListener('install', evt => {
 
 ### Activate event
 
-该事件主要用于更新 cache 容器。
+该事件主要用于更新 `cache` 容器。
 
 - 在安装事件完成后，会触发一个 [activate][sw-lifecycle-activate] 激活事件，`activate` 事件会在新的 `Service Worker` 启动时触发（旧版本 `Service Worker` 不触发该事件）。它触发时会清理与之前版本的 `Service Worker` 相关联的旧资源与旧缓存。
 
@@ -188,6 +188,34 @@ self.addEventListener('fetch', evt => {
 ![sw-offline](https://rawgit.com/lbwa/lbwa.github.io/vue/source/images/post/pwa-fundamentals/sw-offline.png)
 
 `Service Worker` 存在指定的 `App shell` 时，将从指定的 `cache` 容器中读取。
+
+### 边界情况
+
+1. 缓存取决于为每次更改更新缓存容器键名
+
+以上 `Service Worker` 读取 `App shell` 时，仅当 `cacheName` 发生改变时，才会更新 `App shell`。否则将保持使用旧的缓存。即缓存取决于缓存键名。
+
+2. 更新容器却更新了整个缓存容器
+
+这样有一个缺点，就是只要一个文件发生变化时，为了更新缓存就不得不使整个 `cache` 容器失效，而重新下载新的 `App shell`。这样是有很大的性能浪费的。
+
+解决方案可以是将 `cacheName` 指定为根据内容而生成的文件名。即 `content hash` 文件名。
+
+3. 浏览器自身缓存可能阻止 `Service Worker` 的缓存更新
+
+在初次安装处理程序时（`install handler`）浏览器将不会返回从浏览器缓存中返回数据，而是一定会执行 `HTTPS` 请求（补充：`Service Worker` 除本地服务器外仅支持 `HTTPS` 协议。）。这样做的目的就是为了保证安装的 `App shell` 一定是最新版。否则，浏览器将在初次安装 `App shell` 时使用旧版本 `App shell`。这将导致 `Service Worker` 永远得不到更新。因为浏览器在该情境下在一直循环使用旧版本。
+
+推荐的方案是在安装 `App shell` 时总是请求源服务器。
+
+4. 谨慎地在生产环境中执行缓存优先策略（`cache-first`）
+
+在生产环境中执行缓存优先策略时，将导致任何读取缓存的时候都不会查询网络。这将导致只要本地有缓存，就几乎不可能更新本地的 `Service Worker` 配置中的 `App shell`（因为 `Service Worker` 配置是依靠定义的位置。）。
+
+以上四点边界情况推荐使用 [sw-precache] 或 [workbox]（Google 推荐 `workbox`） 之类的内容库来管理缓存。
+
+[sw-precache]:https://github.com/GoogleChrome/sw-precache
+
+[workbox]:https://github.com/GoogleChrome/workbox
 
 ## Reference
 
