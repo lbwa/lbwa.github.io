@@ -52,7 +52,7 @@ tags:
 4. 它是基于 `Promise` 对象的实现。
 
 
-***notice***: `./service-worker.js` 的 `register` 注册路径是基于 ***应用*** 的 ***根路径***，而不是相对于以上注册程序代码的路径。因为服务工作线程的作用域是由应用的根路径文件夹所定义的。（[Google Developers][cache sw]）
+***notice***: `./service-worker.js` 的 `register` 注册路径是基于 ***应用*** 的 ***根路径***，而不是相对于以上注册程序代码的路径。因为 `Service Worker` 的作用域是由应用的根路径文件夹所定义的。（[Google Developers][cache sw]）
 
 另附截止至本文发表之时 `Service Worker` 的兼容性列表 —— [Is Service Worker ready][Is Service Worker ready]。
 
@@ -63,6 +63,8 @@ tags:
 ## `Service Worker` 的生命周期
 
 `Service Worker` 的生命周期完全独立于网页。`Service Worker` 在第一次打开应用页面界面时， 在页面的 JS 脚本中注册。（[Google Developers][sw-lifecycle-google docs]，[MDN][sw-api-mdn]）
+
+![sw-lifecycle](https://raw.githubusercontent.com/lbwa/lbwa.github.io/vue/source/images/post/pwa-fundamentals/sw-lifecycle.png)
 
 ### Install event
 
@@ -209,9 +211,11 @@ self.addEventListener('fetch', evt => {
 
 4. 谨慎地在生产环境中执行缓存优先策略（`cache-first`）
 
-在生产环境中执行缓存优先策略时，将导致任何读取缓存的时候都不会查询网络。这将导致只要本地有缓存，就几乎不可能更新本地的 `Service Worker` 配置中的 `App shell`（因为 `Service Worker` 配置是依靠定义的位置。）。
+在生产环境中执行缓存优先策略时，将导致任何读取缓存的时候都不会查询网络。这将导致只要本地有缓存，就几乎不可能更新本地的 `Service Worker` 配置中的 `App shell`。
 
-以上四点边界情况推荐使用 [sw-precache] 或 [workbox]（Google 推荐 `workbox`） 之类的内容库来管理缓存。
+因为 `Service Worker` 配置是取决于定义注册该 `Service Worker` 的 ***那个*** 文件，而不是服务器。（本文中指的是当时注册该 `Service Worker` 的 `./service-worker.js`）（此处原文为 `Since the configuration depends on where it was defined`）
+
+处理以上四点边界情况推荐使用 [sw-precache] 或 [workbox]（Google 推荐 `workbox`） 之类的内容库来管理缓存。
 
 [sw-precache]:https://github.com/GoogleChrome/sw-precache
 
