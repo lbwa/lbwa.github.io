@@ -1,5 +1,5 @@
 ---
-title:      "PWA 实践"
+title:      "PWA 基础"
 date:       2018-07-07
 author:     "Bowen"
 tags:
@@ -7,25 +7,29 @@ tags:
     - PWA
 ---
 
-# PWA 实践
-
 `PWA` 意为 `progressive web application`，即渐进式网络应用。
 
 ## 解决的问题
 
 ### 对于 `web App`
 
-1. `PWA` 可离线访问应用，降低用户跳出率。
+1. `PWA` 可离线访问应用，体验接近 `Native App`，2017 年 `twitter` 的 `PWA` 显著降低了用户跳出率。
 
-2. `PWA` 具备推送消息的能力。
+2. `PWA` 具备推送消息的能力，可即时加载和定期更新。
 
 ### 对于 `Native App`
 
-1. `PWA` 具有 `SEO` 增强，可被搜索引擎发现，可安装于移动端桌面。
+1. `PWA` 因存在 `manifest` 清单而具有 `SEO` 增强，可被搜索引擎发现，可安装于移动端桌面。
 
-    - `native app` 天生是封闭的环境，故不存在 `SEO` 能力，`PWA` 在浏览器环境下运行，故具有 `native app` 所不具有的 `SEO` 能力。
+    - `native app` 天生是封闭的环境，故不存在 `SEO` 能力，`PWA` 在浏览器环境下运行，存在 `manifest` 清单,故具有 `native app` 所不具有的 `SEO` 能力。
 
-2. `PWA` 可即时加载和定期更新，无需借助应用商店。
+2. `PWA` 无需借助应用商店安装，可直接使用。
+
+3. `PWA` 无需手动更新，它借助 `Service Worker` 保持最新状态。
+
+## 对于以上二者
+
+1. `PWA` 兼容任何具有浏览器的设备。因为它只依赖于支持 `Service Worker` 的浏览器运行。
 
 ## 基本架构
 
@@ -56,9 +60,9 @@ tags:
 
 基于 `Service Worker` 的可离线使用，消息推送，网络请求代理等特性，我们可以使用 `Service Worker` 来缓存 `App shell` 来实现 `PWA` 的渐进增强。
 
-## `Service Worker` 的生命周期（[Google Developers][sw-lifecycle-google docs]，[MDN][sw-api-mdn]）
+## `Service Worker` 的生命周期
 
-`Service Worker` 的生命周期完全独立于网页。`Service Worker` 在第一次打开应用页面界面时， 在页面的 JS 脚本中注册。
+`Service Worker` 的生命周期完全独立于网页。`Service Worker` 在第一次打开应用页面界面时， 在页面的 JS 脚本中注册。（[Google Developers][sw-lifecycle-google docs]，[MDN][sw-api-mdn]）
 
 ### Install event
 
@@ -87,11 +91,11 @@ const filesToCache = [
   // ...
 ]
 
-self.addEventListener('install', (e) => {
+self.addEventListener('install', evt => {
   console.log('[ServiceWorker] Install')
   // ExtendableEvent.waitUntil() 用于延长时间的寿命从而阻止浏览器在事件中的异步操作
   // 完成之前终止服务工作线程
-  e.waitUntil(
+  evt.waitUntil(
     // caches 对象是用于开辟存储容器。另注，是调用 caches 开辟容器而不是 Cache 或 cache
     // caches.open 返回匹配 cacheName 的 cache 对象的 Promise。
     caches.open(cacheName).then(cache => {
@@ -177,11 +181,11 @@ self.addEventListener('fetch', evt => {
 })
 ```
 
-![sw-fetch](https://rawgit.com/lbwa/lbwa.github.io/vue/source/images/post/pwa-practice/sw-offline.png)
+![sw-fetch](https://rawgit.com/lbwa/lbwa.github.io/vue/source/images/post/pwa-fundamentals/sw-fetch.png)
 
 当 `Cache storage` 中不存在指定 `cacheName` 的 `cache` 容器时，将发起网络请求，最终将缓存新的 `App shell` 于指定的 `cache` 容器中。
 
-![sw-offline](https://rawgit.com/lbwa/lbwa.github.io/vue/source/images/post/pwa-practice/sw-offline.png)
+![sw-offline](https://rawgit.com/lbwa/lbwa.github.io/vue/source/images/post/pwa-fundamentals/sw-offline.png)
 
 `Service Worker` 存在指定的 `App shell` 时，将从指定的 `cache` 容器中读取。
 
