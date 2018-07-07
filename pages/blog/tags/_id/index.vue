@@ -50,7 +50,7 @@ export default {
 
   head () {
     return {
-      title: this.result[0].tag || '标签'
+      title: `${this.result[0].tag || '标签'} | Bowen Blog`
     }
   }
 }

@@ -7,7 +7,7 @@
       <div class="loading-item"></div>
       <div class="loading-item"></div>
     </div>
-    <a class="loading-tips"  @click.stop.prevent="back">Back to page</a>
+    <a class="loading-tips"  @click.stop.prevent="back">Loading</a>
   </section>
 </template>
 
