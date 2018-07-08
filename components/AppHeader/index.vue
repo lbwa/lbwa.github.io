@@ -1,5 +1,5 @@
 <template>
-  <header :class="['header', 'components-animation', hide ? 'hide-menu' : '']" ref="header">
+  <header :class="['header', 'components-animation', hide ? 'hide-menu' : '']">
     <nav class="navigator" role="navigation">
       <router-link
         class="navigator-link hover-animation"

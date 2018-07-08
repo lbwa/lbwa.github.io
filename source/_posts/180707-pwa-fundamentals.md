@@ -227,9 +227,11 @@ self.addEventListener('fetch', evt => {
 
 - [Service Worker]（Google Developers）
 
+- [Service Worker lifecycle]（Google Developers）
+
 - [Debugging service workers]（Google Developers）
 
-- [使用 Service worker][using service worker]（MDN）
+- [Using service worker]（MDN）
 
 - [CacheStorage.open]（MDN）
 
@@ -242,6 +244,8 @@ self.addEventListener('fetch', evt => {
 [Your first progressive web app]:https://developers.google.com/web/fundamentals/codelabs/your-first-pwapp/
 
 [Service Worker]:https://developers.google.com/web/fundamentals/primers/service-workers/
+
+[Service Worker lifecycle]:https://developers.google.com/web/fundamentals/primers/service-workers/lifecycle
 
 [Debugging service workers]:https://codelabs.developers.google.com/codelabs/debugging-service-workers/#0
 
