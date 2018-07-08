@@ -122,7 +122,7 @@ export default {
       font-size: 1rem
       font-weight: 300
       text-decoration: none
-      transition: color .15s ease
+      transition: color .15s ease, opacity .3s linear, transform .3s linear
 
       &.nuxt-link-exact-active
         color: $text-light
@@ -142,12 +142,15 @@ export default {
       padding: 0 15px
       visibility: hidden
       max-width: 100%
-      height: 1px
+      transform: translateY(-100%)
       background-color: $background-dark
+      transition: all .3s linear
 
     .navigator-link
         display: block
         margin-bottom: 20px
+        transform: scale(1.1, 1.1) translateY(-24px)
+        opacity: 0
 
 +desktop
   .navigator
@@ -160,6 +163,7 @@ export default {
 
 .label-line
   +position(absolute, 0, null, null, 0)
+  z-index: 1 // 防止展开动画过程中 menu 遮挡
   display: inline-block
   height: 48px
   width: 48px
@@ -183,7 +187,15 @@ export default {
 .show-list
   .navigator
     visibility: visible
-    height: auto
+    transform: translateY(0)
+
+    .navigator-link
+      opacity: 1
+      transition-delay: 300ms, 300ms
+      transform: none
+      @for $i from 1 through 5
+        &:nth-child(#{$i})
+          transition-delay: ($i - 1) * 60ms + 300ms, ($i - 1) * 60ms + 300ms
 
   .line-crust
     transform: translateY(0)
