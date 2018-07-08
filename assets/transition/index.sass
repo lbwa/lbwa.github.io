@@ -1,3 +1,5 @@
+@import '~/assets/sass/mixins.sass'
+
 .hover-animation
   position: relative
   &::after
@@ -12,6 +14,9 @@
     opacity: 0
     transition: all .3s
     transform: translateY(10px)
+
+    +mobile
+      background-color: transparent // 防止移动端选择选项时出现底部白条
   &:hover:after
     opacity: 1
     transform: translateY(0)

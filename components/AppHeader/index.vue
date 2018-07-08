@@ -28,12 +28,12 @@
       @click.stop="selectCategory"
     >
       <router-link
-        :class="['navigator-link', mobileShow ? '' : 'hover-animation']"
+        class="navigator-link hover-animation"
         v-for="item of category" :key="item"
         :to="genPath(item)"
         exact
       >{{ item.toUpperCase() }}</router-link>
-      <a :class="['navigator-link', mobileShow ? '' : 'hover-animation']" href="https://github.com/lbwa" target="_blank" rel="noopener">CONTACT</a>
+      <a class="navigator-link hover-animation" href="https://github.com/lbwa" target="_blank" rel="noopener">CONTACT</a>
     </nav>
 
   </header>
