@@ -7,6 +7,7 @@
           v-for="post in result"
           :key="post.to"
           :to="`/blog/writings/${post.to}/`"
+          @click.stop.native="activateLoading"
         >{{post.title}}</router-link>
       </nav>
     </Catalog>
@@ -14,8 +15,9 @@
 </template>
 
 <script>
-import postsData from '~/source/_posts/menu.json'
 import Catalog from '~/components/Catalogs'
+import postsData from '~/source/_posts/menu.json'
+import eventBus from '~/lib/event-bus'
 
 export default {
   data () {
@@ -23,6 +25,22 @@ export default {
       title: '标签',
       subtitle: '归纳总结'
     }
+  },
+
+  methods: {
+    // how to support v-on:click on router-link component
+    // https://github.com/vuejs/vue-router/issues/800
+    activateLoading () {
+      eventBus.$emit('toggleLoading', true)
+    },
+
+    closeLoading () {
+      eventBus.$emit('toggleLoading', false)
+    }
+  },
+
+  watch: {
+    '$route': 'closeLoading'
   },
 
   async asyncData ({ params, error }) {

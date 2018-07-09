@@ -18,12 +18,6 @@ import { headMixin } from '~/lib/mixins'
 export default {
   mixins: [headMixin],
 
-  // nuxt function
-  validate ({ params }) {
-    // TODO: detect title in catalog object
-    return /^\d+/.test(params.id)
-  },
-
   // 是基于路由改变而调用，而与有无服务端无关
   // 在组件创建之前被调用，故此时无组件实例 this
   async asyncData ({ params, error }) {

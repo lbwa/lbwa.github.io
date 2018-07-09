@@ -39,8 +39,9 @@ export default {
 
   methods: {
     // htmlParse component in nuxt-org
-    // 阻止浏览器默认的多页面跳转行为，转为使用 vue 路由跳转，即可以使用 `读取` 进度条
-    // 多页面跳转无法处理过渡动画的问题
+    // 阻止浏览器默认的多页面跳转行为，转为使用 vue 路由跳转，即可以达到更新部分组件的
+    // 目的，即使用 `读取` 进度条
+    // 多页面跳转，因为会刷新页面中所有组件，故无法处理过渡动画的问题
     navigate (evt) {
       eventBus.$emit('toggleLoading', true)
       const href = evt.target.getAttribute('href')
