@@ -5,27 +5,15 @@
       '__position',
       'components-animation',
       hide ? 'hide-header' : '',
-      mobileShow ? 'show-list' : ''
+      showMenuList ? 'show-list' : ''
       ]">
 
-    <nav class="mobile-navigator">
-      <label
-        class="label-line"
-        @click.stop.prevent="mobileShowList"
-      >
-        <span class="__position label-line line-top">
-          <span class="__position line-crust line-crust-top"></span>
-        </span>
-        <span class="__position label-line line-bottom">
-          <span class="__position line-crust line-crust-bottom"></span>
-        </span>
-      </label>
-    </nav>
+    <MobileHeader @toggleMenuList="toggleMenuList"/>
 
     <nav
       class="navigator __position"
       role="navigation"
-      @click.stop="selectCategory"
+      @click.stop="collapseMenuList"
     >
       <router-link
         class="navigator-link hover-animation"
@@ -36,10 +24,13 @@
       <a class="navigator-link hover-animation" href="https://github.com/lbwa" target="_blank" rel="noopener">CONTACT</a>
     </nav>
 
+    <div class="background-helper __position" @click.stop.prevent="collapseMenuList"></div>
+
   </header>
 </template>
 
 <script>
+import MobileHeader from '~/components/MobileHeader'
 import eventBus from '~/lib/event-bus'
 
 export default {
@@ -54,7 +45,7 @@ export default {
 
       hide: false,
 
-      mobileShow: false
+      showMenuList: false
     }
   },
 
@@ -80,20 +71,24 @@ export default {
     // 不推荐使用 $refs 来进行数据绑定
     hideMenu () {
       this.hide = true
+      this.collapseMenuList()
     },
 
     showMenu () {
       this.hide = false
     },
 
-    mobileShowList () {
-      this.mobileShow = !this.mobileShow
+    toggleMenuList () {
+      this.showMenuList = !this.showMenuList
     },
 
-    selectCategory () {
-      const mobileShow = this.mobileShow
-      if (this.mobileShow) this.mobileShow = false
+    collapseMenuList () {
+      if (this.showMenuList) this.showMenuList = false
     }
+  },
+
+  components: {
+    MobileHeader
   }
 }
 </script>
@@ -132,6 +127,7 @@ export default {
 
 +mobile
   .header
+    // ! show mobile header
     .mobile-navigator
       display: block
 
@@ -147,10 +143,15 @@ export default {
       transition: all .3s linear
 
     .navigator-link
-        display: block
-        margin-bottom: 20px
-        transform: scale(1.1, 1.1) translateY(-24px)
-        opacity: 0
+      display: block
+      transform: scale(1.1, 1.1) translateY(-24px)
+      opacity: 0
+
+      &:nth-child(1)
+        padding-bottom: 10px
+
+      &:nth-child(n+2)
+        padding: 10px 0
 
 +desktop
   .navigator
@@ -161,50 +162,21 @@ export default {
 .hide-header
   transform: translateY(-90%)
 
-.label-line
-  +position(absolute, 0, null, null, 0)
-  z-index: 1 // 防止展开动画过程中 menu 遮挡
-  display: inline-block
-  height: 48px
-  width: 48px
-  transition: transform 0.25s 0.2s cubic-bezier(0.4, 0.01, 0.165, 0.99)
-
-  .line-crust
-    display: block
-    height: 1px
-    width: 17px
-    background-color: #fff
-    transition: transform 0.2s 0.2s
-
-  .line-crust-top
-    +position(absolute, 23px, null, null, 16px)
-    transform: translateY(-3px)
-
-  .line-crust-bottom
-    +position(absolute, null, null, 23px, 16px)
-    transform: translateY(3px)
-
 .show-list
+  .background-helper
+    +position(fixed, 0, 0, 0, 0)
+    z-index: -1
+
   .navigator
     visibility: visible
     transform: translateY(0)
 
     .navigator-link
       opacity: 1
-      transition-delay: 300ms, 300ms
       transform: none
       @for $i from 1 through 5
         &:nth-child(#{$i})
-          transition-delay: ($i - 1) * 60ms + 300ms, ($i - 1) * 60ms + 300ms
-
-  .line-crust
-    transform: translateY(0)
-
-  .line-top
-    transform: rotate(45deg)
-
-  .line-bottom
-    transform: rotate(-45deg)
+          transition-delay: ($i - 1) * 50ms + 300ms, ($i - 1) * 50ms + 300ms
 
 </style>
 
