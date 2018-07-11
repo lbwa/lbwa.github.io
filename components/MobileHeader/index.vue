@@ -40,7 +40,7 @@ export default {
     height: 1px
     width: 17px
     background-color: $background-white
-    transition: transform 0.2s 0.2s
+    transition: transform 0.2s 0.2s // duration | delay
 
   .line-crust-top
     +position(absolute, 23px, null, null, 16px)
