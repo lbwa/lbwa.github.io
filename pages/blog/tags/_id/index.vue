@@ -101,6 +101,7 @@ export default {
 
     .tag-link
       flex: 1
-      margin: .625rem 0
+      // 此处只能设置 padding，因为 margin 不算是可点击区域，那么在事件委托的前提下，// 点击到 margin 区域时将只触发过渡动画的回调，但没有触发路由请求
+      padding: .625rem 0
 
 </style>
