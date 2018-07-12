@@ -16,11 +16,17 @@
 
 <script>
 import Catalog from '~/components/Catalogs'
-import postsData from '~/source/_posts/menu.json'
 import { headMixin } from '~/lib/mixins'
 
 export default {
   mixins: [headMixin],
+
+  props: {
+    menu: Array,
+    default () {
+      return []
+    }
+  },
 
   data () {
     return {
@@ -29,25 +35,16 @@ export default {
     }
   },
 
-  async asyncData ({error}) {
-
-    try {
+  computed: {
+    tags () {
       let result = new Set()
-
-      postsData.forEach(post => {
+      this.menu.forEach(post => {
         post.tags.forEach(tag => {
           result.add(tag)
         })
       })
 
-      // I'm confusing that correct Set instance is part of `_c` property.
-      // It should return correct instance including unique data, but return a
-      // instance that has only property `_c` in fact.
-      // `_c` is a wrapper.
-      const tags = [...result._c]
-      return { tags }
-    } catch (err) {
-      error({ statusCode: 404, message: err })
+      return [...result._c]
     }
   },
 

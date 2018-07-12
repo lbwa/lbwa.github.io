@@ -2,10 +2,10 @@
   <div class="blog-writings">
 
     <Catalog :title="title" :subtitle="subtitle">
-      <ul class="catalog-writings" v-if="list[0] && list[0].author" slot="main">
+      <ul class="catalog-writings" v-if="menu[0] && menu[0].author" slot="main">
         <li
           class="catalog-item"
-          v-for="post in list" :key="post.title">
+          v-for="post in menu" :key="post.title">
           <div class="post-info">
             <div class="post-date">{{post.date}}</div>
           </div>
@@ -21,19 +21,27 @@
 </template>
 
 <script>
-import menu from '~/source/_posts/menu.json'
 import Catalog from '~/components/Catalogs'
 import { headMixin } from '~/lib/mixins'
 import eventBus from '~/lib/event-bus'
+import axios from '~/lib/axios'
 
 export default {
   mixins: [headMixin],
 
+  props: {
+    menu: {
+      type: Array,
+      default () {
+        return []
+      }
+    }
+  },
+
   data () {
     return {
       title: '写作',
-      subtitle: '主动探索，积极思考',
-      list: menu
+      subtitle: '主动探索，积极思考'
     }
   },
 

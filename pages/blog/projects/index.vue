@@ -23,8 +23,8 @@
 
 <script>
 import Catalog from '~/components/Catalogs'
-import projects from '~/source/_projects/projects.json'
 import { headMixin } from '~/lib/mixins'
+import axios from '~/lib/axios'
 
 export default {
   mixins: [headMixin],
@@ -36,10 +36,10 @@ export default {
     }
   },
 
-  computed: {
-    list () {
-      return projects
-    }
+  async asyncData ({ params, error }) {
+    const res = await axios.get('project.json')
+    const list = res.data
+    return { list }
   },
 
   components: {

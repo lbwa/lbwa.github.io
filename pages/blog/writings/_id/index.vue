@@ -24,26 +24,14 @@ export default {
     try {
       const { id } = params
 
-      // extract meta info from markdown file
-
-      // It will throw a error because of client env when route skip from
-      // `tags/*` to `writings/*`
-      // There is no `fs` module in client env
-
-      // let raw = ''
-      // if (process.server) {
-      //   raw = await require('fs').readFile(`${postPath}/source/_posts/${id}.md`, 'utf8')
-      // } else {
-      //   // from tags page to writings page in client env
-      //   raw = await axios.get(`/${id}.md`)
-      //     .then(res => res.data)
-      //     .catch(err => console.error(err))
-      // }
-
       // `axios` module is a drop in replacement for `fs`
-      const raw = await axios.get(`/${id}.md`)
-          .then(res => res.data)
-          .catch(err => console.error(err))
+      let res
+      try {
+        res = await axios.get(`/${id}`)
+      } catch (err) {
+        console.error(err)
+      }
+      const raw = res.data
 
       const { title, date, author, tags, content } = markdownParser(raw)
 

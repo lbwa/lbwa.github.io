@@ -1,3 +1,5 @@
+const axios = require('axios')
+
 module.exports = {
   head: {
     title: 'Bowen',
@@ -85,7 +87,8 @@ module.exports = {
     // https://github.com/nuxt/nuxt.js/issues/1018
     // https://github.com/nuxt/nuxt.js/issues/440
     routes: async function () {
-      const posts = await require('./source/_posts/menu.json')
+      const res = await axios.get('https://docs.set.sh/menu.json')
+      const posts = res.data
       const postLink = posts.map(post => `/blog/writings/${post.to}/`)
       const tags = new Set()
       posts.forEach(post => {

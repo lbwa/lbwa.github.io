@@ -1,13 +1,12 @@
 <template>
   <div class="tags-detail">
-    <Catalog :title="result[0].tag || title" :subtitle="subtitle">
-      <nav class="tag-list" slot="main">
+    <Catalog :title="tagTitle || title" :subtitle="subtitle">
+      <nav class="tag-list" slot="main" @click.stop="activateLoading">
         <router-link
           class="tag-link"
           v-for="post in result"
           :key="post.to"
           :to="`/blog/writings/${post.to}/`"
-          @click.stop.native="activateLoading"
         >{{post.title}}</router-link>
       </nav>
     </Catalog>
@@ -16,7 +15,6 @@
 
 <script>
 import Catalog from '~/components/Catalogs'
-import postsData from '~/source/_posts/menu.json'
 import eventBus from '~/lib/event-bus'
 
 export default {
@@ -27,8 +25,41 @@ export default {
     }
   },
 
+  props: {
+    menu: {
+      type: Array,
+      default () {
+        return []
+      }
+    }
+  },
+
+  computed: {
+    result () {
+      const id = this.$route.params.id
+      let storage = []
+      this.menu.forEach(post => {
+        post.tags.forEach(tag => {
+
+          // tag.toLowerCase() -- compatible uppercase tags
+          if (tag.toLowerCase() === id) storage.push({
+            tag: tag.toLowerCase(),
+            title: post.title,
+            to: post.to
+          })
+        })
+      })
+
+      return storage
+    },
+
+    tagTitle () {
+      return this.result[0] ? this.result[0].tag : ''
+    }
+  },
+
   methods: {
-    // how to support v-on:click on router-link component
+    // how to support v-on:click on router-link component (custom components)
     // https://github.com/vuejs/vue-router/issues/800
     activateLoading () {
       eventBus.$emit('toggleLoading', true)
@@ -43,32 +74,13 @@ export default {
     '$route': 'closeLoading'
   },
 
-  async asyncData ({ params, error }) {
-
-    const id = params.id
-    let result = []
-    postsData.forEach(post => {
-      post.tags.forEach(tag => {
-
-        // tag.toLowerCase() -- compatible uppercase tags
-        if (tag.toLowerCase() === id) result.push({
-          tag: tag.toLowerCase(),
-          title: post.title,
-          to: post.to
-        })
-      })
-    })
-
-    return { result }
-  },
-
   components: {
     Catalog
   },
 
   head () {
     return {
-      title: `${this.result[0].tag || '标签'} | Bowen Blog`
+      title: `${this.tagTitle || '标签'} | Bowen Blog`
     }
   }
 }

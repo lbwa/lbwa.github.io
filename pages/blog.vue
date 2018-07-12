@@ -3,7 +3,7 @@
     <Header/>
 
     <keep-alive>
-      <router-view class="wrapper" role="main"/>
+      <router-view class="wrapper" :menu="menu" role="main"/>
     </keep-alive>
 
     <Footer/>
@@ -18,6 +18,7 @@ import Footer from '~/components/AppFooter'
 import Loading from '~/components/Loading'
 import debounce from '~/lib/debounce'
 import eventBus from '~/lib/event-bus'
+import axios from '~/lib/axios'
 
 export default {
   data () {
@@ -29,6 +30,7 @@ export default {
 
   methods: {
     onScroll () {
+      console.log('this.$route.path :', this.$route.path)
       if (/^\/blog\/writings\/\d+/.test(this.$route.path)) {
         this.nowScroll = document.body.scrollTop + document.documentElement.scrollTop
 
@@ -44,14 +46,28 @@ export default {
   },
 
   mounted() {
-    window.addEventListener('scroll', debounce(this.onScroll))
+    window.addEventListener('scroll', debounce(this.onScroll), false)
   },
 
   // redirect solution: https://nuxtjs.org/api/context
-  asyncData ({ route, redirect }) {
+  async asyncData ({ error, route, redirect }) {
     if (/^\/blog(\/)?$/i.test(route.path)) {
       redirect(301, '/blog/writings/')
     }
+
+    let res
+    try {
+      res = await axios.get('menu.json')
+    } catch (err) {
+      error({ statusCode: 404, message: err })
+    }
+    const menu = res.data
+
+    return { menu }
+  },
+
+  beforeDestroy() {
+    window.removeEventListener('scroll', debounce(this.onScroll), false)
   },
 
   components: {
