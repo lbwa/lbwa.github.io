@@ -1,10 +1,11 @@
-<a name="1.0.0"></a>
-# [1.0.0](https://github.com/lbwa/lbwa.github.io/compare/v0.1.0...v1.0.0) (2018-07-12)
+<a name="1.0.1"></a>
+## [1.0.1](https://github.com/lbwa/lbwa.github.io/compare/v0.1.0...v1.0.1) (2018-07-12)
 
 
 ### Bug Fixes
 
 * fix app header animation in writings page ([f295753](https://github.com/lbwa/lbwa.github.io/commit/f295753))
+* **tags_id page:** fix a bug which can be caused by clicking one of `a.tag-list` link margin ([f8bc4fe](https://github.com/lbwa/lbwa.github.io/commit/f8bc4fe))
 
 
 ### Performance Improvements
