@@ -2,6 +2,10 @@
 
 在线博客[浏览][blog]
 
+## Changelog
+
+[CHANGELOG](./CHANGELOG.md)
+
 ## Writing
 
 [博客][blog]中记录的是学习心得和思考总结，主要偏向宏观思考方面。

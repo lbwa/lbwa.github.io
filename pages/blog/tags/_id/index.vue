@@ -54,6 +54,8 @@ export default {
     },
 
     tagTitle () {
+      // 组件离开时（<keep-alive> 缓存），result 为默认值 []，为避免
+      // this.result[0].tag 在缓存组件时报错，故使用计算属性
       return this.result[0] ? this.result[0].tag : ''
     }
   },
