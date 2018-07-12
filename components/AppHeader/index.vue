@@ -102,6 +102,7 @@ export default {
   background-color: $background-dark
   z-index: 999
   font-size: 0 // delete white space
+  box-shadow: 0 5px 15px rgba(0, 0, 0, .50)
 
   .navigator
     display: flex
@@ -164,7 +165,8 @@ export default {
 
 .show-list
   .background-helper
-    +position(fixed, 0, 0, 0, 0)
+    +position(fixed, 41px, 0, 0, 0)
+    background-color: rgba(0, 0, 0, .5)
     z-index: -1
 
   .navigator
