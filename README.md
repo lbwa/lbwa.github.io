@@ -4,7 +4,10 @@
 
 ## Changelog
 
-[CHANGELOG](./CHANGELOG.md)
+<details>
+  <summary>展开查看这个博客的 <code>CHANGELOG</code></summary>
+  <a href="./CHANGELOG.md">CHANGELOG</a>
+</details>
 
 ## Writing
 
