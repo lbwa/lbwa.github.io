@@ -30,8 +30,8 @@ export default {
 
   methods: {
     onScroll () {
-      console.log('this.$route.path :', this.$route.path)
-      if (/^\/blog\/writings\/\d+/.test(this.$route.path)) {
+      // only work with writings page
+      if (/^\/blog\/writings\//.test(this.$route.path)) {
         this.nowScroll = document.body.scrollTop + document.documentElement.scrollTop
 
         if (this.nowScroll > this.initialScroll) {
