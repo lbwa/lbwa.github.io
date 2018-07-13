@@ -37,7 +37,7 @@ export default {
 
     if (post && post.content) {
       return {
-        ...eventBus.$data.writings.id
+        ...eventBus.$data.writings[id]
       }
     }
 
