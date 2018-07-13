@@ -27,6 +27,7 @@
 import Catalog from '~/components/Catalogs'
 import { headMixin } from '~/lib/mixins'
 import axios from '~/lib/axios'
+import eventBus from '~/lib/event-bus'
 
 export default {
   mixins: [headMixin],
@@ -49,8 +50,15 @@ export default {
 
   // invoked before creating vue instance
   async asyncData ({ params, error }) {
+    // store remote data to local object like vuex
+    if (eventBus.$data.projects) {
+      return {
+        list: eventBus.$data.projects
+      }
+    }
     const res = await axios.get('project.json')
     const list = res.data
+    eventBus.$data.projects = list
     return { list }
   },
 
