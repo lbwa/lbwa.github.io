@@ -5,6 +5,7 @@
 </template>
 
 <style lang="sass">
+@import '~/assets/sass/var/index.sass'
 
 .avatar-wrapper
   position: relative
@@ -12,6 +13,8 @@
   padding-top: 180px // padding is used to avatar debounce
   overflow: hidden
   white-space: nowrap
+  background: $skeleton-bg
+  border-radius: 5px
 
   .avatar
     position: absolute
