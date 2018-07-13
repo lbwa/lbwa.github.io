@@ -7,7 +7,7 @@
 </template>
 
 <script>
-// This components has been deprecated because of suitability
+// This components has been deprecated because of component style reuseable
 export default {
   props: {
     contentData: {
