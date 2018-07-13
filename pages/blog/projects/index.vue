@@ -50,6 +50,7 @@ export default {
 
   // invoked before creating vue instance
   async asyncData ({ params, error }) {
+    // implement local storage without window.sessionStorage even if disable cache
     // store remote data to local object like vuex
     if (eventBus.$data.projects) {
       return {

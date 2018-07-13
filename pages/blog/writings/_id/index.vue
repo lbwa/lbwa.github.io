@@ -14,6 +14,7 @@
 import markdownParser from '~/lib/parseMarkdown'
 import axios from '~/lib/axios'
 import { headMixin } from '~/lib/mixins'
+import eventBus from '~/lib/event-bus'
 
 export default {
   mixins: [headMixin],
@@ -30,24 +31,32 @@ export default {
   // 是基于路由改变而调用，而与有无服务端无关
   // 在组件创建之前被调用，故此时无组件实例 this
   async asyncData ({ params, error }) {
-    try {
-      const { id } = params
+    const { id } = params
 
-      // `axios` module is a drop in replacement for `fs`
-      let res
-      try {
-        res = await axios.get(`/${id}`)
-      } catch (err) {
-        console.error(err)
+    const post = eventBus.$data.writings[id]
+
+    if (post && post.content) {
+      return {
+        ...eventBus.$data.writings.id
       }
-      const raw = res.data
+    }
 
-      const { title, date, author, tags, content } = markdownParser(raw)
+    // `axios` module is a drop in replacement for `fs`
+    let res
 
-      return { title, date, author, tags, content }
+    try {
+      res = await axios.get(`/${id}`)
     } catch (err) {
       error({ statusCode: 404, message: err })
     }
+    const raw = res.data
+
+    const { title, date, author, tags, content } = markdownParser(raw)
+
+    // implement local storage without window.sessionStorage even if disable cache
+    eventBus.$data.writings[id] = { title, date, author, tags, content }
+
+    return { title, date, author, tags, content }
   }
 }
 </script>
