@@ -3,8 +3,7 @@
 
     <Catalog :title="title" :subtitle="subtitle">
 
-      <Skeleton :contentData="list" slot="main">
-        <ul class="catalog-projects" v-if="list[0] && list[0].name">
+        <ul class="catalog-projects" v-if="list[0] && list[0].name" slot="main">
           <li
             class="catalog-item"
             v-for="project in list" :key="project.url"
@@ -18,7 +17,6 @@
             <div class="project-desc">{{project.desc}}</div>
           </li>
         </ul>
-      </Skeleton>
 
     </Catalog>
 
@@ -26,7 +24,6 @@
 </template>
 
 <script>
-import Skeleton from '~/components/Skeleton'
 import Catalog from '~/components/Catalogs'
 import { headMixin } from '~/lib/mixins'
 import axios from '~/lib/axios'
@@ -46,26 +43,18 @@ export default {
   data () {
     return {
       title: '实践',
-      subtitle: '实践是最好的学习',
-      list: []
+      subtitle: '实践是最好的学习'
     }
   },
 
-  // invoked before creating vue instance, therefore we can not use `Skeleton` components
-  // async asyncData ({ params, error }) {
-  //   const res = await axios.get('project.json')
-  //   const list = res.data
-  //   return { list }
-  // },
-
-  created () {
-    axios.get('project.json').then(res => {
-      this.list = res.data
-    })
+  // invoked before creating vue instance
+  async asyncData ({ params, error }) {
+    const res = await axios.get('project.json')
+    const list = res.data
+    return { list }
   },
 
   components: {
-    Skeleton,
     Catalog
   }
 }
@@ -76,7 +65,7 @@ export default {
 
 .catalog-wrapper
   margin: 0 auto
-  width: 500px
+  max-width: 500px
   +catalog-header
 
   .catalog-projects

@@ -7,6 +7,7 @@
 </template>
 
 <script>
+// This components has been deprecated because of suitability
 export default {
   props: {
     contentData: {
@@ -27,6 +28,18 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/sass/var/index.sass'
 
+$card-padding: 24px
+$desc-line-height: 10px
+$desc-line-skeleton: linear-gradient(white $desc-line-height, transparent 0)
+$desc-line-1-width: 140px
+$desc-line-1-position: $card-padding 20px
+$desc-line-2-width: 140px
+$desc-line-2-position: $card-padding 40px
+$desc-line-3-width: 210px
+$desc-line-3-position: $card-padding * 8 20px
+$desc-line-4-width: 160px
+$desc-line-4-position: $card-padding * 8 40px
+
 .sk-container
   position: relative
 
@@ -38,9 +51,14 @@ export default {
     content: ' '
     display: block
     margin: 0 auto
-    min-height: 6.25rem
+    min-height: 12.5rem
     width: 90%
-    background: $skeleton-bg
     border-radius: 5px
     z-index: -1
+
+    background-image: $desc-line-skeleton, $desc-line-skeleton, $desc-line-skeleton, $desc-line-skeleton
+    background-size: $desc-line-1-width $desc-line-height, $desc-line-2-width $desc-line-height, $desc-line-3-width $desc-line-height, $desc-line-4-width $desc-line-height
+    background-position: $desc-line-1-position, $desc-line-2-position, $desc-line-3-position, $desc-line-4-position
+    background-repeat: no-repeat
+    background-color: $skeleton-bg
 </style>
