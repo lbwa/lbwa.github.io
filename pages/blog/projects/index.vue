@@ -49,7 +49,7 @@ export default {
   },
 
   // invoked before creating vue instance
-  async asyncData ({ params, error }) {
+  async asyncData ({ error }) {
     // implement local storage without window.sessionStorage even if disable cache
     // store remote data to local object like vuex
     if (eventBus.$data.projects) {
@@ -57,7 +57,12 @@ export default {
         list: eventBus.$data.projects
       }
     }
-    const res = await axios.get('project.json')
+    let res
+    try {
+      res = await axios.get('project.json')
+    } catch (err) {
+      error({ statusCode: 404, message: err })
+    }
     const list = res.data
     eventBus.$data.projects = list
     return { list }

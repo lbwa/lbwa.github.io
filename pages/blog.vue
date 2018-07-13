@@ -55,6 +55,12 @@ export default {
       redirect(301, '/blog/writings/')
     }
 
+    if (eventBus.$data.menu) {
+      return {
+        menu: eventBus.$data.menu
+      }
+    }
+
     let res
     try {
       res = await axios.get('menu.json')
@@ -62,6 +68,8 @@ export default {
       error({ statusCode: 404, message: err })
     }
     const menu = res.data
+
+    eventBus.$data.menu = menu
 
     return { menu }
   },
