@@ -1,5 +1,5 @@
 <template>
-  <div class="blog-writings">
+  <main class="blog-writings">
 
     <Catalog :title="title" :subtitle="subtitle">
       <ul class="catalog-writings" v-if="menu[0] && menu[0].author" slot="main">
@@ -17,7 +17,7 @@
       </ul>
     </Catalog>
 
-  </div>
+  </main>
 </template>
 
 <script>

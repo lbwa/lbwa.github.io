@@ -1,5 +1,5 @@
 <template>
-  <div class="tags-detail">
+  <main class="tags-detail">
     <Catalog :title="tagTitle || title" :subtitle="subtitle">
       <nav class="tag-list" slot="main" @click.stop="activateLoading">
         <router-link
@@ -10,7 +10,7 @@
         >{{post.title}}</router-link>
       </nav>
     </Catalog>
-  </div>
+  </main>
 </template>
 
 <script>

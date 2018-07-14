@@ -1,5 +1,5 @@
 <template>
-  <div class="blog-tags">
+  <main class="blog-tags">
 
     <Catalog :title="title" :subtitle="subtitle">
       <nav class="tags-content" slot="main">
@@ -11,7 +11,7 @@
       </nav>
     </Catalog>
 
-  </div>
+  </main>
 </template>
 
 <script>
