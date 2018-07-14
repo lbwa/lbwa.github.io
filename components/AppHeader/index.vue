@@ -107,13 +107,14 @@ export default {
   .navigator
     display: flex
     margin: 0 auto
-    padding: 20px 10px
+    padding: 0 10px
     max-width: 500px
     text-align: center
 
     .navigator-link
       flex: 1
       vertical-align: top
+      padding: 20px 0
       color: $text-grey-light
       font-size: 1rem
       font-weight: 300
