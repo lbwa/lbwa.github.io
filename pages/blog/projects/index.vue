@@ -80,6 +80,7 @@ export default {
 .catalog-wrapper
   margin: 0 auto
   max-width: 500px
+  padding: 0
   +catalog-header
 
   .catalog-projects
@@ -100,6 +101,7 @@ export default {
 +mobile
   .catalog-wrapper
     width: 100%
+    padding: 0 20px
 
 </style>
 

@@ -85,9 +85,8 @@ export default {
 .articles-main
   padding: 30px 30px 60px
   margin: 10px
-  border: 1px solid $border
   border-radius: 2px
-  box-shadow: 0 4px 5px rgba(0, 0, 0, .14)
+  box-shadow: 0 4px 5px 0 rgba(0, 0, 0,.2), 0 1px 20px 0 rgba(0, 0, 0,.2), 0 2px 5px -1px rgba(0, 0, 0,.2)
 
   h1:hover, h2:hover, h3:hover, h4:hover, h5:hover, h6:hover
     a.header-anchor

@@ -6,9 +6,7 @@
         <li
           class="catalog-item"
           v-for="post in menu" :key="post.title">
-          <div class="post-info">
-            <div class="post-date">{{post.date}}</div>
-          </div>
+          <time class="post-date">{{post.date}}</time>
           <a class="post-title"
             :href='`/blog/writings/${post.to}/`'
             @click.stop.prevent="navigate"
@@ -80,7 +78,7 @@ export default {
 
 .catalog-wrapper
   margin: 0 auto
-  width: 500px
+  max-width: 600px
   +catalog-header
 
   .catalog-writings
@@ -89,16 +87,25 @@ export default {
 
     .catalog-item
       display: flex
+      padding: 0.6rem 0
+      border-bottom: 1px solid $border-white
 
-      .post-info
+      .post-date
         flex: 1
+        font-size: .875rem
+        color: $text-grey
+        letter-spacing: 1px
+        text-transform: uppercase
 
       .post-title
-        flex: 2
+        flex: 3
         text-decoration: none
         font-weight: bold
 
 +mobile
   .catalog-wrapper
     width: 100%
+
+  .catalog-item
+    flex-direction: column
 </style>
