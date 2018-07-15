@@ -23,3 +23,10 @@ export default {
   }
 }
 </script>
+
+<style lang="sass" scoped>
+
+.catalog-wrapper
+  padding: 0 25px
+</style>
+

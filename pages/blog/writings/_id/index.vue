@@ -1,13 +1,15 @@
 <template>
-  <article class="blog-writings">
-    <div class="article-header">
-      <h2 class="article-title" v-html="title"></h2>
-      <span class="article-author" v-html="author"></span>
-      <span class="article-date" v-html="date"></span>
-      <div class="article-tags" v-html="tags"></div>
-    </div>
-    <div class="article-content" v-html="content"></div>
-  </article>
+  <main class="articles-container">
+    <article class="articles-main">
+      <div class="article-header">
+        <h2 class="article-title" v-html="title"></h2>
+        <span class="article-author" v-html="author"></span>
+        <span class="article-date" v-html="date"></span>
+        <div class="article-tags" v-html="tags"></div>
+      </div>
+      <div class="article-content" v-html="content"></div>
+    </article>
+  </main>
 </template>
 
 <script>
@@ -65,7 +67,7 @@ export default {
 @import '~/assets/sass/mixins.sass'
 
 .article-header
-  text-align: center
+  margin-bottom: 100px
 
 .article-author, .article-date
   display: inline-block
@@ -80,23 +82,29 @@ export default {
   &:last-child
     margin-right: 0
 
+.articles-main
+  padding: 30px 30px 60px
+  margin: 10px
+  border: 1px solid $border
+  border-radius: 2px
+  box-shadow: 0 4px 5px rgba(0, 0, 0, .14)
+
+  h1:hover, h2:hover, h3:hover, h4:hover, h5:hover, h6:hover
+    a.header-anchor
+      opacity: 1
+
 +desktop
-  .blog-writings
-    padding: 100px 50px
+  .article-title
+    font-size: 2rem
 
-    .article-title
-      margin-bottom: 50px
-      font-size: 2rem
+  .article-tags
+    display: inline-block
 
-    .article-tags
-      display: inline-block
+  .article-content
+    margin-top: 50px
 
-    .article-content
-      margin-top: 50px
-
-+mobile
-  .blog-writings
-    padding: 70px 30px
+  .articles-main
+    padding: 70px 70px 100px
 
 </style>
 

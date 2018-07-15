@@ -102,17 +102,20 @@ export default {
 
   // locate route view
   .wrapper
-    margin: 0 auto
-    padding: 100px 25px
+    margin: 0 auto 0 auto
+    padding-top: 60px
 
     +desktop
       max-width: $desktop - (2 * $gap)
       width: $desktop - (2 * $gap)
+      padding-top: 70px
 
-    +mobile
-      padding: 60px 25px
+      &.articles-container
+        padding-right: 20px
+        padding-left: 20px
 
   a.header-anchor
+    opacity: 0 // unlock by h1, ... tags hover status
     font-size: .9em
     float: left
     margin-left: -0.87em
