@@ -87,7 +87,7 @@ module.exports = {
     // https://github.com/nuxt/nuxt.js/issues/1018
     // https://github.com/nuxt/nuxt.js/issues/440
     routes: async function () {
-      const res = await axios.get('https://docs.set.sh/menu.json')
+      const res = await axios.get('https://docs.set.sh/menu')
       const posts = res.data
       const postLink = posts.map(post => `/blog/writings/${post.to}/`)
       const tags = new Set()
