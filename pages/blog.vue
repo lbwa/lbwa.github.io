@@ -63,7 +63,7 @@ export default {
 
     let res
     try {
-      res = await axios.get('menu.json')
+      res = await axios.get('menu')
     } catch (err) {
       error({ statusCode: 404, message: err })
     }

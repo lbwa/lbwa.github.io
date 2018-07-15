@@ -59,7 +59,7 @@ export default {
     }
     let res
     try {
-      res = await axios.get('project.json')
+      res = await axios.get('projects')
     } catch (err) {
       error({ statusCode: 404, message: err })
     }

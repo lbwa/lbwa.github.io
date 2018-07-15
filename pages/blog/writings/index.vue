@@ -93,6 +93,7 @@ export default {
       .post-date
         flex: 1
         font-size: .875rem
+        font-style: italic
         color: $text-grey
         letter-spacing: 1px
         text-transform: uppercase

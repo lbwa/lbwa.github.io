@@ -43,9 +43,10 @@ export default {
 
           // tag.toLowerCase() -- compatible uppercase tags
           if (tag.toLowerCase() === id) storage.push({
-            tag: tag.toLowerCase(),
             title: post.title,
-            to: post.to
+            date: post.date,
+            to: post.to,
+            tag: tag.toLowerCase(),
           })
         })
       })
