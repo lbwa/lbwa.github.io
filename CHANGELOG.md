@@ -1,3 +1,34 @@
+<a name="1.0.2"></a>
+## [1.0.2](https://github.com/lbwa/lbwa.github.io/compare/v1.0.1...v1.0.2) (2018-07-16)
+
+
+### Bug Fixes
+
+* fix wrong path which is used to read cache from local storage ([d3b11ad](https://github.com/lbwa/lbwa.github.io/commit/d3b11ad))
+* **CI:** fix menu request link when bundler generate static page ([8faa86d](https://github.com/lbwa/lbwa.github.io/commit/8faa86d))
+* pages should scroll to target element when user input hash url ([f5983e7](https://github.com/lbwa/lbwa.github.io/commit/f5983e7))
+* pages should scroll to top by default when clicking title in catalog ([ddad664](https://github.com/lbwa/lbwa.github.io/commit/ddad664))
+
+
+### Features
+
+* **projects page:** add skeleton screen for prejects page ([f913553](https://github.com/lbwa/lbwa.github.io/commit/f913553))
+* **writings_id:** implement local storage without window.sessionStorage even if disable cache ([5a3c557](https://github.com/lbwa/lbwa.github.io/commit/5a3c557))
+* store menu list to local ([d08ba8e](https://github.com/lbwa/lbwa.github.io/commit/d08ba8e))
+* use event bus to implement local storage like vuex in projects page ([63755b1](https://github.com/lbwa/lbwa.github.io/commit/63755b1))
+
+
+### Performance Improvements
+
+* expend hover style scale in app header ([6d33ec2](https://github.com/lbwa/lbwa.github.io/commit/6d33ec2))
+
+
+### Reverts
+
+* deprecated pages skeleton component because of suitability ([965002b](https://github.com/lbwa/lbwa.github.io/commit/965002b))
+
+
+
 <a name="1.0.1"></a>
 ## [1.0.1](https://github.com/lbwa/lbwa.github.io/compare/v0.1.0...v1.0.1) (2018-07-12)
 

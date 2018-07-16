@@ -31,6 +31,7 @@ select VERSION in patch minor major "Specific Version"
         echo Releasing ${NEW_VERSION} ...
 
         # github release
+        yarn run changelog
         git add CHANGELOG.md
         git commit -m "chore: changelog"
         git push
