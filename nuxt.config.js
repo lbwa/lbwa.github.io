@@ -31,16 +31,34 @@ module.exports = {
 
   loading: { color: '#3eaf7c', height: '2px' },
 
-  // https://nuxtjs.org/api/configuration-loading-indicator
-  // Only work for SPA mode
-  // loadingIndicator: {
-  //   name: 'rectangle-bounce',
-  //   color: '#24292e',
-  //   background: 'white'
-  // },
-
-  // mode: 'spa',
   mode: 'universal',
+
+  router: {
+    // ! https://github.com/nuxt/nuxt.js/issues/2738#issuecomment-362485495
+    // ! triggerScroll event cannot not be triggered at sometimes
+    scrollBehavior(to, from, savedPosition) {
+      if (savedPosition) {
+        // savedPosition is only available for popstate navigations (back button)
+        return savedPosition
+      }
+      // if the returned position is falsy or an empty object,
+      // will retain current scroll position.
+      let position = {}
+      if (to.matched.length < 2) {
+        // scroll to the top of the page
+        position = { x: 0, y: 0 }
+      } else if (to.matched.some(r => r.components.default.options.scrollToTop)) {
+        // if one of the children has scrollToTop option set to true
+        position = { x: 0, y: 0 }
+      }
+      return new Promise( resolve => {
+        if (to.hash && document.getElementById(to.hash)) {
+          position = { selector: to.hash }
+        }
+        resolve(position)
+      })
+    }
+  },
 
   build: {
     extractCSS: {
