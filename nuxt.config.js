@@ -34,16 +34,17 @@ module.exports = {
   mode: 'universal',
 
   router: {
-    // ! https://github.com/nuxt/nuxt.js/issues/2738#issuecomment-362485495
-    // ! triggerScroll event cannot not be triggered at sometimes
     scrollBehavior(to, from, savedPosition) {
       if (savedPosition) {
         // savedPosition is only available for popstate navigations (back button)
         return savedPosition
       }
-      // if the returned position is falsy or an empty object,
-      // will retain current scroll position.
-      let position = {}
+
+      // ! default scroll behavior is { x: 0, y: 0 }
+      // if the returned position is falsy or an empty object, will retain
+      // current scroll position.
+      let position = { x: 0, y: 0 }
+
       if (to.matched.length < 2) {
         // scroll to the top of the page
         position = { x: 0, y: 0 }
@@ -51,8 +52,11 @@ module.exports = {
         // if one of the children has scrollToTop option set to true
         position = { x: 0, y: 0 }
       }
+
+      // ! https://github.com/nuxt/nuxt.js/issues/2738#issuecomment-362485495
+      // ! triggerScroll event cannot not be triggered at sometimes
       return new Promise( resolve => {
-        if (to.hash && document.getElementById(to.hash)) {
+        if (to.hash) {
           position = { selector: to.hash }
         }
         resolve(position)
