@@ -13,7 +13,6 @@
   padding-top: 180px // padding is used to avatar debounce
   overflow: hidden
   white-space: nowrap
-  background: $skeleton-bg
   border-radius: 5px
 
   .avatar
