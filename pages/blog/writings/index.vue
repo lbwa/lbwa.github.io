@@ -2,15 +2,21 @@
   <main class="blog-writings">
 
     <Catalog :title="title" :subtitle="subtitle">
-      <ul class="catalog-writings" v-if="menu[0] && menu[0].author" slot="main">
+      <ul
+        class="catalog-list"
+        v-if="menu[0] && menu[0].author"
+        slot="main"
+        @click.stop.prevent="activateLoading"
+      >
         <li
           class="catalog-item"
-          v-for="post in menu" :key="post.title">
+          v-for="post in menu"
+          :key="post.title"
+        >
           <time class="post-date">{{post.date}}</time>
-          <a class="post-title"
-            :href='`/blog/writings/${post.to}/`'
-            @click.stop.prevent="navigate"
-          >{{post.title}}</a>
+          <router-link class="post-title"
+            :to='`/blog/writings/${post.to}/`'
+          >{{post.title}}</router-link>
         </li>
       </ul>
     </Catalog>
@@ -44,23 +50,19 @@ export default {
   },
 
   methods: {
-    // htmlParse component in nuxt-org
-    // 阻止浏览器默认的多页面跳转行为，转为使用 vue 路由跳转，即可以达到更新部分组件的
-    // 目的，即使用 `读取` 进度条
-    // 多页面跳转，因为会刷新页面中所有组件，故无法处理过渡动画的问题
-    navigate (evt) {
+    activateLoading (evt) {
+      const index = Array.from(evt.target.classList).indexOf('post-title')
+      if (index === -1) return
       eventBus.$emit('toggleLoading', true)
-      const href = evt.target.getAttribute('href')
-      this.$router.push(href)
     },
 
-    toggleLoading () {
+    closeLoading () {
       eventBus.$emit('toggleLoading', false)
     }
   },
 
   watch: {
-    '$route': 'toggleLoading'
+    '$route': 'closeLoading'
   },
 
   components: {
@@ -81,20 +83,19 @@ export default {
   max-width: 600px
   +catalog-header
 
-  .catalog-writings
+  .catalog-list
     list-style-type: none
     padding: 0
 
     .catalog-item
       display: flex
-      padding: 0.6rem 0
+      padding: 0.6rem 1.875rem
       border-bottom: 1px solid $border-white
 
       .post-date
         flex: 1
         font-size: .875rem
         font-style: italic
-        color: $text-grey
         letter-spacing: 1px
         text-transform: uppercase
 
@@ -102,6 +103,7 @@ export default {
         flex: 3
         text-decoration: none
         font-weight: bold
+        margin-left: 40px
 
 +mobile
   .catalog-wrapper
@@ -109,4 +111,7 @@ export default {
 
   .catalog-item
     flex-direction: column
+
+    .post-title
+      margin-left: 0 !important
 </style>

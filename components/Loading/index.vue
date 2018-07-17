@@ -28,7 +28,6 @@ export default {
 
     back () {
       this.toggleLoading(false)
-      this.$router.push('/blog/writings/')
     }
   },
 

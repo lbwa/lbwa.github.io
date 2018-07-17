@@ -1,13 +1,18 @@
 <template>
   <main class="tags-detail">
     <Catalog :title="tagTitle || title" :subtitle="subtitle">
-      <nav class="tag-list" slot="main" @click.stop="activateLoading">
-        <router-link
-          class="tag-link"
-          v-for="post in result"
-          :key="post.to"
-          :to="`/blog/writings/${post.to}/`"
-        >{{post.title}}</router-link>
+      <nav class="catalog-list" slot="main" @click.stop="activateLoading">
+        <div
+          class="catalog-item"
+          v-for="navItem of result"
+          :key="navItem.to"
+        >
+          <time class="nav-date">{{navItem.date}}</time>
+          <router-link
+            class="nav-item"
+            :to='`/blog/writings/${navItem.to}`'
+          >{{navItem.title}}</router-link>
+        </div>
       </nav>
     </Catalog>
   </main>
@@ -64,7 +69,9 @@ export default {
   methods: {
     // how to support v-on:click on router-link component (custom components)
     // https://github.com/vuejs/vue-router/issues/800
-    activateLoading () {
+    activateLoading (evt) {
+      const index = Array.from(evt.target.classList).indexOf('nav-item')
+      if (index === -1) return
       eventBus.$emit('toggleLoading', true)
     },
 
@@ -95,14 +102,36 @@ export default {
 .catalog-wrapper
   +catalog-header
 
-  .tag-list
+  .catalog-list
     display: flex
     flex-direction: column
-    text-align: center
 
-    .tag-link
+    .catalog-item
+      display: flex
       flex: 1
-      // 此处只能设置 padding，因为 margin 不算是可点击区域，那么在事件委托的前提下，// 点击到 margin 区域时将只触发过渡动画的回调，但没有触发路由请求
-      padding: .625rem 0
+      padding: .625rem 1.25rem
+
+.nav-date
+  flex: 1
+  font-size: .875rem
+  font-style: italic
+  color: $text
+  letter-spacing: 1px
+  text-transform: uppercase
+  text-align: right
+  margin-right: 40px
+
+.nav-item
+  flex: 1
+  text-decoration: none
+  font-weight: bold
+
++mobile
+  .catalog-item
+    flex-direction: column
+
+    .nav-date
+      text-align: left
+      margin-bottom: .3125rem
 
 </style>
