@@ -16,6 +16,7 @@
     "release": "sh scripts/release.sh"
   },
   "dependencies": {
+    "@nuxtjs/pwa": "^2.0.8",
     "axios": "^0.18.0",
     "escape-html": "^1.0.3",
     "front-matter": "^2.3.0",

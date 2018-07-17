@@ -20,9 +20,24 @@ module.exports = {
     ]
   },
 
+  // workbox: {
+    // dev: true
+  // },
+
+  manifest: {
+    name: 'Bowen Blog',
+    theme_color: '#24292e',
+    lang: 'zh',
+    description: 'A place which is used to share programming experiences'
+  },
+
   css: [
     { src: '~/assets/theme.sass', lang: 'sass' },
     { src: '~/assets/code/highlight.scss', lang: 'scss'}
+  ],
+
+  modules: [
+    '@nuxtjs/pwa'
   ],
 
   plugins: [
