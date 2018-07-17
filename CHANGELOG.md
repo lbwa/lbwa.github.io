@@ -1,3 +1,23 @@
+<a name="1.1.0"></a>
+# [1.1.0](https://github.com/lbwa/lbwa.github.io/compare/v1.0.2...v1.1.0) (2018-07-17)
+
+
+### Bug Fixes
+
+* restore correct axios base url ([5ed34b1](https://github.com/lbwa/lbwa.github.io/commit/5ed34b1))
+
+
+### Features
+
+* add service-worker for building PWA ([eb8e43f](https://github.com/lbwa/lbwa.github.io/commit/eb8e43f))
+
+
+### Performance Improvements
+
+* revise tags detail page and writings catalog style ([3bfc8e9](https://github.com/lbwa/lbwa.github.io/commit/3bfc8e9))
+
+
+
 <a name="1.0.2"></a>
 ## [1.0.2](https://github.com/lbwa/lbwa.github.io/compare/v1.0.1...v1.0.2) (2018-07-16)
 
