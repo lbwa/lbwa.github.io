@@ -1,6 +1,8 @@
 <template>
-  <div class="avatar-wrapper">
-    <svg class="avatar" viewBox="0 0 1101 305">
+  <div
+    class="avatar-wrapper __position"
+    :style="`width: ${logoWidth}; padding-top: ${logoPaddingTop}rem`">
+    <svg class="avatar __position" viewBox="0 0 1101 305">
       <g transform="translate(0.000000,305.000000) scale(0.100000,-0.100000)"
       :fill="logoColor" stroke="none">
       <path d="M3424 2542 c-17 -15 -41 -42 -53 -59 -19 -28 -28 -33 -64 -33 -50 0
@@ -93,6 +95,27 @@ export default {
     logoColor: {
       type: String,
       default: '#000000'
+    },
+
+    logoWidth: {
+      type: String,
+      default: '15rem'
+    },
+
+    //  width / height
+    logoRate: {
+      type: Number,
+      default: 0.2777
+    }
+  },
+
+  computed: {
+    logoPaddingTop () {
+      let logoWidth = parseInt(this.logoWidth)
+      // if this.logoWidth is '', set default value
+      if (isNaN(logoWidth)) logoWidth = 15
+
+      return this.logoRate * logoWidth
     }
   }
 }
@@ -101,19 +124,14 @@ export default {
 <style lang="sass">
 @import '~/assets/sass/index.sass'
 
-$logo-width: 15rem
-
+// padding is used to debounce if avatar is a normal image rather than svg
 .avatar-wrapper
-  position: relative
-  width: $logo-width
-  padding-top: 0.277 * $logo-width // padding is used to avatar debounce
+  +position(relative)
   overflow: hidden
   white-space: nowrap
   border-radius: 5px
 
   .avatar
-    position: absolute
-    top: 0
-    left: 0
+    +position(absolute, 0, null, null, 0)
 </style>
 
