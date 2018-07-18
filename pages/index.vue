@@ -1,9 +1,6 @@
 <template>
   <section class="home-container">
-    <app-logo/>
-    <h1 class="home-title title">
-      Bowen
-    </h1>
+    <app-logo class="logo"/>
     <h4 class="home-subtitle subtitle">
       Positive exploration &amp; deep thinking
     </h4>
@@ -36,9 +33,8 @@ export default {
 .home-container
   +fullscreen-center-helper(100vh, column)
 
-  .home-title
-    margin-top: 20px
-    text-transform: uppercase
+  .logo
+    margin-bottom: .625rem
 
   .home-subtitle
     display: block
@@ -47,7 +43,7 @@ export default {
     display: flex
     .home-btn
       flex: 1 0 0
-      margin: 0 12px
+      margin: 0 .75rem
       transition: all .4s
 
 </style>
