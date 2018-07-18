@@ -1,6 +1,6 @@
 <template>
   <section class="home-container">
-    <app-logo class="logo"/>
+    <app-logo class="logo" :logoColor="logoColor"/>
     <h4 class="home-subtitle subtitle">
       Positive exploration &amp; deep thinking
     </h4>
@@ -21,6 +21,12 @@
 import AppLogo from '~/components/AppLogo'
 
 export default {
+  data () {
+    return {
+      logoColor: '#000000'
+    }
+  },
+
   components: {
     AppLogo
   }
