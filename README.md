@@ -1,13 +1,10 @@
 # https://set.sh [![Build Status](https://travis-ci.org/lbwa/lbwa.github.io.svg?branch=vue)](https://travis-ci.org/lbwa/lbwa.github.io)
 
-在线博客[浏览][blog]
+💻📑在线[浏览][blog]
 
 ## Changelog
 
-<details>
-  <summary>展开查看这个博客的 <code>CHANGELOG</code></summary>
-  <a href="./CHANGELOG.md">CHANGELOG</a>
-</details>
+[CHANGELOG](./CHANGELOG.md)
 
 ## Writing
 
