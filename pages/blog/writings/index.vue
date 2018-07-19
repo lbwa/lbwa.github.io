@@ -96,11 +96,12 @@ export default {
         flex: 1
         font-size: .875rem
         font-style: italic
+        text-align: center
         letter-spacing: 1px
         text-transform: uppercase
 
       .post-title
-        flex: 3
+        flex: 2
         text-decoration: none
         font-weight: bold
         margin-left: 40px
@@ -114,4 +115,7 @@ export default {
 
     .post-title
       margin-left: 0 !important
+
+    .post-date
+      text-align: left !important
 </style>
