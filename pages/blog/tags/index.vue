@@ -4,7 +4,7 @@
     <Catalog :title="title" :subtitle="subtitle">
       <nav class="tags-content" slot="main">
         <router-link
-          class="tag-link button-primary"
+          class="tag-link button-text"
           v-for="(tag, index) in tags"
           :key="index"
           :to="genLink(tag)">{{tag}}</router-link>
