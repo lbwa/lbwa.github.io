@@ -28,7 +28,6 @@
 import Catalog from '~/components/Catalogs'
 import { headMixin } from '~/lib/mixins'
 import eventBus from '~/lib/event-bus'
-import axios from '~/lib/axios'
 
 export default {
   mixins: [headMixin],

@@ -47,7 +47,7 @@ export default {
     let res
 
     try {
-      res = await axios.get(`/${id}`)
+      res = await axios.get(`/writings/${id}`)
     } catch (err) {
       error({ statusCode: 404, message: err })
     }
