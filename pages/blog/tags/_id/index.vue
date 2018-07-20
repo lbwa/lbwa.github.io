@@ -70,8 +70,10 @@ export default {
     // how to support v-on:click on router-link component (custom components)
     // https://github.com/vuejs/vue-router/issues/800
     activateLoading (evt) {
-      const index = Array.from(evt.target.classList).indexOf('nav-item')
-      if (index === -1) return
+      const target = evt.target
+      // msMatchesSelector is a ele.matches implementation on IE9
+      if (target.msMatchesSelector && !target.msMatchesSelector('.nav-item')) return
+      if (target.matches && !target.matches('.nav-item')) return
       eventBus.$emit('toggleLoading', true)
     },
 

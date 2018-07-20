@@ -51,8 +51,10 @@ export default {
 
   methods: {
     activateLoading (evt) {
-      const index = Array.from(evt.target.classList).indexOf('post-title')
-      if (index === -1) return
+      const target = evt.target
+      // msMatchesSelector is a ele.matches implementation on IE9
+      if (target.msMatchesSelector && !target.msMatchesSelector('.post-title')) return
+      if (target.matches && !target.matches('.post-title')) return
       eventBus.$emit('toggleLoading', true)
     },
 
