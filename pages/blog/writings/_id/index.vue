@@ -9,10 +9,12 @@
       </div>
       <div class="article-content" v-html="content"></div>
     </article>
+    <FloatingButton/>
   </main>
 </template>
 
 <script>
+import FloatingButton from '~/components/FloatingButton'
 import markdownParser from '~/lib/parseMarkdown'
 import axios from '~/lib/axios'
 import { headMixin } from '~/lib/mixins'
@@ -28,6 +30,10 @@ export default {
         return []
       }
     }
+  },
+
+  components: {
+    FloatingButton
   },
 
   // 是基于路由改变而调用，而与有无服务端无关
