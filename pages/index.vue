@@ -36,6 +36,14 @@ export default {
 
   components: {
     AppLogo
+  },
+
+  head () {
+    return {
+      link: [
+        { rel: 'alternate', href: `https://set.sh${this.$route.path}`, hreflang: 'zh'}
+      ]
+    }
   }
 }
 </script>

@@ -15,8 +15,9 @@ module.exports = {
       { name: 'apple-mobile-web-app-status-bar-style', content: 'black'}
     ],
     link: [
-      { rel: 'alternate', href:'https://set.sh', hreflang: 'zh'},
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      // language tag should be defined on unique components according to $route.path
+      // { rel: 'alternate', href:'https://set.sh', hreflang: 'zh'}
     ]
   },
 

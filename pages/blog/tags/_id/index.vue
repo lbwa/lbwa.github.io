@@ -92,7 +92,10 @@ export default {
 
   head () {
     return {
-      title: `${this.tagTitle || '标签'} | Bowen Blog`
+      title: `${this.tagTitle || '标签'} | Bowen Blog`,
+      link: [
+        { rel: 'alternate', href: `https://set.sh${this.$route.path}`, hreflang: 'zh'}
+      ]
     }
   }
 }
