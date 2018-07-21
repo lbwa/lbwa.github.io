@@ -10,7 +10,7 @@
           <time class="nav-date">{{navItem.date}}</time>
           <router-link
             class="nav-item"
-            :to='`/blog/writings/${navItem.to}`'
+            :to='`/blog/writings/${navItem.to}/`'
           >{{navItem.title}}</router-link>
         </div>
       </nav>
