@@ -16,7 +16,7 @@
 import Header from '~/components/AppHeader'
 import Footer from '~/components/AppFooter'
 import Loading from '~/components/Loading'
-import debounce from '~/lib/debounce'
+import { debounce } from '~/lib/debounce-throttle'
 import eventBus from '~/lib/event-bus'
 import axios from '~/lib/axios'
 

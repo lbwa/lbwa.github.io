@@ -14,9 +14,9 @@
 </template>
 
 <script>
-import debounce from '~/lib/debounce'
+import { debounce } from '~/lib/debounce-throttle'
 
-const OFFSET_SHOW = 100
+const OFFSET_SHOW = 200
 
 export default {
   data () {
