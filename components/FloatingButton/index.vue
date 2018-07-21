@@ -16,7 +16,7 @@
 <script>
 import debounce from '~/lib/debounce'
 
-const OFFSET_SHOW = 200
+const OFFSET_SHOW = 100
 
 export default {
   data () {
@@ -50,7 +50,17 @@ export default {
     },
 
     setVisibility () {
-      this.isOffset = document.documentElement.scrollTop > OFFSET_SHOW
+      /**Compatible with IOS browser
+       * 1. document.documentElement.scrollTop only work with desktop chrome,
+       * doesn't work on some ios browser(including qq, chrome, safari)
+       * 2. document.body.scrollTop work on ios browser(qq, chrome, safari),
+       * doesn't work on desktop chrome
+       */
+      this.isOffset = (document.documentElement.scrollTop
+        || window.pageYOffset
+        || document.body.scrollTop) >= OFFSET_SHOW
+
+      this.test = `${document.documentElement.scrollTop}, ${window.pageYOffset}, ${document.body.scrollTop}`
     }
   },
 

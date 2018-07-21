@@ -32,7 +32,9 @@ export default {
     onScroll () {
       // only work with writings page
       if (/^\/blog\/writings\/\S+/.test(this.$route.path)) {
-        this.nowScroll = document.body.scrollTop + document.documentElement.scrollTop
+        this.nowScroll = document.documentElement.scrollTop
+        || window.pageYOffset
+        || document.body.scrollTop
 
         if (this.nowScroll > this.initialScroll) {
           eventBus.$emit('hideHeader')
