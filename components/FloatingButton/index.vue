@@ -58,9 +58,8 @@ export default {
        */
       this.isOffset = (document.documentElement.scrollTop
         || window.pageYOffset
-        || document.body.scrollTop) >= OFFSET_SHOW
-
-      this.test = `${document.documentElement.scrollTop}, ${window.pageYOffset}, ${document.body.scrollTop}`
+        || document.body.scrollTop)
+        >= OFFSET_SHOW
     }
   },
 
