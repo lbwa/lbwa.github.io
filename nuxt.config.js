@@ -7,6 +7,7 @@ module.exports = {
       lang: 'zh'
     },
     meta: [
+      { 'http-equiv': '"X-UA-Compatible', content: 'IE=edge,chrome=1' },
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' },
       { name: 'keywords', content: 'bowen blog, bowen 博客, vuejs, reactjs, ssr, 前端开发, 前端 , web开发, nodejs, github' },
@@ -17,13 +18,8 @@ module.exports = {
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       // language tag should be defined on unique components according to $route.path
-      // { rel: 'alternate', href:'https://set.sh', hreflang: 'zh'}
     ]
   },
-
-  // workbox: {
-    // dev: true
-  // },
 
   manifest: {
     name: 'Bowen Blog',
