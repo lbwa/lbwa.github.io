@@ -1,18 +1,13 @@
 @import '~/assets/sass/var/index.sass'
+@import '~/assets/sass/mixins.sass'
 
 // 改变伪类透明度，即伪类动画可将重绘次数降到最低，避免使用 box-shadow 重绘
 // http://tobiasahlin.com/blog/how-to-animate-box-shadow/
 =btn-shadow($color: $text, $bgc: $button-light)
+  +shadow-basis(-1, 0)
+
   &:after
-    content: ' '
-    position: absolute
-    top: 0
-    left: 0
     border-radius: 4px
-    width: 100%
-    height: 100%
-    box-shadow: 0 1px 3px 1px rgba(60, 64, 67, .2), 0 2px 8px 4px rgba(60, 64, 67, .1)
-    opacity: 0
     transition: opacity .3s ease
 
   &:hover

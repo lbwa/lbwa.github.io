@@ -1,5 +1,17 @@
 @import './var/index.sass'
 
+=shadow-basis($z-index: -1, $op: 1)
+  &::after
+    content: ' '
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    z-index: $z-index
+    opacity: $op
+    box-shadow: 0 1px 3px 1px rgba(60, 64, 67, .2), 0 2px 8px 4px rgba(60, 64, 67, .1)
+
 =catalog-header
   /deep/ .catalog-text
     margin: 0 0 3.125rem 0
@@ -17,12 +29,8 @@
       font-size: .875rem
       font-weight: normal
 
-=fullscreen-center-helper ($height: 100vh, $direction: row)
+=flex-box($direction: row)
   display: flex
-  min-height: $height
-  justify-content: center
-  align-items: center
-  text-align: center
   flex-direction: $direction
 
 =position ($way: static, $top: null, $right: null, $bottom: null, $left: null)
