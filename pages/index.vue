@@ -40,7 +40,6 @@ export default {
       logoColor: 'hsl(210, 12%, 16%)',
       logoWidth: '15rem',
       logoRate: 0.2777, // width / height
-      animation: false,
       sessionStorage: false
     }
   },
@@ -74,10 +73,6 @@ export default {
     eventBus.$data.recentPosts = [...data]
 
     return { recentPosts }
-  },
-
-  mounted () {
-    this.animation = true
   },
 
   components: {
