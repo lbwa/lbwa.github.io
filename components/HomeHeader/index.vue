@@ -72,4 +72,9 @@ export default {
   &:hover::after
     opacity: 1
     transform: scale(1)
+
++mobile
+  .home-header
+    .nav-list
+      padding: 15px 0
 </style>

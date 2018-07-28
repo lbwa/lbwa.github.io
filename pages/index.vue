@@ -129,6 +129,9 @@ export default {
   padding: 100px 0
   border-top: 1px solid $border-white
 
+  +mobile
+    padding: 50px 0
+
   .footer-info
     font-size: .8rem
 
@@ -148,24 +151,26 @@ export default {
 @keyframes showArrow
   0%
     opacity: 0
-    transform: translateY(-250px)
+    transform: translate3d(-50%, -150px, 0)
 
   50%
     opacity: 1
-    transform: translateY(0)
+    transform: translate3d(-50%, 0, 0)
 
   to
     opacity: 1
-    transform: translateY(0)
+    transform: translate3d(-50%, 0, 0)
 
 .arrow-container
   position: absolute
-  // left: 50%
-  // transform: translateX(-50%)
+  left: 50%
   bottom: 50px
   width: 24px
   opacity: 0
   animation: showArrow 6s forwards cubic-bezier(.86,0,.07,1) 1s
   font-size: 0
+
+  +mobile
+    bottom: 30px
 
 </style>
