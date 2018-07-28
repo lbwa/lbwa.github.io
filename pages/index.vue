@@ -1,19 +1,16 @@
 <template>
   <section class="home-container">
-    <div class="home full-m-height ta-center flex-js-center flex-ai-center">
-      <app-logo class="logo" :logoColor="logoColor" :logoWidth="logoWidth" :logoRate="logoRate"/>
-      <h4 class="home-subtitle subtitle">
+    <HomeHeader/>
+
+    <div class="home entry-section full-m-height ta-center flex-js-center flex-ai-center">
+      <app-logo class="logo show-animation" :logoColor="logoColor" :logoWidth="logoWidth" :logoRate="logoRate"/>
+      <h4 class="home-subtitle subtitle show-animation">
         Positive exploration &amp; deep thinking
       </h4>
-      <div :class="['home-navigator', 'animation', animation ? '' : 'ini-ani']">
-        <router-link
-          to="/blog/writings/"
-          class="home-btn button-primary">Writings</router-link>
-        <a
-          href="https://github.com/lbwa"
-          target="_blank"
-          rel="noopener"
-          class="home-btn button-primary">GitHub</a>
+      <div class="arrow-container">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+          <path d="M256 294.1L383 167c9.4-9.4 24.6-9.4 33.9 0s9.3 24.6 0 34L273 345c-9.1 9.1-23.7 9.3-33.1.7L95 201.1c-4.7-4.7-7-10.9-7-17s2.3-12.3 7-17c9.4-9.4 24.6-9.4 33.9 0l127.1 127z"/>
+        </svg>
       </div>
     </div>
 
@@ -31,9 +28,11 @@
 </template>
 
 <script>
+import HomeHeader from '~/components/HomeHeader'
 import AppLogo from '~/components/AppLogo'
 import RecentPosts from '~/components/RecentPosts'
 import axios from '~/lib/axios'
+import eventBus from '~/lib/event-bus'
 
 export default {
   data () {
@@ -49,11 +48,17 @@ export default {
   computed: {
     genYear () {
       const date = new Date().getFullYear()
-      return date === 2018 ? `2018` : `2018 - ${date}`
+      return date === 2018 ? date : `2018 - ${date}`
     }
   },
 
-  async asyncData ({ error, route }) {
+  async asyncData ({ error }) {
+    if (eventBus.$data.recentPosts) {
+      return {
+        recentPosts: [...eventBus.$data.recentPosts]
+      }
+    }
+
     let data
     try {
       ({ data } = await axios.get('recent-posts'))
@@ -66,6 +71,8 @@ export default {
 
     const recentPosts = data
 
+    eventBus.$data.recentPosts = [...data]
+
     return { recentPosts }
   },
 
@@ -74,8 +81,9 @@ export default {
   },
 
   components: {
+    HomeHeader,
     AppLogo,
-    RecentPost
+    RecentPosts,
   },
 
   head () {
@@ -102,11 +110,10 @@ export default {
   &.full-m-height
     min-height: 100vh
 
-  .logo
-    margin-bottom: .625rem
-
   .home-subtitle
     display: block
+    margin: 0
+    padding: 0
 
   .home-navigator
     +flex-box(row)
@@ -133,16 +140,37 @@ export default {
     .author
       font-weight: bold
 
-@keyframe fadeIn
+@keyframes show
   from
     opacity: 0
-    transform: translate3d(-100%, 0 ,0)
 
   to
     opacity: 1
-    transform: none
 
-.fade-in
-  animation-name: fadeIn
+.show-animation
+  animation: show 3s forwards
+
+@keyframes showArrow
+  0%
+    opacity: 0
+    transform: translateY(-250px)
+
+  50%
+    opacity: 1
+    transform: translateY(0)
+
+  to
+    opacity: 1
+    transform: translateY(0)
+
+.arrow-container
+  position: absolute
+  // left: 50%
+  // transform: translateX(-50%)
+  bottom: 50px
+  width: 24px
+  opacity: 0
+  animation: showArrow 6s forwards cubic-bezier(.86,0,.07,1) 1s
+  font-size: 0
 
 </style>
