@@ -1,6 +1,6 @@
 <template>
   <div
-    class="home recent-section bg-white-bis ta-center flex-js-center flex-ai-center"
+    class="home-section recent-section bg-white-bis ta-center flex-js-center flex-ai-center"
     v-if="hasRecentPosts"
   >
     <header class="recent-section-header">
@@ -23,6 +23,7 @@
         </router-link>
       </li>
     </ul>
+    <router-link to="/blog/writings" class="read-more-posts no-text-decoration">查看更多</router-link>
   </div>
 </template>
 
@@ -57,7 +58,6 @@ export default {
 
   .recent-section-header
     margin: 0.83em 0
-    font-style: italic
 
     .recent-section-title
       display: inline-block
@@ -72,18 +72,25 @@ export default {
 
   .front-teaser
     position: relative
-    margin-top: 1rem
-    margin-bottom: 1rem
+    margin-top: 1.2rem
+    margin-bottom: 1.2rem
+    border-radius: 5px
+    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12)
 
     +mobile
       margin-right: 15px
       margin-left: 15px
 
     // box-shadow: 1px 1px 15px 4px rgba(67, 38, 100, 0.15)
-    +shadow-basis(0, 1) // z-index >= 0 防止容器背景遮蔽伪元素阴影
+    +shadow-basis(0, 0) // z-index >= 0 防止容器背景遮蔽伪元素阴影
 
     &::after
       border-radius: 5px
+      transition: opacity .3s ease
+
+    // optimize hover shadow animation
+    &:hover::after
+      opacity: 1
 
   .post-title
     display: block
@@ -93,9 +100,25 @@ export default {
     border-radius: 5px
     padding: 1.875rem // 扩充有效点击范围
 
+    &:hover
+      color: $link
+
   .post-title-content
     display: inline-block
     margin: 0
     font-size: 1rem
 
+  .read-more-posts
+    display: inline-block
+    margin-top: 30px
+    padding: 10px 20px
+    background-color: $background-white
+    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12)
+    border-radius: 5px
+    font-size: .9rem
+    transition: all  .3s ease
+
+    &:hover
+      color: $text-light
+      background-color: $background-dark
 </style>
