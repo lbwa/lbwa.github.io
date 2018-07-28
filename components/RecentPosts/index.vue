@@ -1,10 +1,10 @@
 <template>
   <div
-    class="home recent-section ta-center flex-js-center flex-ai-center"
+    class="home recent-section bg-white-bis ta-center flex-js-center flex-ai-center"
     v-if="hasRecentPosts"
   >
     <header class="recent-section-header">
-        <svg class="home-icon icon-bookmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+      <svg class="home-icon icon-bookmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
         <path d="M128 80v380c0 3.3 3.8 5.2 6.4 3.2l116.8-92c2.9-2.1 6.8-2.1 9.6 0l116.8 92c2.6 2 6.4.1 6.4-3.2V80c0-17.7-14.3-32-32-32H160c-17.7 0-32 14.3-32 32z"/>
       </svg>
       <h2 class="recent-section-title">Recent Posts</h2>
@@ -80,13 +80,17 @@ export default {
       margin-left: 15px
 
     // box-shadow: 1px 1px 15px 4px rgba(67, 38, 100, 0.15)
-    +shadow-basis(-1, 1)
+    +shadow-basis(0, 1) // z-index >= 0 防止容器背景遮蔽伪元素阴影
 
     &::after
       border-radius: 5px
 
   .post-title
     display: block
+    position: relative // 防止容器背景遮蔽伪元素阴影
+    z-index: 1 // 防止容器背景遮蔽伪元素阴影
+    background-color: $background-white
+    border-radius: 5px
     padding: 1.875rem // 扩充有效点击范围
 
   .post-title-content
