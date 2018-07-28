@@ -1,26 +1,17 @@
 <template>
-  <section class="blog">
-    <Header/>
-
-    <keep-alive>
-      <router-view class="wrapper" :menu="menu" role="main"/>
-    </keep-alive>
-
-    <Footer/>
-
-    <Loading/>
-  </section>
+  <keep-alive>
+    <router-view class="wrapper" :menu="menu" role="main"/>
+  </keep-alive>
 </template>
 
 <script>
-import Header from '~/components/AppHeader'
-import Footer from '~/components/AppFooter'
-import Loading from '~/components/Loading'
 import { debounce } from '~/lib/debounce-throttle'
 import eventBus from '~/lib/event-bus'
 import axios from '~/lib/axios'
 
 export default {
+  layout: 'blog',
+
   data () {
     return {
       initialScroll: 0,
@@ -78,51 +69,33 @@ export default {
 
   beforeDestroy() {
     window.removeEventListener('scroll', debounce(this.onScroll), false)
-  },
-
-  components: {
-    Header,
-    Footer,
-    Loading
   }
 }
 </script>
 
 <style lang="sass">
 @import '~/assets/sass/index.sass'
+// locate route view
+.wrapper
+  margin: 0 auto 0 auto
+  padding-top: 60px
 
-.blog
-  position: relative
-  top: 0
-  left: 0
-  min-height: 100%
-  padding-bottom: 150px
-  color: $text
+  +desktop
+    max-width: $desktop - (2 * $gap)
+    width: $desktop - (2 * $gap)
+    padding-top: 70px
 
-  +mobile
-    padding-bottom: 100px
+    &.articles-container
+      padding-right: 20px
+      padding-left: 20px
 
-  // locate route view
-  .wrapper
-    margin: 0 auto 0 auto
-    padding-top: 60px
-
-    +desktop
-      max-width: $desktop - (2 * $gap)
-      width: $desktop - (2 * $gap)
-      padding-top: 70px
-
-      &.articles-container
-        padding-right: 20px
-        padding-left: 20px
-
-  a.header-anchor
-    opacity: 0 // unlock by h1, ... tags hover status
-    font-size: .9em
-    float: left
-    margin-left: -0.87em
-    padding-right: 0.23em
-    margin-top: 0.125em
+a.header-anchor
+  opacity: 0 // unlock by h1, ... tags hover status
+  font-size: .9em
+  float: left
+  margin-left: -0.87em
+  padding-right: 0.23em
+  margin-top: 0.125em
 
 </style>
 
