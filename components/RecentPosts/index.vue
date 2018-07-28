@@ -32,14 +32,14 @@ export default {
     recentPosts: {
       type: Array,
       default () {
-        return {}
+        return []
       }
     }
   },
 
   computed: {
     hasRecentPosts () {
-      return Object.keys(this.recentPosts).length !== 0
+      return this.recentPosts.length !== 0
     }
   }
 }
@@ -96,5 +96,6 @@ export default {
   .post-title-content
     display: inline-block
     margin: 0
+    font-size: 1rem
 
 </style>
