@@ -54,7 +54,7 @@ export default {
     // store remote data to local object like vuex
     if (eventBus.$data.projects) {
       return {
-        list: eventBus.$data.projects
+        list: [...eventBus.$data.projects]
       }
     }
     let res
@@ -64,7 +64,7 @@ export default {
       error({ statusCode: 404, message: err })
     }
     const list = res.data
-    eventBus.$data.projects = list
+    eventBus.$data.projects = [...list]
     return { list }
   },
 

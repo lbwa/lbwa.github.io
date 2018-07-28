@@ -59,7 +59,7 @@ export default {
 
     if (eventBus.$data.menu) {
       return {
-        menu: eventBus.$data.menu
+        menu: [...eventBus.$data.menu]
       }
     }
 
@@ -71,7 +71,7 @@ export default {
     }
     const menu = res.data
 
-    eventBus.$data.menu = menu
+    eventBus.$data.menu = [...menu]
 
     return { menu }
   },
