@@ -1,6 +1,6 @@
 <template>
   <section class="section-container">
-    <div class="home entry-section full-m-height ta-center flex-js-center flex-ai-center">
+    <div class="home-section nav-section full-m-height ta-center flex-js-center flex-ai-center">
       <app-logo class="logo show-animation" :logoColor="logoColor" :logoWidth="logoWidth" :logoRate="logoRate"/>
       <h4 class="home-subtitle subtitle show-animation">
         Positive exploration &amp; deep thinking
@@ -75,7 +75,7 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/sass/index.sass'
 
-.home
+.home-section
   +flex-box(column)
 
   /deep/ .home-icon
