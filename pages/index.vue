@@ -1,7 +1,5 @@
 <template>
-  <section class="home-container">
-    <HomeHeader/>
-
+  <section class="section-container">
     <div class="home entry-section full-m-height ta-center flex-js-center flex-ai-center">
       <app-logo class="logo show-animation" :logoColor="logoColor" :logoWidth="logoWidth" :logoRate="logoRate"/>
       <h4 class="home-subtitle subtitle show-animation">
@@ -15,39 +13,23 @@
     </div>
 
     <RecentPosts :recentPosts="recentPosts"/>
-
-    <footer class="home-footer ta-center">
-      <div class="footer-info">Copyright &copy; {{genYear}} <a
-        target="_blank"
-        rel="noopener"
-        href="https://github.com/lbwa"
-        class="author"
-      >Bowen</a></div>
-    </footer>
   </section>
 </template>
 
 <script>
-import HomeHeader from '~/components/HomeHeader'
 import AppLogo from '~/components/AppLogo'
 import RecentPosts from '~/components/RecentPosts'
 import axios from '~/lib/axios'
 import eventBus from '~/lib/event-bus'
 
 export default {
+  layout: 'home',
+
   data () {
     return {
       logoColor: 'hsl(210, 12%, 16%)',
       logoWidth: '15rem',
-      logoRate: 0.2777, // width / height
-      sessionStorage: false
-    }
-  },
-
-  computed: {
-    genYear () {
-      const date = new Date().getFullYear()
-      return date === 2018 ? date : `2018 - ${date}`
+      logoRate: 0.2777 // width / height
     }
   },
 
@@ -76,7 +58,6 @@ export default {
   },
 
   components: {
-    HomeHeader,
     AppLogo,
     RecentPosts,
   },
@@ -109,34 +90,6 @@ export default {
     display: block
     margin: 0
     padding: 0
-
-  .home-navigator
-    +flex-box(row)
-
-    .home-btn
-      flex: 1
-      margin: 0 .75rem
-      transition: all .4s
-
-.animation
-  transition: opacity 235ms cubic-bezier(.4,0,.2,1), transform 500ms cubic-bezier(.86,0,.07,1)
-
-  &.ini-ani
-    opacity: 0
-    transform: translateY(120%)
-
-.home-footer
-  padding: 100px 0
-  border-top: 1px solid $border-white
-
-  +mobile
-    padding: 50px 0
-
-  .footer-info
-    font-size: .8rem
-
-    .author
-      font-weight: bold
 
 @keyframes show
   from
