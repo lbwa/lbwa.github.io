@@ -41,7 +41,7 @@ export default {
   background-color: $background-white
 
   .nav-list
-    padding: 30px 0
+    padding: 24px 0
 
     .nav-item
       margin: 0  10px
