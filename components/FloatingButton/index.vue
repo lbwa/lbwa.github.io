@@ -81,7 +81,7 @@ export default {
   padding: 10px
   width: 56px
   height: 56px
-  background: $github-dark
+  background: $background-dark
   color: $text-light
   border: none
   border-radius: 50%
