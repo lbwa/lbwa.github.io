@@ -5,16 +5,16 @@
 
         <ul class="catalog-projects" v-if="list[0] && list[0].name" slot="main">
           <li
-            class="catalog-item"
+            class="catalog-item grid"
             v-for="project in list" :key="project.url"
           >
             <a
-              class="project-name"
+              class="project-name grid-cell grid-cell-4"
               :href="project.url"
               target="_blank"
               rel="noopener"
             >{{project.name}}</a>
-            <div class="project-desc">{{project.desc}}</div>
+            <div class="project-desc grid-cell grid-cell-8">{{project.desc}}</div>
           </li>
         </ul>
 
@@ -79,8 +79,7 @@ export default {
 
 .catalog-wrapper
   margin: 0 auto
-  max-width: 500px
-  padding: 0
+  max-width: 550px
   +catalog-header
 
   .catalog-projects
@@ -88,13 +87,7 @@ export default {
     padding: 0
 
     .catalog-item
-      display: flex
-
-      .project-name
-        flex: 1
-
       .project-desc
-        flex: 2
         text-decoration: none
         font-weight: bold
 

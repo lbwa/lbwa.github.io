@@ -30,7 +30,8 @@ module.exports = {
 
   css: [
     { src: '~/assets/theme.sass', lang: 'sass' },
-    { src: '~/assets/code/highlight.scss', lang: 'scss'}
+    { src: '~/assets/code/highlight.scss', lang: 'scss'},
+    { src: 'grid-style/dist/index.min.css', lang: 'css'}
   ],
 
   modules: [

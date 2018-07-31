@@ -11,17 +11,17 @@
     <MobileHeader @toggleMenuList="toggleMenuList"/>
 
     <nav
-      class="navigator __position"
+      class="navigator __position grid"
       role="navigation"
       @click.stop="collapseMenuList"
     >
       <router-link
-        class="navigator-link hover-animation"
+        class="navigator-link hover-animation grid-cell"
         v-for="item of category" :key="item"
         :to="genPath(item)"
         exact
       >{{ item.toUpperCase() }}</router-link>
-      <a class="navigator-link hover-animation" href="https://github.com/lbwa" target="_blank" rel="noopener">CONTACT</a>
+      <a class="navigator-link hover-animation grid-cell" href="https://github.com/lbwa" target="_blank" rel="noopener">GITHUB</a>
     </nav>
 
     <div class="background-helper __position" @click.stop.prevent="collapseMenuList"></div>
@@ -105,14 +105,12 @@ export default {
   box-shadow: 0 5px 15px rgba(0, 0, 0, .50)
 
   .navigator
-    display: flex
     margin: 0 auto
     padding: 0 10px
     max-width: 500px
     text-align: center
 
     .navigator-link
-      flex: 1
       vertical-align: top
       padding: 20px 0
       color: $text-grey-light
