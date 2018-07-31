@@ -1,3 +1,38 @@
+<a name="1.2.0"></a>
+# [1.2.0](https://github.com/lbwa/lbwa.github.io/compare/v1.1.0...v1.2.0) (2018-07-31)
+
+
+### Bug Fixes
+
+* compatible with scroll behavior on IOS browser ([c417063](https://github.com/lbwa/lbwa.github.io/commit/c417063))
+* **floatingBtn:** a scrolling bug on desktop Chrome 68 ([e6ba784](https://github.com/lbwa/lbwa.github.io/commit/e6ba784))
+* **home:** correct center layout for arrow ([972c388](https://github.com/lbwa/lbwa.github.io/commit/972c388))
+* **recent-section:** correct recentPosts default value ([9c334e7](https://github.com/lbwa/lbwa.github.io/commit/9c334e7))
+
+
+### Features
+
+* add floating button for going back to top ([0b96f8c](https://github.com/lbwa/lbwa.github.io/commit/0b96f8c))
+* add language head tag for every unique page ([941dd58](https://github.com/lbwa/lbwa.github.io/commit/941dd58))
+* add x-ua-compatile meta tag ([8a1eddf](https://github.com/lbwa/lbwa.github.io/commit/8a1eddf))
+* **home-footer:** add home footer ([7833106](https://github.com/lbwa/lbwa.github.io/commit/7833106))
+* support beginning animations in home page ([8816e5c](https://github.com/lbwa/lbwa.github.io/commit/8816e5c))
+* **blog:** new layout for blog page ([b0b218e](https://github.com/lbwa/lbwa.github.io/commit/b0b218e))
+* **home:** add background color of recent section ([40184b8](https://github.com/lbwa/lbwa.github.io/commit/40184b8))
+* **home:** add readmore button ([2dc82fd](https://github.com/lbwa/lbwa.github.io/commit/2dc82fd))
+* **home:** add recent posts section ([b520dfd](https://github.com/lbwa/lbwa.github.io/commit/b520dfd))
+* **home:** new layout for home page ([ea03899](https://github.com/lbwa/lbwa.github.io/commit/ea03899))
+* **home-header:** add home header components ([a2e208e](https://github.com/lbwa/lbwa.github.io/commit/a2e208e))
+* **style:** add style primary color shade ([8e3dbd6](https://github.com/lbwa/lbwa.github.io/commit/8e3dbd6))
+
+
+### Performance Improvements
+
+* resize avatar in first screen ([e5bd839](https://github.com/lbwa/lbwa.github.io/commit/e5bd839))
+* use `ele.matches` rather than `[...ele.classList].indexOf` ([da7a003](https://github.com/lbwa/lbwa.github.io/commit/da7a003))
+
+
+
 <a name="1.1.0"></a>
 # [1.1.0](https://github.com/lbwa/lbwa.github.io/compare/v1.0.2...v1.1.0) (2018-07-17)
 
