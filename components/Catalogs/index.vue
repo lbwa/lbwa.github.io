@@ -1,5 +1,5 @@
 <template>
-  <section class="catalog-wrapper">
+  <section class="catalog-wrapper" :style="catalogPadding">
     <div class="catalog-text">
       <h2 class="catalog-title" v-if="title !== ''">{{title}}</h2>
       <h3 class="catalog-subtitle" v-if="subtitle !== ''">{{subtitle}}</h3>
@@ -19,6 +19,16 @@ export default {
     subtitle: {
       type: String,
       default: ''
+    },
+    padding: {
+      type: String,
+      default: '0 25px'
+    }
+  },
+
+  computed: {
+    catalogPadding () {
+      return `padding: ${this.padding}`
     }
   }
 }
@@ -26,7 +36,5 @@ export default {
 
 <style lang="sass" scoped>
 
-.catalog-wrapper
-  padding: 0 25px
 </style>
 
