@@ -1,5 +1,5 @@
 <template>
-  <section class="blog">
+  <section class="blog sf-bfc">
     <Header/>
 
     <nuxt/>
@@ -28,13 +28,6 @@ export default {
 @import '~/assets/sass/index.sass'
 
 .blog
-  position: relative
-  top: 0
-  left: 0
   min-height: 100%
-  padding-bottom: 150px
   color: $text
-
-  +mobile
-    padding-bottom: 100px
 </style>
