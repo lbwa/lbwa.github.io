@@ -31,7 +31,8 @@ export default {
 
       if (ROOT.scrollIntoView) {
         ROOT.scrollIntoView({
-          behavior: 'smooth'
+          behavior: 'smooth',
+          block: 'start'
         })
         return
       }
