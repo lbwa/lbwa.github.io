@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import Catalog from '~/components/Catalogs'
+import Catalog from '~/components/BaseCatalogs'
 import { headMixin } from '~/lib/mixins'
 
 export default {

@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import Catalog from '~/components/Catalogs'
+import Catalog from '~/components/BaseCatalogs'
 import eventBus from '~/lib/event-bus'
 
 export default {

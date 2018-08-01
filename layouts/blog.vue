@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import Header from '~/components/AppHeader'
-import Footer from '~/components/AppFooter'
+import Header from '~/components/BlogHeader'
+import Footer from '~/components/BlogFooter'
 import Loading from '~/components/Loading'
 
 export default {

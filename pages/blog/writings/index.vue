@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import Catalog from '~/components/Catalogs'
+import Catalog from '~/components/BaseCatalogs'
 import { headMixin } from '~/lib/mixins'
 import eventBus from '~/lib/event-bus'
 

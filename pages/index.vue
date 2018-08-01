@@ -1,7 +1,7 @@
 <template>
   <section class="section-container">
     <div class="home-section grid col nav-section full-m-height ta-center grid-center grid-jc-center">
-      <app-logo class="logo show-animation" :logoColor="homeColor" :logoWidth="logoWidth" :logoRate="logoRate"/>
+      <HomeLogo class="logo show-animation" :logoColor="homeColor" :logoWidth="logoWidth" :logoRate="logoRate"/>
       <h4 :style="fontColor" class="home-subtitle subtitle show-animation">
         Positive exploration &amp; deep thinking
       </h4>
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import AppLogo from '~/components/AppLogo'
+import HomeLogo from '~/components/HomeLogo'
 import RecentPosts from '~/components/RecentPosts'
 import axios from '~/lib/axios'
 import eventBus from '~/lib/event-bus'
@@ -64,7 +64,7 @@ export default {
   },
 
   components: {
-    AppLogo,
+    HomeLogo,
     RecentPosts,
   },
 
