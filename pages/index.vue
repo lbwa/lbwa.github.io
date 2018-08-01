@@ -86,6 +86,7 @@ export default {
   /deep/ .home-icon
     display: inline-block
     margin-right: 5px
+    height: 1.6rem // for ie 11
     width: 1.6rem
 
   &.full-m-height
