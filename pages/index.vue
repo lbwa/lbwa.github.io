@@ -1,6 +1,6 @@
 <template>
   <section class="section-container">
-    <div class="home-section nav-section full-m-height ta-center flex-js-center flex-ai-center">
+    <div class="home-section grid col nav-section full-m-height ta-center grid-center grid-jc-center">
       <app-logo class="logo show-animation" :logoColor="homeColor" :logoWidth="logoWidth" :logoRate="logoRate"/>
       <h4 :style="fontColor" class="home-subtitle subtitle show-animation">
         Positive exploration &amp; deep thinking
@@ -12,7 +12,7 @@
       </div>
     </div>
 
-    <RecentPosts :recentPosts="recentPosts"/>
+    <RecentPosts class="grid col grid-center grid-jc-center" :recentPosts="recentPosts"/>
   </section>
 </template>
 
@@ -82,7 +82,6 @@ export default {
 @import '~/assets/sass/index.sass'
 
 .home-section
-  +flex-box(column)
 
   /deep/ .home-icon
     display: inline-block

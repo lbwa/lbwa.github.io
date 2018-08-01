@@ -96,5 +96,12 @@ export default {
     width: 100%
     padding: 0 20px
 
+    .project-name, .project-desc
+      flex-basis: 100%
+      max-width: 100%
+
+    .project-name
+      margin-bottom: 6px
+
 </style>
 

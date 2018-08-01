@@ -2,9 +2,9 @@
   <main class="blog-tags">
 
     <Catalog :title="title" :subtitle="subtitle">
-      <nav class="tags-content" slot="main">
+      <nav class="tags-content grid grid-center grid-jc-center" slot="main">
         <router-link
-          class="tag-link button-text"
+          class="tag-link button-text grid-cell"
           v-for="(tag, index) in tags"
           :key="index"
           :to="genLink(tag)">{{tag}}</router-link>
@@ -68,15 +68,11 @@ export default {
   +catalog-header
 
   .tags-content
-    display: flex
-    flex-wrap: wrap
-    justify-content: center
     align-items: center
     text-align: center
 
     .tag-link
       margin: 0 10px 10px 10px
-      flex: 1
       white-space: nowrap // 防止拆字换行
       text-decoration: none
       &:hover

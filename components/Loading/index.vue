@@ -1,5 +1,5 @@
 <template>
-  <section class="loading-wrapper" v-show="show">
+  <section class="loading-wrapper grid col grid-center grid-jc-center" v-show="show">
     <div class="loading">
       <div class="loading-item"></div>
       <div class="loading-item"></div>
@@ -58,10 +58,6 @@ export default {
   right: 0
   bottom: 0
   z-index: 998
-  display: flex
-  flex-direction: column
-  justify-content: center
-  align-items: center
   background-color: rgba(0, 0, 0, .95)
 
 @for $i from 1 through 5

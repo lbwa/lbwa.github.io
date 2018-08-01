@@ -9,11 +9,11 @@
         @click.stop.prevent="activateLoading"
       >
         <li
-          class="catalog-item"
+          class="catalog-item grid"
           v-for="post in menu"
           :key="post.title"
         >
-          <time class="post-date">{{post.date}}</time>
+          <time class="post-date grid-cell">{{post.date}}</time>
           <router-link class="post-title"
             :to='`/blog/writings/${post.to}/`'
           >{{post.title}}</router-link>
@@ -88,24 +88,22 @@ export default {
     list-style-type: none
     padding: 0
 
-    .catalog-item
-      display: flex
-      padding: 0.6rem 1.875rem
-      border-bottom: 1px solid $border-white
+  .catalog-item
+    padding: 0.6rem 1.875rem
+    border-bottom: 1px solid $border-white
 
-      .post-date
-        flex: 1
-        font-size: .875rem
-        font-style: italic
-        text-align: center
-        letter-spacing: 1px
-        text-transform: uppercase
+  .post-date
+    font-size: .875rem
+    font-style: italic
+    text-align: center
+    letter-spacing: 1px
+    text-transform: uppercase
 
-      .post-title
-        flex: 2
-        text-decoration: none
-        font-weight: bold
-        margin-left: 40px
+  .post-title
+    flex: 2
+    text-decoration: none
+    font-weight: bold
+    margin-left: 40px
 
 +mobile
   .catalog-wrapper
@@ -115,8 +113,8 @@ export default {
     flex-direction: column
 
     .post-title
-      margin-left: 0 !important
+      margin-left: 0
 
     .post-date
-      text-align: left !important
+      text-align: left
 </style>

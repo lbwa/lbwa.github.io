@@ -1,6 +1,6 @@
 <template>
   <div
-    class="home-section recent-section bg-white-bis ta-center flex-js-center flex-ai-center"
+    class="home-section recent-section bg-white-bis ta-center"
     v-if="hasRecentPosts"
   >
     <header class="recent-section-header">

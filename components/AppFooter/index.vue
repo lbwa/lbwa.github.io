@@ -1,5 +1,5 @@
 <template>
-  <footer class="blog-footer sf-main">
+  <footer class="blog-footer sf-main grid col grid-jc-center">
     <div class="footer-info">Copyright &copy; {{genYear}} <a
     target="_blank" rel="noopener" href="https://github.com/lbwa" class="author">Bowen</a></div>
   </footer>
@@ -19,10 +19,6 @@ export default {
 @import '~/assets/sass/index.sass'
 
 .blog-footer
-  display: flex
-  flex-direction: column
-  justify-content: center
-
   +mobile
     margin: 20px 0 30px 0
 

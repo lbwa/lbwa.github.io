@@ -84,13 +84,11 @@ module.exports = {
 
     vendor: ['axios'],
 
-    analyze: {
-      analyzerMode: 'static'
-    },
+    // analyze: {
+    //   analyzerMode: 'static'
+    // },
 
-    plugins: [
-
-    ],
+    plugins: [],
     extend (config, { isDev, isClient }) {
       if (isDev && isClient) {
         // extract css

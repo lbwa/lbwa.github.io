@@ -3,13 +3,13 @@
     <Catalog :title="tagTitle || title" :subtitle="subtitle">
       <nav class="catalog-list" slot="main" @click.stop="activateLoading">
         <div
-          class="catalog-item"
+          class="catalog-item grid grid-cell"
           v-for="navItem of result"
           :key="navItem.to"
         >
-          <time class="nav-date">{{navItem.date}}</time>
+          <time class="nav-date grid-cell">{{navItem.date}}</time>
           <router-link
-            class="nav-item"
+            class="nav-item grid-cell offset-1"
             :to='`/blog/writings/${navItem.to}/`'
           >{{navItem.title}}</router-link>
         </div>
@@ -107,27 +107,18 @@ export default {
 .catalog-wrapper
   +catalog-header
 
-  .catalog-list
-    display: flex
-    flex-direction: column
-
-    .catalog-item
-      display: flex
-      flex: 1
-      padding: .625rem 1.25rem
+  .catalog-item
+    padding: .625rem 1.25rem
 
 .nav-date
-  flex: 1
   font-size: .875rem
   font-style: italic
   color: $text
   letter-spacing: 1px
   text-transform: uppercase
   text-align: right
-  margin-right: 40px
 
 .nav-item
-  flex: 1
   text-decoration: none
   font-weight: bold
 
@@ -138,5 +129,8 @@ export default {
     .nav-date
       text-align: left
       margin-bottom: .3125rem
+
+    .nav-item
+      margin-left: 0
 
 </style>
