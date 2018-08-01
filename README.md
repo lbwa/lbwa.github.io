@@ -1,4 +1,4 @@
-# https://set.sh [![Build Status](https://travis-ci.org/lbwa/lbwa.github.io.svg?branch=vue)](https://travis-ci.org/lbwa/lbwa.github.io) [![GitHub tag](https://img.shields.io/github/tag/lbwa/lbwa.github.io.svg)](https://github.com/lbwa/lbwa.github.io/blob/vue/CHANGELOG.md)
+# https://set.sh [![Build Status](https://travis-ci.org/lbwa/lbwa.github.io.svg?branch=vue)](https://travis-ci.org/lbwa/lbwa.github.io) [![GitHub tag](https://img.shields.io/github/tag/lbwa/lbwa.github.io.svg)](https://github.com/lbwa/lbwa.github.io/blob/vue/CHANGELOG.md) [![CircleCI](https://circleci.com/gh/lbwa/lbwa.github.io.svg?style=svg)](https://circleci.com/gh/lbwa/lbwa.github.io)
 
 💻📑在线[浏览][blog]
 
