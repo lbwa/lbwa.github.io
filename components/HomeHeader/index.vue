@@ -7,7 +7,7 @@
         :key="item.name"
         :to="item.to"
       >{{item.name}}</router-link>
-      <a href="mailto:mr_lbw@outlook.com" class="nav-item hover-scale-animation no-text-decoration">Contact</a>
+      <a rel="noopener" target="_blank" href="https://github.com/lbwa" class="nav-item hover-scale-animation no-text-decoration">Github</a>
     </nav>
   </header>
 </template>

@@ -6,9 +6,8 @@
 
     <footer class="home-footer ta-center">
       <div class="footer-info">Copyright &copy; {{genYear}} <a
-        target="_blank"
         rel="noopener"
-        href="https://github.com/lbwa"
+        href="mailto:mr_lbw@outlook.com"
         class="author"
       >Bowen</a></div>
     </footer>
