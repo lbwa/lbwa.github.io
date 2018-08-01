@@ -13,8 +13,6 @@ jobs:
     environment:
       - SOURCE_BRANCH: vue
       - TARGET_BRANCH: master
-      - USERNAME: Bowen
-      - USEREMAIL: mr_lbw@outlook.com
 
     steps:
       - checkout
@@ -35,7 +33,14 @@ jobs:
 
       - run:
           name: Test generating process
-          command: yarn generate
+          command: |
+            if [ $CIRCLE_BRANCH != $SOURCE_BRANCH ]; then
+              yarn generate
+            fi
+
+      - add_ssh_keys:
+          fingerprints:
+            - 'e8:9d:0b:89:da:03:55:ea:39:e6:1b:06:9f:68:fa:1e'
 
       - deploy:
           name: Deploy site
@@ -44,10 +49,10 @@ jobs:
               git config --global user.email $USEREMAIL
               git config --global user.name $USERNAME
 
+              # Olny create a default branch in local env
               git clone $CIRCLE_REPOSITORY_URL out
 
               cd out
-              # git checkout $TARGET_BRANCH
               # This op will create a branch named 'master'
               git checkout --orphan $TARGET_BRANCH
               git rm -rf .
