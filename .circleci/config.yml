@@ -49,24 +49,33 @@ jobs:
               git config --global user.email $USEREMAIL
               git config --global user.name $USERNAME
 
-              # Olny create a default branch in local env
-              git clone $CIRCLE_REPOSITORY_URL out
+              # # Olny create a default branch in local env
+              # git clone $CIRCLE_REPOSITORY_URL out
 
-              cd out
-              # This op will create a branch named 'master'
-              git checkout --orphan $TARGET_BRANCH
-              git rm -rf .
-              cd ..
+              # cd out
+              # # This op will create a branch named 'master'
+              # git checkout --orphan $TARGET_BRANCH
+              # git rm -rf .
+              # cd ..
+
+              # yarn generate
+
+              # cp -a dist/. out/.
+
+              # mkdir -p out/.circleci && cp -a .circleci/. out/.circleci/.
+              # cd out
+
+              # git add -A
+              # git commit -m "docs: Deployed by CircleCI - ${CIRCLE_SHA1}" --allow-empty
+
+              # git push -f origin $TARGET_BRANCH
 
               yarn generate
+              cd dist
 
-              cp -a dist/. out/.
-
-              mkdir -p out/.circleci && cp -a .circleci/. out/.circleci/.
-              cd out
-
-              git add -A
+              git init
+              git add .
               git commit -m "docs: Deployed by CircleCI - ${CIRCLE_SHA1}" --allow-empty
 
-              git push origin $TARGET_BRANCH
+              git push -f git@github.com:lbwa/lbwa.github.io.git master:master
             fi
