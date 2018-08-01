@@ -50,6 +50,7 @@ jobs:
               git config --global user.name $USERNAME
 
               yarn generate
+              mkdir -p dist/.circleci
               cp -a .circleci/. dist/.circleci/.
               cd dist
 
