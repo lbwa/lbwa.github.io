@@ -47,7 +47,8 @@ jobs:
               git clone $CIRCLE_REPOSITORY_URL out
 
               cd out
-              git checkout $TARGET_BRANCH && git checkout --orphan $TARGET_BRANCH
+              git checkout $TARGET_BRANCH
+              git checkout --orphan $TARGET_BRANCH
               git rm -rf .
               cd ..
 
