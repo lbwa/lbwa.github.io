@@ -26,7 +26,7 @@
 <script>
 import Catalog from '~/components/BaseCatalogs'
 import { headMixin } from '~/lib/mixins'
-import axios from '~/lib/axios'
+import { getProjects } from '~/lib/axios'
 import eventBus from '~/lib/event-bus'
 
 export default {
@@ -59,7 +59,7 @@ export default {
     }
     let res
     try {
-      res = await axios.get('projects')
+      res = await getProjects()
     } catch (err) {
       error({ statusCode: 404, message: err })
     }

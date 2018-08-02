@@ -19,7 +19,7 @@
 <script>
 import HomeLogo from '~/components/HomeLogo'
 import RecentPosts from '~/components/RecentPosts'
-import axios from '~/lib/axios'
+import { getRecentPosts } from '~/lib/axios'
 import eventBus from '~/lib/event-bus'
 
 export default {
@@ -48,7 +48,7 @@ export default {
 
     let data
     try {
-      ({ data } = await axios.get('recent-posts'))
+      ({ data } = await getRecentPosts())
     } catch (err) {
       error({
         statusCode: 404,

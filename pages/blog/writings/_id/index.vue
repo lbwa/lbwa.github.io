@@ -16,7 +16,7 @@
 <script>
 import BaseFloatingButton from '~/components/BaseFloatingButton'
 import markdownParser from '~/lib/parseMarkdown'
-import axios from '~/lib/axios'
+import { getWriting } from '~/lib/axios'
 import { headMixin } from '~/lib/mixins'
 import eventBus from '~/lib/event-bus'
 
@@ -53,7 +53,7 @@ export default {
     let res
 
     try {
-      res = await axios.get(`/writings/${id}`)
+      res = await getWriting(id)
     } catch (err) {
       error({ statusCode: 404, message: err })
     }

@@ -7,7 +7,7 @@
 <script>
 import { debounce } from '~/lib/debounce-throttle'
 import eventBus from '~/lib/event-bus'
-import axios from '~/lib/axios'
+import { getMenu } from '~/lib/axios'
 
 export default {
   layout: 'blog',
@@ -56,7 +56,7 @@ export default {
 
     let res
     try {
-      res = await axios.get('menu')
+      res = await getMenu()
     } catch (err) {
       error({ statusCode: 404, message: err })
     }
