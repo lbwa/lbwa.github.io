@@ -3330,9 +3330,9 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.1.9:
   version "4.1.11"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
 
-grid-style@^0.3.1:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/grid-style/-/grid-style-0.3.1.tgz#2a1c960910873ccb561904fbddc2e2d275a280e0"
+grid-style@^1.0.1:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/grid-style/-/grid-style-1.0.2.tgz#5da6a7caa33a754399d0f805e3482821ea4c2b77"
 
 gzip-size@^4.1.0:
   version "4.1.0"

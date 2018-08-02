@@ -9,12 +9,12 @@
             v-for="project in list" :key="project.url"
           >
             <a
-              class="project-name grid-cell grid-cell-4"
+              class="project-name grid-cell-12 grid-cell grid-sm-4"
               :href="project.url"
               target="_blank"
               rel="noopener"
             >{{project.name}}</a>
-            <div class="project-desc grid-cell grid-cell-8">{{project.desc}}</div>
+            <div class="project-desc grid-cell-12 grid-cell grid-sm-8">{{project.desc}}</div>
           </li>
         </ul>
 
@@ -86,19 +86,13 @@ export default {
     list-style-type: none
     padding: 0
 
-    .catalog-item
-      .project-desc
-        text-decoration: none
-        font-weight: bold
+    .project-desc
+      font-weight: bold
 
 +mobile
   .catalog-wrapper
     width: 100%
     padding: 0 20px
-
-    .project-name, .project-desc
-      flex-basis: 100% !important
-      max-width: 100% !important
 
     .project-name
       margin-bottom: 6px
