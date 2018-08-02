@@ -144,14 +144,14 @@ export default {
 
     .navigator-link
       display: block
-      transform: scale(1.1, 1.1) translateY(-24px)
+      transform: scale(1.1, 1.1) translateY(-24px) // animation beginning position
       opacity: 0
 
-      &:nth-child(1)
-        padding-bottom: 10px
-
-      &:nth-child(n+2)
+      &:not(:last-child)
         padding: 10px 0
+
+      &:last-child
+        padding-top: 10px
 
 +desktop
   .navigator
