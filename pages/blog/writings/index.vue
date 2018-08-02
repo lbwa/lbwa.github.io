@@ -13,8 +13,8 @@
           v-for="post in menu"
           :key="post.title"
         >
-          <time class="post-date grid-cell">{{post.date}}</time>
-          <router-link class="post-title"
+          <time class="post-date grid-cell grid-sm-4">{{post.date}}</time>
+          <router-link class="post-title grid-cell grid-sm-7 offset-1"
             :to='`/blog/writings/${post.to}/`'
           >{{post.title}}</router-link>
         </li>
@@ -100,10 +100,9 @@ export default {
     text-transform: uppercase
 
   .post-title
-    flex: 2
+    // flex: 2
     text-decoration: none
     font-weight: bold
-    margin-left: 40px
 
 +mobile
   .catalog-wrapper
@@ -111,6 +110,9 @@ export default {
 
   .catalog-item
     flex-direction: column
+
+    .post-title, .post-date
+      padding: 0
 
     .post-title
       margin-left: 0
