@@ -1,3 +1,28 @@
+<a name="1.3.0"></a>
+# [1.3.0](https://github.com/lbwa/lbwa.github.io/compare/v1.2.0...v1.3.0) (2018-08-03)
+
+
+### Bug Fixes
+
+* **home:** add icon height for compatibility ([482faf6](https://github.com/lbwa/lbwa.github.io/commit/482faf6))
+
+
+### Features
+
+* define viewport for svg icon ([cd1370c](https://github.com/lbwa/lbwa.github.io/commit/cd1370c))
+* home bg-image with a grey wrapper and used to be a backup option ([e0ee1c9](https://github.com/lbwa/lbwa.github.io/commit/e0ee1c9))
+* **home:** add homeheader animation and optimize scrolling callback destruction ([d3ffaa3](https://github.com/lbwa/lbwa.github.io/commit/d3ffaa3))
+* **homeheader:** a functionality for scorlling ([feb1140](https://github.com/lbwa/lbwa.github.io/commit/feb1140))
+* **lib/utils:** add requestAnimationFrame to lib/utils ([e91639d](https://github.com/lbwa/lbwa.github.io/commit/e91639d))
+
+
+### Performance Improvements
+
+* **blog,baseFBtn:** optimize scrolling callback destruction ([b73545c](https://github.com/lbwa/lbwa.github.io/commit/b73545c))
+* **throttle:** optimize requestAnimationFrame ([a6e6974](https://github.com/lbwa/lbwa.github.io/commit/a6e6974))
+
+
+
 <a name="1.2.0"></a>
 # [1.2.0](https://github.com/lbwa/lbwa.github.io/compare/v1.1.0...v1.2.0) (2018-07-31)
 
