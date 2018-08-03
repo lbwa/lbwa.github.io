@@ -1,12 +1,19 @@
 <template>
   <section class="section-container">
     <div class="home-section grid col nav-section full-m-height ta-center grid-center grid-jc-center">
-      <HomeLogo class="logo show-animation" :logoColor="homeColor" :logoWidth="logoWidth" :logoRate="logoRate"/>
-      <h4 :style="fontColor" class="home-subtitle subtitle show-animation">
-        Positive exploration &amp; deep thinking
-      </h4>
+      <div class="logo-container">
+        <HomeLogo
+          class="home-logo show-animation"
+          :logoColor="homeColor"
+          :logoWidth="logoWidth"
+          :logoRate="logoRate"
+        />
+        <h4 :style="fontColor" class="home-subtitle subtitle show-animation">
+          Positive exploration &amp; deep thinking
+        </h4>
+      </div>
       <div class="arrow-container">
-        <svg :fill="homeColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+        <svg :fill="homeColor" width="24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
           <path d="M256 294.1L383 167c9.4-9.4 24.6-9.4 33.9 0s9.3 24.6 0 34L273 345c-9.1 9.1-23.7 9.3-33.1.7L95 201.1c-4.7-4.7-7-10.9-7-17s2.3-12.3 7-17c9.4-9.4 24.6-9.4 33.9 0l127.1 127z"/>
         </svg>
       </div>
@@ -97,13 +104,16 @@ export default {
     margin: 0
     padding: 0
 
+  .home-logo
+    margin: 0 auto
+
 // background-image with a wrapper
 
-// .nav-section
-//   background-image: linear-gradient(rgba(0, 0, 0, .85), rgba(0, 0, 0, .85)), url('~/static/home-bg.jpg')
-//   background-size: cover
-//   background-position: 50% 50%
-//   background-repeat: no-repeat
+.nav-section
+  background-image: linear-gradient(rgba(0, 0, 0, .05), rgba(0, 0, 0, .05)), url('~/static/bg/home-nav-bg.jpg')
+  background-size: cover
+  background-position: 50% 50%
+  background-repeat: no-repeat
 
 // animation
 
