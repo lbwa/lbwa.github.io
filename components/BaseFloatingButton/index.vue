@@ -65,11 +65,13 @@ export default {
   },
 
   mounted () {
-    window.addEventListener('scroll', debounce(this.setVisibility), false)
+    // ! make sure remove same callback before component has been destroyed
+    this.cacheOnScroll = debounce(this.setVisibility)
+    window.addEventListener('scroll', this.cacheOnScroll, false)
   },
 
   beforeDestroy () {
-    window.removeEventListener('scroll', debounce(this.setVisibility), false)
+    window.removeEventListener('scroll', this.cacheOnScroll, false)
   }
 }
 </script>

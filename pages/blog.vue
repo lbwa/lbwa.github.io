@@ -39,7 +39,9 @@ export default {
   },
 
   mounted() {
-    window.addEventListener('scroll', debounce(this.onScroll), false)
+    // ! make sure remove same callback before component has been destroyed
+    this.cacheOnScroll = debounce(this.onScroll)
+    window.addEventListener('scroll', this.cacheOnScroll, false)
   },
 
   // redirect solution: https://nuxtjs.org/api/context
@@ -68,7 +70,7 @@ export default {
   },
 
   beforeDestroy() {
-    window.removeEventListener('scroll', debounce(this.onScroll), false)
+    window.removeEventListener('scroll', this.cacheOnScroll, false)
   }
 }
 </script>
