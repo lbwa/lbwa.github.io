@@ -97,6 +97,13 @@ export default {
     margin: 0
     padding: 0
 
+.nav-section
+  // background-image with a wrapper
+  // background-image: linear-gradient(rgba(0, 0, 0, .85), rgba(0, 0, 0, .85)), url('~/static/home-bg.jpg')
+  background-size: cover
+  background-position: 50% 50%
+  background-repeat: no-repeat
+
 // animation
 
 @keyframes show
