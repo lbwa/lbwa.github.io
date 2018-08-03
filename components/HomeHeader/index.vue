@@ -1,5 +1,5 @@
 <template>
-  <header class="home-header __position ta-center">
+  <header :class="['home-header', '__position', 'ta-center', isTop ? 'top' : 'not-top']">
     <nav class="nav-list">
       <router-link
         class="nav-item hover-scale-animation no-text-decoration"
@@ -13,6 +13,8 @@
 </template>
 
 <script>
+// import { activateAnimation } from '~/lib/debounce-throttle'
+
 export default {
   data () {
     return {
@@ -25,8 +27,24 @@ export default {
           name: 'Projects',
           to: '/blog/projects/'
         }
-      ]
+      ],
+      isTop: true
     }
+  },
+
+  // methods: {
+  //   onScroll () {
+  //     this.isTop = window.pageYOffset === 0
+  //   }
+  // },
+
+  mounted() {
+    if (window.pageYOffset !== 0) this.isTop = false
+    // window.addEventListener('scroll', activateAnimation(this.onScroll), false)
+  },
+
+  beforeDestroy () {
+    // window.removeEventListener('scroll', activateAnimation(this.onScroll), false)
   }
 }
 </script>
@@ -34,14 +52,18 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/sass/index.sass'
 
+// .not-top
+
+// .top
+
 .home-header
   +position(fixed, 0, null, null, 0)
-  z-index: 99
+  z-index: 10
   width: 100%
   background-color: $background-white
 
   .nav-list
-    padding: 24px 0
+    padding: 14px 0
 
     .nav-item
       margin: 0  10px
