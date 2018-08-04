@@ -1,12 +1,12 @@
 @import './var/index.sass'
 
-=shadow-basis($z-index: -1, $op: 1)
+=shadow-basis($z-index: -1, $op: 1, $width: 100%)
   &::after
     content: ' '
     position: absolute
     top: 0
     left: 0
-    width: 100%
+    width: $width
     height: 100%
     z-index: $z-index
     opacity: $op
