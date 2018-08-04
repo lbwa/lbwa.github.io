@@ -10,6 +10,10 @@
 
 [博客][blog]中记录的是学习心得和思考总结，主要偏向宏观思考方面。
 
+- [SPA 与 MPA 的比较与优化][spa-and-mpa]
+
+[spa-and-mpa]:https://set.sh/blog/writings/spa-and-mpa
+
 - [Event loops 中的 AsyncFunction][async-function-in-js]
 
 [async-function-in-js]:https://set.sh/blog/writings/async-function-in-js/
