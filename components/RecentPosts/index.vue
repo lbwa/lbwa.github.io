@@ -103,6 +103,7 @@ export default {
       background-position: 50% 50%
       background-repeat: no-repeat
       opacity: 0
+      transition: opacity .3s ease-in-out
 
   .post-title
     display: block

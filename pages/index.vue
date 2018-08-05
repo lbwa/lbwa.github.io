@@ -1,7 +1,7 @@
 <template>
   <section class="section-container">
-    <div class="home-section grid col nav-section full-m-height ta-center grid-center grid-jc-center">
-      <div class="logo-container">
+    <div class="home-section nav-section full-m-height ta-center">
+      <div class="logo-container __position">
         <HomeLogo
           class="home-logo show-animation"
           :logoColor="homeColor"
@@ -12,7 +12,7 @@
           Positive exploration &amp; deep thinking
         </h4>
       </div>
-      <div class="arrow-container">
+      <div class="arrow-container __position">
         <svg :fill="homeColor" width="24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
           <path d="M256 294.1L383 167c9.4-9.4 24.6-9.4 33.9 0s9.3 24.6 0 34L273 345c-9.1 9.1-23.7 9.3-33.1.7L95 201.1c-4.7-4.7-7-10.9-7-17s2.3-12.3 7-17c9.4-9.4 24.6-9.4 33.9 0l127.1 127z"/>
         </svg>
@@ -107,6 +107,11 @@ export default {
   .home-logo
     margin: 0 auto
 
+  .logo-container
+    +position(absolute, 50%, 50%)
+    transform: translate(50%, -50%)
+    // transform: translate3d(50%, -50%, 0) 字体会变模糊
+
 // background-image with a wrapper
 
 .nav-section
@@ -141,9 +146,7 @@ export default {
     transform: translate3d(-50%, 0, 0)
 
 .arrow-container
-  position: absolute
-  left: 50%
-  bottom: 50px
+  +position(absolute, null, null, 40px, 50%)
   width: 24px
   opacity: 0
   animation: showArrow 6s forwards cubic-bezier(.86,0,.07,1) 1s
