@@ -115,10 +115,11 @@ export default {
 // background-image with a wrapper
 
 .nav-section
-  background-image: linear-gradient(rgba(0, 0, 0, .05), rgba(0, 0, 0, .05)), url('~/static/bg/home-nav-bg.jpg')
+  background-image: linear-gradient(rgba(255, 255, 255, .65), rgba(255, 255, 255, .65)), url('~/static/bg/home-nav.jpg')
   background-size: cover
   background-position: 50% 50%
   background-repeat: no-repeat
+  background-attachment: fixed
 
 // animation
 

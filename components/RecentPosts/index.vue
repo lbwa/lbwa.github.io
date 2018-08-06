@@ -4,10 +4,7 @@
     v-if="hasRecentPosts"
   >
     <header class="recent-section-header">
-      <svg width="1.6rem" height="1.6rem" class="home-icon icon-bookmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-        <path d="M128 80v380c0 3.3 3.8 5.2 6.4 3.2l116.8-92c2.9-2.1 6.8-2.1 9.6 0l116.8 92c2.6 2 6.4.1 6.4-3.2V80c0-17.7-14.3-32-32-32H160c-17.7 0-32 14.3-32 32z"/>
-      </svg>
-      <h2 class="recent-section-title">Recent Writings</h2>
+      <h2 class="recent-section-title">Latest Writings</h2>
     </header>
     <ul class="recent-posts">
       <li
@@ -59,17 +56,15 @@ export default {
     padding: 100px 0
 
   .recent-section-header
-    margin: 0.83em 0 5rem
+    margin: 0.83rem 0 4rem
 
     .recent-section-title
-      display: inline-block
       margin: 0
-      font-weight: normal
+      font-weight: 300
       text-transform: capitalize
+      line-height: 2.5rem
+      border-bottom: 1px solid red
 
-    .icon-bookmark
-      vertical-align: bottom
-      fill: $icon-red
 
   .recent-posts
     padding-left: 0
