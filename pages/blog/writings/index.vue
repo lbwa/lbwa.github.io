@@ -15,7 +15,7 @@
         >
           <time class="post-date grid-cell grid-sm-4">{{post.date}}</time>
           <router-link class="post-title grid-cell grid-sm-7 offset-1"
-            :to='`/blog/writings/${post.to}/`'
+            :to='`/blog/${post.to}/`'
           >{{post.title}}</router-link>
         </li>
       </ul>

@@ -13,7 +13,7 @@
         :key="post.to"
       >
         <router-link
-          :to="`/blog/writings/${post.to}`"
+          :to="`/blog/${post.to}`"
           class="post-title no-text-decoration"
         >
           <h3 class="post-title-content">{{post.title}}</h3>

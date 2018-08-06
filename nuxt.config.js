@@ -122,7 +122,7 @@ module.exports = {
     routes: async function () {
       const res = await axios.get('https://docs.set.sh/menu')
       const posts = res.data
-      const postLink = posts.map(post => `/blog/writings/${post.to}/`)
+      const postLink = posts.map(post => `/blog/${post.to}/`)
       const tags = new Set()
       posts.forEach(post => {
         post.tags.forEach(tag => {

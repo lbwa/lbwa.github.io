@@ -10,7 +10,7 @@
           <time class="nav-date grid-cell">{{navItem.date}}</time>
           <router-link
             class="nav-item grid-cell offset-1"
-            :to='`/blog/writings/${navItem.to}/`'
+            :to='`/blog/${navItem.to}/`'
           >{{navItem.title}}</router-link>
         </div>
       </nav>
