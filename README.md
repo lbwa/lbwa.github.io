@@ -1,4 +1,4 @@
-# https://set.sh [![Build Status](https://travis-ci.org/lbwa/lbwa.github.io.svg?branch=vue)](https://travis-ci.org/lbwa/lbwa.github.io) [![GitHub tag](https://img.shields.io/github/tag/lbwa/lbwa.github.io.svg)](https://github.com/lbwa/lbwa.github.io/blob/vue/CHANGELOG.md) [![CircleCI](https://circleci.com/gh/lbwa/lbwa.github.io.svg?style=svg)](https://circleci.com/gh/lbwa/lbwa.github.io)
+# https://set.sh [![GitHub tag](https://img.shields.io/github/tag/lbwa/lbwa.github.io.svg)](https://github.com/lbwa/lbwa.github.io/blob/vue/CHANGELOG.md) [![CircleCI](https://circleci.com/gh/lbwa/set.svg?style=svg)](https://circleci.com/gh/lbwa/set)
 
 💻📑在线[浏览][blog]
 
@@ -72,11 +72,11 @@
 
 ## Skills
 
-[Issues][issues] 中记录了开发过程中遇到的部分问题的解决方案，主要偏向实际应用方面。
+[Issues][issues] 中记录了开发过程中遇到的部分问题的解决方案，主要偏向实际应用微观层面。
 
 [blog]:https://set.sh
 
-[issues]:https://github.com/lbwa/lbwa.github.io/issues
+[issues]:https://github.com/lbwa/set/issues
 
 ## License
 
