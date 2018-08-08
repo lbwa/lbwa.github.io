@@ -37,7 +37,7 @@ export default {
       }
     }
   },
-
+  // https://nuxtjs.org/faq/window-document-undefined#window-or-document-undefined-
   mounted() {
     // ! make sure remove same callback before component has been destroyed
     this.cacheOnScroll = debounce(this.onScroll)
