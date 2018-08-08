@@ -46,6 +46,8 @@ module.exports = {
 
   mode: 'universal',
 
+  layoutTransition: 'layout',
+
   router: {
     scrollBehavior(to, from, savedPosition) {
       if (savedPosition) {
