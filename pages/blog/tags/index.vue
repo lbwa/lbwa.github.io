@@ -64,6 +64,8 @@ export default {
 @import '~/assets/sass/index.sass'
 
 .catalog-wrapper
+  padding-left: 25px
+  padding-right: 25px
   text-align: center
   +catalog-header
 

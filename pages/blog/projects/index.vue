@@ -79,12 +79,15 @@ export default {
 
 .catalog-wrapper
   margin: 0 auto
-  max-width: 550px
+  padding-left: 25px
+  padding-right: 25px
+  max-width: 750px
   +catalog-header
 
   .catalog-projects
+    padding: 50px
+    +shadow-wrapper
     list-style-type: none
-    padding: 0
 
     .project-desc
       font-weight: bold
@@ -92,7 +95,11 @@ export default {
 +mobile
   .catalog-wrapper
     width: 100%
-    padding: 0 20px
+    padding-left: 10px
+    padding-right: 10px
+
+    .catalog-projects
+      padding: 20px
 
     .project-name
       margin-bottom: 6px

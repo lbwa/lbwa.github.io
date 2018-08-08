@@ -81,12 +81,15 @@ export default {
 
 .catalog-wrapper
   margin: 0 auto
-  max-width: 600px
+  max-width: 800px
+  padding-left: 25px
+  padding-right: 25px
   +catalog-header
 
   .catalog-list
     list-style-type: none
-    padding: 0
+    padding: 50px
+    +shadow-wrapper
 
   .catalog-item
     padding: 0.6rem 1.875rem
@@ -107,6 +110,11 @@ export default {
 +mobile
   .catalog-wrapper
     width: 100%
+    padding-left: 10px
+    padding-right: 10px
+
+    .catalog-list
+      padding: 20px
 
   .catalog-item
     flex-direction: column
