@@ -62,6 +62,7 @@ export default {
   transition: background .3s ease
 
   .nav-list
+    width: 100vw
     padding: 14px 0
 
   .nav-item

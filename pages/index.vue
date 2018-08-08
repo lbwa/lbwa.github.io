@@ -1,7 +1,7 @@
 <template>
   <section class="section-container">
-    <div class="home-section nav-section full-m-height ta-center">
-      <div class="logo-container __position">
+    <div class="home-section nav-section full-m-height ta-center grid grid-center grid-jc-center">
+      <div class="logo-container">
         <HomeLogo
           class="home-logo show-animation"
           :logoColor="homeColor"
@@ -107,14 +107,13 @@ export default {
   .home-logo
     margin: 0 auto
 
-  .logo-container
-    +position(absolute, 50%, 50%)
-    transform: translate(50%, -50%)
-    // transform: translate3d(50%, -50%, 0) 字体会变模糊
-
 // background-image with a wrapper
 
+// ie 需设定 height 来修正垂直居中失效的问题
+// min-height 可覆盖 height
+// https://stackoverflow.com/questions/19371626/flexbox-not-centering-vertically-in-ie
 .nav-section
+  height: 1px
   background-image: linear-gradient(rgba(255, 255, 255, .65), rgba(255, 255, 255, .65)), url('~/static/bg/home-nav.jpg')
   background-size: cover
   background-position: 50% 50%
@@ -147,7 +146,7 @@ export default {
     transform: translate3d(-50%, 0, 0)
 
 .arrow-container
-  +position(absolute, null, null, 40px, 50%)
+  +position(absolute, null, null, 30px, calc(50% + 12px))
   width: 24px
   opacity: 0
   animation: showArrow 6s forwards cubic-bezier(.86,0,.07,1) 1s

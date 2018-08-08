@@ -89,6 +89,8 @@ export default {
   .catalog-list
     list-style-type: none
     padding: 50px
+    border-radius: 4px
+    background-color: $background-white
     +shadow-wrapper
 
   .catalog-item

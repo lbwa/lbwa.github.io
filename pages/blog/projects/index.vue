@@ -86,6 +86,8 @@ export default {
 
   .catalog-projects
     padding: 50px
+    border-radius: 4px
+    background-color: $background-white
     +shadow-wrapper
     list-style-type: none
 

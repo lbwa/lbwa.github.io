@@ -30,4 +30,5 @@ export default {
 .blog
   min-height: 100%
   color: $text
+  background-color: $background-white-bis
 </style>
