@@ -27,6 +27,9 @@ export default {
         || window.pageYOffset
         || document.body.scrollTop
 
+        // fix a bug when scroll bar in IOS browser screen top
+        if (this.nowScroll < 0 || this.initialScroll < 0) return
+
         if (this.nowScroll > this.initialScroll) {
           eventBus.$emit('hideHeader')
         } else if (this.nowScroll < this.initialScroll) {
