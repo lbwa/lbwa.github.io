@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { debounce } from '~/lib/debounce-throttle'
+import { throttle } from '~/lib/debounce-throttle'
 
 const OFFSET_SHOW = 200
 
@@ -66,7 +66,7 @@ export default {
 
   mounted () {
     // ! make sure remove same callback before component has been destroyed
-    this.cacheOnScroll = debounce(this.setVisibility)
+    this.cacheOnScroll = throttle(this.setVisibility)
     window.addEventListener('scroll', this.cacheOnScroll, false)
   },
 

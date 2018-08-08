@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { debounce } from '~/lib/debounce-throttle'
+import { throttle } from '~/lib/debounce-throttle'
 import eventBus from '~/lib/event-bus'
 import { getMenu } from '~/lib/axios'
 
@@ -40,7 +40,7 @@ export default {
   // https://nuxtjs.org/faq/window-document-undefined#window-or-document-undefined-
   mounted() {
     // ! make sure remove same callback before component has been destroyed
-    this.cacheOnScroll = debounce(this.onScroll)
+    this.cacheOnScroll = throttle(this.onScroll)
     window.addEventListener('scroll', this.cacheOnScroll, false)
   },
 
