@@ -146,7 +146,8 @@ export default {
     transform: translate3d(-50%, 0, 0)
 
 .arrow-container
-  +position(absolute, null, null, 30px, calc(50% + 12px))
+  // left: calc(50% - 12px) // 不包含边框
+  +position(absolute, null, null, 30px, 50%)
   width: 24px
   opacity: 0
   animation: showArrow 6s forwards cubic-bezier(.86,0,.07,1) 1s
