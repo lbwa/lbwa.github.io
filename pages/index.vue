@@ -113,11 +113,9 @@ export default {
 // min-height 可覆盖 height
 // https://stackoverflow.com/questions/19371626/flexbox-not-centering-vertically-in-ie
 .nav-section
-  height: 1px
-  background-image: linear-gradient(rgba(255, 255, 255, .65), rgba(255, 255, 255, .65)), url('~/static/bg/home-nav.jpg')
-  background-size: cover
+  height: 1px // fix vertical-alignment bug in IE 11
+  background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), url('~/static/bg/home-nav.svg')
   background-position: 50% 50%
-  background-repeat: no-repeat
   background-attachment: fixed
 
 // animation
