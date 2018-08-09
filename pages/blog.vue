@@ -38,8 +38,19 @@ export default {
 
         this.initialScroll = this.nowScroll
       }
+    },
+
+    resetHeader (newRoute, oldRoute) {
+      if (newRoute.path === '/blog/writings/') {
+        eventBus.$emit('showHeader')
+      }
     }
   },
+
+  watch: {
+    '$route': 'resetHeader'
+  },
+
   // https://nuxtjs.org/faq/window-document-undefined#window-or-document-undefined-
   mounted() {
     // ! make sure remove same callback before component has been destroyed
