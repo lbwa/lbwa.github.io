@@ -85,7 +85,7 @@ module.exports = {
     },
 
     // 为了首屏更快的加载，不分离 markdown-it 和 prismjs
-    // 这两个依赖仅在文章页 page_writings_id chunk 使用，那么没有必要在首页引入
+    // 这两个依赖仅在文章页 page_writings_id chunk 使用，那么没有必要在首页 vendor 中包含并引入
     // 此时的 vendor 仅包含 vue 相关库和 axios
     vendor: [
       'axios'
