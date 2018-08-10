@@ -1,3 +1,27 @@
+<a name="1.5.0"></a>
+# [1.5.0](https://github.com/lbwa/set/compare/v1.4.0...v1.5.0) (2018-08-10)
+
+
+### Bug Fixes
+
+* blog header will hidden when scroll bar in screen top in IOS browser ([517fda9](https://github.com/lbwa/set/commit/517fda9))
+* **arrow-container:** horizontal alignment of arrow-container in home page ([ae3f343](https://github.com/lbwa/set/commit/ae3f343))
+* **tags & tags_id:** blog-header showup problem ([34e3a75](https://github.com/lbwa/set/commit/34e3a75))
+* **writings_page:** blog header display problem ([7e03b4c](https://github.com/lbwa/set/commit/7e03b4c))
+
+
+### Features
+
+* new background opacity at home page ([72669cc](https://github.com/lbwa/set/commit/72669cc))
+* **writings_id:** transform tags links to SPA links rather than MPA links ([027fe07](https://github.com/lbwa/set/commit/027fe07))
+
+
+### Performance Improvements
+
+* change home-nav bg image format to svg for lower weight ([49968d7](https://github.com/lbwa/set/commit/49968d7))
+
+
+
 <a name="1.4.0"></a>
 # [1.4.0](https://github.com/lbwa/set/compare/v1.3.0...v1.4.0) (2018-08-08)
 
