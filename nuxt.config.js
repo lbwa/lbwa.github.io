@@ -23,6 +23,7 @@ module.exports = {
 
   manifest: {
     name: 'Bowen Blog',
+    short_name: 'Bowen Blog',
     theme_color: '#24292e',
     lang: 'zh',
     description: 'A place which is used to share programming experiences'
