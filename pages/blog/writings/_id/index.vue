@@ -5,7 +5,14 @@
         <h2 class="article-title" v-html="title"></h2>
         <span class="article-author" v-html="author"></span>
         <span class="article-date" v-html="date"></span>
-        <div class="article-tags" v-html="tags"></div>
+        <div class="article-tags">
+          <router-link
+            class="article-tag"
+            v-for="tag of tags"
+            :key="tag"
+            :to="`/blog/tags/${tag.toLowerCase()}`"
+          >{{ tag }}</router-link>
+        </div>
       </div>
       <div class="article-content" v-html="content"></div>
     </article>
