@@ -20,9 +20,13 @@ export default {
   },
 
   methods: {
+    isWritings () {
+      return /^\/blog\/writings\/\S+/.test(this.$route.path)
+    },
+
     onScroll () {
       // only work with writings page
-      if (/^\/blog\/writings\/\S+/.test(this.$route.path)) {
+      if (this.isWritings()) {
         this.nowScroll = document.documentElement.scrollTop
         || window.pageYOffset
         || document.body.scrollTop
@@ -41,7 +45,7 @@ export default {
     },
 
     resetHeader (newRoute, oldRoute) {
-      if (newRoute.path === '/blog/writings/') {
+      if (!this.isWritings()) {
         eventBus.$emit('showHeader')
       }
     }
