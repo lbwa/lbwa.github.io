@@ -22,7 +22,7 @@
 
 <script>
 import BaseFloatingButton from '~/components/BaseFloatingButton'
-import markdownParser from '~/lib/parseMarkdown'
+import MDParser from '~/lib/markdown/index'
 import { getWriting } from '~/lib/axios'
 import { headMixin } from '~/lib/mixins'
 import eventBus from '~/lib/event-bus'
@@ -66,7 +66,7 @@ export default {
     }
     const raw = res.data
 
-    const { title, date, author, tags, content } = markdownParser(raw)
+    const { title, date, author, tags, content } = MDParser(raw)
 
     // implement local storage without window.sessionStorage even if disable cache
     eventBus.$data.writings[id] = { title, date, author, tags, content }
@@ -87,7 +87,7 @@ export default {
   margin: 0 10px 10px 0
   font-weight: bold
 
-// generate by parseMarkdown.js
+// generate by markdown.js
 .article-tag
   margin: 0 5px
   &:first-child
