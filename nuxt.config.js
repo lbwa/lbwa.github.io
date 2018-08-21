@@ -51,8 +51,8 @@ module.exports = {
 
   router: {
     scrollBehavior(to, from, savedPosition) {
+      // savedPosition is only available for popstate navigations (back button)
       if (savedPosition) {
-        // savedPosition is only available for popstate navigations (back button)
         return savedPosition
       }
 
@@ -61,21 +61,21 @@ module.exports = {
       // current scroll position.
       let position = { x: 0, y: 0 }
 
-      if (to.matched.length < 2) {
-        // scroll to the top of the page
-        position = { x: 0, y: 0 }
-      } else if (to.matched.some(r => r.components.default.options.scrollToTop)) {
-        // if one of the children has scrollToTop option set to true
-        position = { x: 0, y: 0 }
-      }
-
       // ! https://github.com/nuxt/nuxt.js/issues/2738#issuecomment-362485495
-      // ! triggerScroll event cannot not be triggered at sometimes
+      // ! sometimes, triggerScroll event cannot not be triggered
       return new Promise( resolve => {
         if (to.hash) {
           position = { selector: to.hash }
         }
-        resolve(position)
+        // 防止主页在过渡的动画开始前，即下个布局组件进入前，当前组件回滚到顶部
+        // 延迟时间应该配合过渡 transition 样式的时间
+        if (from.fullPath === '/') {
+          setTimeout(() => {
+            resolve(position)
+          }, 120)
+        } else {
+          resolve(position)
+        }
       })
     }
   },
@@ -128,7 +128,7 @@ module.exports = {
     // https://github.com/nuxt/nuxt.js/issues/1018
     // https://github.com/nuxt/nuxt.js/issues/440
     routes: async function () {
-      const res = await axios.get('https://docs.set.sh/menu')
+      const res = await axios.get(`https://assets.set.sh/menu.json`)
       const posts = res.data
       const postLink = posts.map(post => `/blog/${post.to}/`)
       const tags = new Set()
