@@ -6,11 +6,19 @@
 
 [CHANGELOG](./CHANGELOG.md)
 
-## Back-end
+## Extracted dependencies
 
-- [docs-server] 分离出的文本类型微服务 server，基于 `koa2`
+- [docs-server] 基于 Koa2 的一种文档类型 server 自动构建实现。
+
+- [grid-style] 基于 flexbox 实现的 CSS Grid layout，其中包含响应式元素。
+
+- [mark-to-json] 将 `markdown` 文件转换为 `JSON` 静态文件的实现。
 
 [docs-server]:https://github.com/lbwa/docs-server
+
+[grid-style]:https://github.com/lbwa/grid-style
+
+[mark-to-json]:https://github.com/lbwa/mark-to-json
 
 ## Writing
 
