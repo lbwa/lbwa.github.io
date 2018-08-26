@@ -46,6 +46,14 @@ export default {
     }
   },
 
+  // ! 解决切换布局时，无法触发 triggerScroll 事件，进而导致被切换布局在切换路由前会
+  // 回滚到顶部
+  transition: {
+    leave(el, done) {
+      done()
+    }
+  },
+
   async asyncData ({ error }) {
     if (eventBus.$data.recentPosts) {
       return {

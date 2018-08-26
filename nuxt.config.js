@@ -67,15 +67,9 @@ module.exports = {
         if (to.hash) {
           position = { selector: to.hash }
         }
-        // 防止主页在过渡的动画开始前，即下个布局组件进入前，当前组件回滚到顶部
-        // 延迟时间应该配合过渡 transition 样式的时间
-        if (from.fullPath === '/') {
-          setTimeout(() => {
-            resolve(position)
-          }, 120)
-        } else {
-          resolve(position)
-        }
+        // ! 偶然发现在 pages 组件中配置 transition.leave(el, done){done()} 可解决
+        // 无法触发 triggerScroll 的问题
+        resolve(position)
       })
     }
   },
