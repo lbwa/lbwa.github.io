@@ -116,7 +116,6 @@ export default {
   height: 1px // fix vertical-alignment bug in IE 11
   background-image: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)), url('~/static/bg/home-nav.svg')
   background-position: 50% 50%
-  background-attachment: fixed
 
 // animation
 
