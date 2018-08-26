@@ -1,11 +1,11 @@
 @import '~/assets/sass/var/index.sass'
 
 table
-  display: block
-  width: 100%
+  min-width: 100%
   border-collapse: collapse
   border-spacing: 0
   margin: 16px 0
+  word-break: break-all // 解决小屏移动端表格撑开容器的问题
   tr:nth-child(2n)
     background-color: $table-color
   tr
