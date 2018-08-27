@@ -47,7 +47,10 @@ module.exports = {
 
   mode: 'universal',
 
-  layoutTransition: 'layout',
+  layoutTransition: {
+    name: 'layout',
+    mode: 'out-in'
+  },
 
   router: {
     scrollBehavior(to, from, savedPosition) {
@@ -67,7 +70,7 @@ module.exports = {
         if (to.hash) {
           position = { selector: to.hash }
         }
-        // ! 偶然发现在 pages 组件中配置 transition.leave(el, done){done()} 可解决
+        // ! 发现在 pages 组件中配置 transition.leave(el, done){done()} 可解决
         // 无法触发 triggerScroll 的问题
         resolve(position)
       })
