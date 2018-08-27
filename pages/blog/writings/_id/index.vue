@@ -75,6 +75,7 @@ export default {
     } catch (err) {
       error({ statusCode: 404, message: err })
     }
+    // TODO: 检测 errno，异常时重定向至自定义 error 页面
     const raw = res.data
 
     const { title, date, author, tags, content } = MDParser(raw)
