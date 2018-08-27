@@ -1,3 +1,27 @@
+<a name="1.6.0"></a>
+# [1.6.0](https://github.com/lbwa/set/compare/v1.5.0...v1.6.0) (2018-08-27)
+
+
+### Bug Fixes
+
+* **axios:** correct assets remote service ([16555df](https://github.com/lbwa/set/commit/16555df))
+* **axios:** correct server ip in dev mode ([1da49c1](https://github.com/lbwa/set/commit/1da49c1))
+* **DEV mode:** correct dev request address ([c6e28d2](https://github.com/lbwa/set/commit/c6e28d2))
+* **home scrolling:** correct scrolling behavior from home to other pages ([25281cf](https://github.com/lbwa/set/commit/25281cf))
+* cancel background fixed ([0acdc10](https://github.com/lbwa/set/commit/0acdc10))
+* table cell wrap ([0a678b3](https://github.com/lbwa/set/commit/0a678b3))
+* **markdown-parser:** correct response schema ([3f40ee1](https://github.com/lbwa/set/commit/3f40ee1))
+* **scrolling:** correct `triggerScroll` event completely ([e40222e](https://github.com/lbwa/set/commit/e40222e))
+
+
+### Features
+
+* **link:** ensure internal links is handled by vue-router rather than browser ([d3a42dd](https://github.com/lbwa/set/commit/d3a42dd))
+* **request module:** add error handles for request module ([735447f](https://github.com/lbwa/set/commit/735447f))
+* **writings_id:** build converting internal links module ([a740f4b](https://github.com/lbwa/set/commit/a740f4b))
+
+
+
 <a name="1.5.0"></a>
 # [1.5.0](https://github.com/lbwa/set/compare/v1.4.0...v1.5.0) (2018-08-10)
 
