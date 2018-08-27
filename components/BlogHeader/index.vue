@@ -68,7 +68,7 @@ export default {
     },
 
     // https://cn.vuejs.org/v2/api/#ref
-    // 不推荐使用 $refs 来进行数据绑定
+    // 不推荐使用 $refs 来进行数据绑定，因为不能保证取值时 $ref 一定已经存在
     hideMenu () {
       this.hide = true
       this.collapseMenuList()

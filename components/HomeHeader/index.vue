@@ -94,10 +94,11 @@ export default {
     transform: scale(1)
 
 .not-top
-  background-color: rgba(0, 0, 0, .5)
+  background-color: white
+  border: none
 
   .nav-item, .nav-item:hover
-    color: $text-light
+    color: $text-title
 
   .nav-item::after
     background-color: $text-light

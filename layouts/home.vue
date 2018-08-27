@@ -7,7 +7,7 @@
     <footer class="home-footer ta-center">
       <div class="footer-info">Copyright &copy; {{genYear}} <a
         rel="noopener"
-        href="mailto:mr_lbw@outlook.com"
+        href="mailto:me@set.sh"
         class="author"
       >Bowen</a></div>
     </footer>
@@ -37,6 +37,10 @@ export default {
 .home-footer
   padding: 100px 0
   border-top: 1px solid $border-white
+  background-image: url('~/static/world-map.png')
+  background-repeat: no-repeat
+  background-position: 50%
+  background-size: contain
 
   +mobile
     padding: 50px 0

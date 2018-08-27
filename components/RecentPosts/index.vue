@@ -1,6 +1,6 @@
 <template>
   <div
-    class="home-section recent-section bg-white-bis"
+    class="home-section recent-section"
     v-if="hasRecentPosts"
   >
     <header class="recent-section-header">
@@ -85,7 +85,7 @@ export default {
 
     &:hover
       .title-cover
-        opacity: .05
+        opacity: .03
 
     .title-cover
       +position(absolute, 0)
@@ -98,7 +98,7 @@ export default {
       background-position: 50% 50%
       background-repeat: no-repeat
       opacity: 0
-      transition: opacity .3s ease-in-out
+      transition: opacity .1s ease
 
   .post-title
     display: block
