@@ -14,7 +14,7 @@
           >{{ tag }}</router-link>
         </div>
       </div>
-      <div class="article-content" v-html="content"></div>
+      <div class="article-content" @click.stop="nav" v-html="content"></div>
     </article>
     <BaseFloatingButton/>
   </main>
@@ -35,6 +35,17 @@ export default {
       type: Array,
       default () {
         return []
+      }
+    }
+  },
+
+  methods: {
+    nav (evt) {
+      const href = evt.target.getAttribute('href')
+      // ensure internal links is handled by vue-router
+      if (href && !/^http/.test(href)) {
+        evt.preventDefault()
+        this.$router.push(decodeURIComponent(href))
       }
     }
   },
