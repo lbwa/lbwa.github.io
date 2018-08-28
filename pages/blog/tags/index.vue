@@ -17,6 +17,7 @@
 <script>
 import Catalog from '~/components/BaseCatalogs'
 import { headMixin } from '~/lib/mixins'
+import getMap from '~/lib/tags-map'
 
 export default {
   mixins: [headMixin],
@@ -37,14 +38,7 @@ export default {
 
   computed: {
     tags () {
-      let result = new Set()
-      this.menu.forEach(post => {
-        post.tags.forEach(tag => {
-          result.add(tag)
-        })
-      })
-
-      return [...result._c]
+      return getMap(this.menu, 'tagsMap')
     }
   },
 
