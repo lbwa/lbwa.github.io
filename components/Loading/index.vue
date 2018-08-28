@@ -58,7 +58,7 @@ export default {
   right: 0
   bottom: 0
   z-index: 998
-  background-color: rgba(0, 0, 0, .95)
+  background-color: $background-white
 
 @for $i from 1 through 5
   .loading-item:nth-child(#{$i})
@@ -70,10 +70,10 @@ export default {
   height: 35px
   border-radius: 2px
   margin: 2px
-  background-color: $text-light
+  background-color: $text
 
 .loading-tips
   margin-top: 20px
   cursor: pointer
-  color: $text-light
+  color: $text
 </style>

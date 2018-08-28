@@ -63,7 +63,7 @@ export default {
       font-weight: 300
       text-transform: capitalize
       line-height: 2.5rem
-      border-bottom: 1px solid red
+      border-bottom: 1px solid $border-dark
 
 
   .recent-posts

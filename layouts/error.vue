@@ -75,11 +75,6 @@ export default {
   100%
     opacity: 0.1
 
-#__layout
-  position: relative
-  width: 100vw
-  min-height: 100vh
-
 .err__main
   +position(absolute, 50%, null, null, 50%)
   transform: translate(-50%, -50%)

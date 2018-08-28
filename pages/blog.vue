@@ -25,7 +25,6 @@ export default {
     },
 
     onScroll () {
-      // only work with writings page
       if (this.isWritings()) {
         this.nowScroll = document.documentElement.scrollTop
         || window.pageYOffset
@@ -57,7 +56,6 @@ export default {
 
   // https://nuxtjs.org/faq/window-document-undefined#window-or-document-undefined-
   mounted() {
-    // ! make sure remove same callback before component has been destroyed
     this.cacheOnScroll = throttle(this.onScroll)
     window.addEventListener('scroll', this.cacheOnScroll, false)
   },
