@@ -63,7 +63,7 @@ export default {
 <style lang="sass">
 @import '~/assets/font/font.sass'
 @import '~/assets/sass/mixins.sass'
-@import '~/assets/sass/var/initial.sass'
+@import '~/assets/color/index.sass'
 
 @keyframes breath
   0%
