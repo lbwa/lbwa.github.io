@@ -136,6 +136,9 @@ module.exports = {
       })
       const tagLink = Array.from(tags).map(tag => `/blog/tags/${tag}/`)
       return [...postLink, ...tagLink]
-    }
+    },
+
+    // add 404.html rather than default 200.html
+    fallback: true
   }
 }
