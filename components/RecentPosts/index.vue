@@ -8,13 +8,13 @@
     </header>
     <ul class="recent-posts">
       <li
-        class="front-teaser no-list-style"
+        class="front-teaser global__list__no-style"
         v-for="post of recentPosts"
         :key="post.to"
       >
         <router-link
           :to="`/blog/${post.to}`"
-          class="post-title no-text-decoration"
+          class="post-title global__list__no-deco"
         >
           <h3 class="post-title-content">{{post.title}}</h3>
           <time class="post-date">{{post.date}}</time>
@@ -22,7 +22,7 @@
         <div class="title-cover __position"></div>
       </li>
     </ul>
-    <router-link to="/blog/writings" class="read-more-posts no-text-decoration">查看更多</router-link>
+    <router-link to="/blog/writings" class="read-more-posts global__list__no-deco">查看更多</router-link>
   </div>
 </template>
 

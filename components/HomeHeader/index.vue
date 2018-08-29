@@ -1,13 +1,13 @@
 <template>
-  <header :class="['home-header', '__position', 'ta-center', isTop ? 'top' : 'not-top']">
+  <header :class="['home-header', '__position', isTop ? 'top' : 'not-top']">
     <nav class="nav-list">
       <router-link
-        class="nav-item hover-scale-animation no-text-decoration"
+        class="nav-item hover-scale-animation global__list__no-deco"
         v-for="item of navigators"
         :key="item.name"
         :to="item.to"
       >{{item.name}}</router-link>
-      <a rel="noopener" target="_blank" href="https://github.com/lbwa" class="nav-item hover-scale-animation no-text-decoration">Github</a>
+      <a rel="noopener" target="_blank" href="https://github.com/lbwa" class="nav-item hover-scale-animation global__list__no-deco">Github</a>
     </nav>
   </header>
 </template>
@@ -63,6 +63,7 @@ export default {
   z-index: 10
   width: 100%
   transition: background .3s ease
+  text-align: center
 
   .nav-list
     width: 100vw

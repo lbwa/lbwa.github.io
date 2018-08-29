@@ -4,7 +4,7 @@
 
     <nuxt/>
 
-    <footer class="home-footer ta-center">
+    <footer class="home-footer home-footer__center">
       <div class="footer-info">Copyright &copy; {{genYear}} <a
         rel="noopener"
         href="mailto:me@set.sh"
@@ -42,6 +42,9 @@ export default {
   background-repeat: no-repeat
   background-position: 50%
   background-size: contain
+
+  @at-root #{&}__center
+    text-align: center
 
   +mobile
     padding: 50px 0

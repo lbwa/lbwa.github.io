@@ -1,6 +1,6 @@
 <template>
   <section class="section-container">
-    <div class="home-section nav-section __position full-m-height ta-center grid grid-center grid-jc-center">
+    <div class="home-section nav-section __position full-m-height grid grid-center grid-jc-center">
       <div class="logo-container">
         <HomeLogo
           class="home-logo show-animation"
@@ -126,6 +126,7 @@ export default {
   height: 1px // fix vertical-alignment bug in IE 11
   background-image: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)), url('~/static/bg/home-nav.svg')
   background-position: 50% 50%
+  text-align: center
 
 // animation
 
