@@ -1,5 +1,5 @@
 <template>
-  <section class="blog sf-bfc">
+  <section class="blog sf__parent__clearfix">
     <Header/>
 
     <nuxt/>

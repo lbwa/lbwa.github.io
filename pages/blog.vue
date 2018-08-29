@@ -1,6 +1,6 @@
 <template>
   <keep-alive>
-    <router-view class="wrapper sf-reference" :menu="menu" role="main"/>
+    <router-view class="wrapper sf__reference__layout" :menu="menu" role="main"/>
   </keep-alive>
 </template>
 

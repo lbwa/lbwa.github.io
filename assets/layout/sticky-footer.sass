@@ -1,0 +1,19 @@
+/* Global */
+@import '~/assets/mixins/rwd.sass'
+
+.sf__reference__layout
+  min-height: calc(100vh - 150px) // base
+
+  +mobile
+    min-height: calc(100vh - 100px)
+
+.sf__main__layout
+  height: 50px // base
+  margin-top: 30px
+  margin-bottom: 70px
+
+// prevent margin collapse
+// https://www.w3.org/TR/CSS22/box.html#collapsing-margins
+.sf__parent__clearfix
+  overflow: hidden
+  // border-bottom: 1px solid transparent

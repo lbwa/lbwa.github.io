@@ -1,0 +1,54 @@
+/* RWD */
+$gap: 64px !default
+$tablet: 769px !default
+
+// 960px container + 2 * $gap
+$desktop: 960px + (2 * $gap) !default
+
+// 1152px container + 2 * $gap
+// $widescreen: 1152px + (2 * $gap) !default
+// $widescreen-enabled: true !default
+
+// 1344px container + 2 * $gap
+// $fullhd: 1344px + (2 * $gap) !default
+// $fullhd-enabled: true !default
+
+=mobile
+  @media screen and (max-width: $tablet - 1px)
+    @content
+
+=tablet
+  @media screen and (min-width: $tablet), print
+    @content
+
+=touch
+  @media screen and (max-width: $desktop - 1px)
+    @content
+
+=desktop
+  @media screen and (min-width: $desktop)
+    @content
+
+// =until-widescreen
+//   @if $widescreen-enabled
+//     @media screen and (max-width: $widescreen - 1px)
+//       @content
+
+// =widescreen
+//   @if $widescreen-enabled
+//     @media screen and (min-width: $widescreen)
+//       @content
+
+// =widescreen-only
+//   @if $widescreen-enabled and $fullhd-enabled
+//     @media screen and (min-width: $widescreen) and (max-width: $fullhd - 1px)
+//       @content
+
+// =until-fullhd
+//   @if $fullhd-enabled
+//     @media screen and (max-width: $fullhd - 1px)
+//       @content
+
+// =fullhd
+//   @if $fullhd-enabled
+//     @media screen and (min-width: $fullhd)

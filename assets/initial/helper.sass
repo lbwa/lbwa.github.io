@@ -1,5 +1,4 @@
 @import '~/assets/sass/var/initial.sass'
-@import '~/assets/sass/mixins.sass'
 // normal style
 
 .ta-center
@@ -15,22 +14,3 @@
 
 .bg-white-bis
   background-color: $white-bis
-
-// sticky footer
-
-.sf-reference
-  min-height: calc(100vh - 150px) // base
-
-  +mobile
-    min-height: calc(100vh - 100px)
-
-.sf-main
-  height: 50px // base
-  margin-top: 30px
-  margin-bottom: 70px
-
-// prevent margin collapse
-// https://www.w3.org/TR/CSS22/box.html#collapsing-margins
-.sf-bfc
-  overflow: hidden
-  // border-bottom: 1px solid transparent

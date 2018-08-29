@@ -94,7 +94,7 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-@import '~/assets/sass/index.sass'
+@import '~/assets/sass/mixins.sass'
 
 .home-section
 
