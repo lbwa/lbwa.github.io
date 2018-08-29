@@ -55,7 +55,8 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-@import '~/assets/sass/index.sass'
+@import '~/assets/mixins/index.sass'
+@import '~/assets/mixins/rwd.sass'
 
 .catalog-wrapper
   padding-left: 25px

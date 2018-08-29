@@ -47,7 +47,7 @@ export default {
 </script>
 
 <style lang="sass">
-@import '~/assets/sass/index.sass'
+@import '~/assets/mixins/index.sass'
 
 // padding is used to debounce if avatar is a normal image rather than svg
 .avatar-wrapper

@@ -92,7 +92,8 @@ export default {
 </script>
 
 <style lang="sass">
-@import '~/assets/sass/index.sass'
+@import '~/assets/mixins/rwd.sass'
+
 // locate route view
 .wrapper
   margin: 0 auto 0 auto

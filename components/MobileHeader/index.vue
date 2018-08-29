@@ -25,7 +25,7 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-@import '~/assets/sass/index.sass'
+@import '~/assets/mixins/index.sass'
 @import '~/assets/color/background.sass'
 
 .label-line
