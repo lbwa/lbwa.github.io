@@ -50,6 +50,7 @@ export default {
 
 @import '~/assets/color/background.sass'
 @import '~/assets/color/text.sass'
+@import '~/assets/color/border.sass'
 
 .recent-section
   border-top: 1px solid $border-white

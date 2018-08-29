@@ -26,7 +26,7 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-@import '~/assets/sass/var/index.sass'
+@import '~/assets/color/skeleton.sass'
 
 $card-padding: 24px
 $desc-line-height: 10px

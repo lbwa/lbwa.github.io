@@ -34,6 +34,8 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/sass/index.sass'
 
+@import '~/assets/color/border.sass'
+
 .home-footer
   padding: 100px 0
   border-top: 1px solid $border-white

@@ -56,6 +56,7 @@ export default {
 @import '~/assets/sass/index.sass'
 
 @import '~/assets/color/text.sass'
+@import '~/assets/color/link.sass'
 
 .home-header
   +position(fixed, 0, null, null, 0)

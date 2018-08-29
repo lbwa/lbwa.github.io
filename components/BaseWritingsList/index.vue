@@ -58,7 +58,9 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/sass/index.sass'
+
 @import '~/assets/color/background.sass'
+@import '~/assets/color/border.sass'
 
 // /deep/ is one of `>>>` alias
 // deep selector: https://github.com/vuejs/vue-loader/issues/661
