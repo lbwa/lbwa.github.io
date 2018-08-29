@@ -61,8 +61,10 @@ export default {
 </script>
 
 <style lang="sass">
+@import '~/assets/mixins/index.sass'
+@import '~/assets/mixins/rwd.sass'
+@import '~/assets/font/var.sass'
 @import '~/assets/font/font.sass'
-@import '~/assets/sass/mixins.sass'
 @import '~/assets/color/index.sass'
 
 @keyframes breath

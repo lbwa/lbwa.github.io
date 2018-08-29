@@ -89,7 +89,7 @@ export default {
 </script>
 
 <style lang="sass">
-@import '~/assets/sass/mixins.sass'
+@import '~/assets/mixins/rwd.sass'
 
 .article-header
   margin-bottom: 100px
