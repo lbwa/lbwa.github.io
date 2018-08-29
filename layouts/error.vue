@@ -64,7 +64,7 @@ export default {
 @import '~/assets/mixins/index.sass'
 @import '~/assets/mixins/rwd.sass'
 @import '~/assets/font/var.sass'
-@import '~/assets/font/font.sass'
+@import '~/assets/font/face.sass'
 @import '~/assets/color/index.sass'
 
 @keyframes breath
