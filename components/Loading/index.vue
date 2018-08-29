@@ -38,8 +38,8 @@ export default {
 </script>
 
 <style lang="sass">
-@import '~/assets/sass/var/index.sass'
 @import '~/assets/color/background.sass'
+@import '~/assets/color/text.sass'
 
 @keyframes loading-scale
   0%
