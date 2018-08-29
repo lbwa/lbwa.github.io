@@ -139,6 +139,7 @@ module.exports = {
     },
 
     // add 404.html rather than default 200.html
+    // Work with github pages
     fallback: true
   }
 }

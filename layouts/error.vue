@@ -1,6 +1,6 @@
 <template>
   <section class="err__main __position">
-    <div class="err__info__layout">$ Seems nothing could fund</div>
+    <div class="err__info__layout">$ Seems nothing could found</div>
     <div class="err__info__layout" v-if="shouldWait">$ Start redirecting</div>
     <div class="err__info__layout"> .......... </div>
     <div
