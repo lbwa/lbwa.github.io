@@ -5,10 +5,10 @@
     <nuxt/>
 
     <footer class="home-footer home-footer__center">
-      <div class="footer-info">Copyright &copy; {{genYear}} <a
+      <div class="home-footer__info__size">Copyright &copy; {{genYear}} <a
         rel="noopener"
         href="mailto:me@set.sh"
-        class="author"
+        class="home-footer__info__bold"
       >Bowen</a></div>
     </footer>
   </div>
@@ -49,10 +49,10 @@ export default {
   +mobile
     padding: 50px 0
 
-  .footer-info
+  @at-root #{&}__info__size
     font-size: .8rem
 
-    .author
-      font-weight: bold
+  @at-root #{&}__info__bold
+    font-weight: bold
 </style>
 

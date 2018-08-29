@@ -1,15 +1,15 @@
 <template>
   <section class="err__main __position">
-    <div class="err__main__info">$ Seems nothing could fund</div>
-    <div class="err__main__info" v-if="shouldWait">$ Start redirecting</div>
-    <div class="err__main__info"> .......... </div>
+    <div class="err__info__layout">$ Seems nothing could fund</div>
+    <div class="err__info__layout" v-if="shouldWait">$ Start redirecting</div>
+    <div class="err__info__layout"> .......... </div>
     <div
-      class="err__main__info"
+      class="err__info__layout"
       v-if="shouldWait"
       >$ {{cursor}}
-      <span class="err__main__animation err__main__cursor">&nbsp;</span>
+      <span class="err__info__animation err__cursor__size">&nbsp;</span>
     </div>
-    <router-link v-if="!shouldWait" class="err__main__btn" to="/">Go back to home page.</router-link>
+    <router-link v-if="!shouldWait" class="err__btn__size" to="/">Go back to home page.</router-link>
   </section>
 </template>
 
@@ -44,7 +44,7 @@ export default {
   methods: {
     async wait () {
       let i = 5
-      while (i+1) {
+      while (i) {
         await sleep(1000)
         this.cursor += `   ${--i}`
       }
@@ -85,21 +85,21 @@ export default {
   +mobile
     width: 90vw
 
-.err__main__info
+.err__info__layout
   margin-top: 20px
   font-size: 3.5rem
 
   +mobile
     font-size: 2.5rem
 
-.err__main__animation
+.err__info__animation
   animation: breath 1s forwards infinite ease
 
-.err__main__cursor
+.err__cursor__size
   font-size: 2rem
   background-color: $pr-900
 
-.err__main__btn
+.err__btn__size
   display: inline-block
   margin-top: 10px
   font-family: $font-family
