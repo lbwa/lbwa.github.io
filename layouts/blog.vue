@@ -26,6 +26,7 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/sass/index.sass'
+@import '~/assets/color/background.sass'
 
 .blog
   min-height: 100%

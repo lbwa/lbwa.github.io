@@ -47,6 +47,7 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/sass/index.sass'
+@import '~/assets/color/background.sass'
 
 .recent-section
   border-top: 1px solid $border-white

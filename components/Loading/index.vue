@@ -39,6 +39,7 @@ export default {
 
 <style lang="sass">
 @import '~/assets/sass/var/index.sass'
+@import '~/assets/color/background.sass'
 
 @keyframes loading-scale
   0%

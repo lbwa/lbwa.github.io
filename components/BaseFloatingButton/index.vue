@@ -78,6 +78,7 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/sass/index.sass'
+@import '~/assets/color/background.sass'
 
 .floating-btn
   +position(fixed, null, 26px, 26px, null)

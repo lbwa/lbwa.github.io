@@ -95,6 +95,7 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/sass/index.sass'
+@import '~/assets/color/background.sass'
 
 .header
   +position(fixed, 0, null, null,0)
