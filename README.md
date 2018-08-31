@@ -1,4 +1,4 @@
-# https://set.sh [![GitHub tag](https://img.shields.io/github/tag/lbwa/lbwa.github.io.svg)](https://github.com/lbwa/lbwa.github.io/blob/vue/CHANGELOG.md) [![CircleCI](https://circleci.com/gh/lbwa/set.svg?style=svg)](https://circleci.com/gh/lbwa/set)
+# https://set.sh [![GitHub tag](https://img.shields.io/github/tag/lbwa/lbwa.github.io.svg)](https://github.com/lbwa/lbwa.github.io/blob/vue/CHANGELOG.md) [![CircleCI](https://circleci.com/gh/lbwa/set.svg?style=svg)](https://circleci.com/gh/lbwa/set) [![Gitter](https://badges.gitter.im/setsh/feedback.svg)](https://gitter.im/setsh/feedback)
 
 💻📑在线[浏览][blog]
 
