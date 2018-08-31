@@ -27,8 +27,8 @@ export default {
     onScroll () {
       if (this.isWritings()) {
         this.nowScroll = document.documentElement.scrollTop
-        || window.pageYOffset
-        || document.body.scrollTop
+          || window.pageYOffset
+          || document.body.scrollTop
 
         // fix a bug when scroll bar in IOS browser screen top
         if (this.nowScroll < 0 || this.initialScroll < 0) return
