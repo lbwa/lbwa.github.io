@@ -19,7 +19,6 @@
     "@nuxtjs/pwa": "^2.0.8",
     "axios": "^0.18.0",
     "escape-html": "^1.0.3",
-    "front-matter": "^2.3.0",
     "grid-style": "^1.0.1",
     "markdown-it": "^8.4.1",
     "markdown-it-anchor": "^5.0.2",
