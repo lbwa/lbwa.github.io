@@ -2,7 +2,7 @@
   <main class="articles-container">
     <article class="articles-main">
       <div class="article-header">
-        <h2 class="article-title" v-html="title"></h2>
+        <h1 class="article-title" v-html="title"></h1>
         <span class="article-author" v-html="author"></span>
         <span class="article-date" v-html="date"></span>
         <div class="article-tags">
@@ -114,9 +114,22 @@ export default {
   box-shadow: 0 4px 5px 0 rgba(0, 0, 0,.2), 0 1px 20px 0 rgba(0, 0, 0,.2), 0 2px 5px -1px rgba(0, 0, 0,.2)
   background-color: #fff
 
-  h1:hover, h2:hover, h3:hover, h4:hover, h5:hover, h6:hover
-    a.header-anchor
-      opacity: 1
+  h1
+    font-size: 2rem
+
+  h2
+    border-bottom: 1px solid #eaecef
+
+  @for $i from 1 through 6
+    h#{$i}
+      padding-bottom: 0.3em
+
+      &:hover
+        a.header-anchor
+          opacity: 1
+
+      // &:not(.article-title)
+      //   border-bottom: 1px solid #eaecef
 
 +desktop
   .article-title
