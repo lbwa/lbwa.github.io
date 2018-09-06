@@ -158,7 +158,7 @@ export default {
   +position(absolute, null, null, 30px, 50%)
   width: 24px
   opacity: 0
-  animation: showArrow 6s forwards cubic-bezier(.86,0,.07,1) 1s
+  animation: showArrow 6s forwards cubic-bezier(.86,0,.07,1) 0.2s
   font-size: 0
 
   +mobile
