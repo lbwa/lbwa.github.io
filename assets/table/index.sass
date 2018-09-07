@@ -4,11 +4,12 @@
 @import '~/assets/color/border.sass'
 
 table
+  display: block // 搭配 overflow-x 创建 BFC 实现横向滚动
   min-width: 100%
   border-collapse: collapse
   border-spacing: 0
   margin: 16px 0
-  word-break: break-all // 解决小屏移动端表格撑开容器的问题
+  overflow-x: auto
   tr:nth-child(2n)
     background-color: $table-color
   tr
